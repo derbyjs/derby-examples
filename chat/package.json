@@ -1,0 +1,17 @@
+{
+  "name": "derby-chat-example",
+  "description": "Demo chat application for Derby",
+  "version": "0.0.0",
+  "main": "./server.js",
+  "dependencies": {
+    "derby": "*",
+    "express": "3.x",
+    "gzippo": ">=0.1.4",
+    "racer-db-mongo": "*",
+    "connect-mongo": ">=0.1.9"
+  },
+  "private": true,
+  "devDependencies": {
+    "coffee-script": ">=1.3.1"
+  }
+}
