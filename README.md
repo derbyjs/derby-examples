@@ -46,9 +46,11 @@ $ npm install derby-examples
 Then you can run each of the examples from their own directories
 
 ```
-$ cd node_modules/derby-examples/chat
+$ cd node_modules/derby-examples/sink
 $ node server.js
 ```
+
+Note that to run the chat and todos examples, you will need to install [MongoDB](http://www.mongodb.org/downloads) and start the Mongo server.
 
 ## MIT License
 Copyright (c) 2011 by Brian Noguchi and Nate Smith
