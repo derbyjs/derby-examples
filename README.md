@@ -37,18 +37,16 @@ To install Derby and create your own project please see [Getting started](http:/
 
 To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/).
 
-First install derby-examples from npm
+Install derby-examples from npm
 
 ```
 $ npm install derby-examples
-$ cd node_modules
-$ npm install
 ```
 
 Then you can run each of the examples from their own directories
 
 ```
-$ cd chat
+$ cd node_modules/derby-examples/chat
 $ node server.js
 ```
 
