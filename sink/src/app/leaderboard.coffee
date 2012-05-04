@@ -15,8 +15,7 @@ get '/leaderboard', (page, model) ->
         addPlayer players, name
 
     # Create list of players sorted in descending order by score
-    list = leaderboard.at '_list'
-    list.fn players, (items) ->
+    leaderboard.fn '_list', players, (items) ->
       out = []
       for id, item of items
         out.push item if item?.id
