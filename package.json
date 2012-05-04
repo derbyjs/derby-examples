@@ -8,10 +8,10 @@
     "url": "git://github.com/codeparty/derby-examples.git"
   },
   "dependencies": {
-    "derby": "0.3.2",
+    "derby": "0.3.3",
     "express": "3.x",
     "gzippo": ">=0.1.4",
-    "racer-db-mongo": "0.3.2",
+    "racer-db-mongo": "0.3.3",
     "connect-mongo": ">=0.1.9"
   },
   "engines": {
