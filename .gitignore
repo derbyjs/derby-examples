@@ -1,5 +1,8 @@
 node_modules
-lib
+chat/lib
+todos/lib
+sink/lib
+gallery/lib
 gen
 test-output.tmp
 examples/hello/*.js
