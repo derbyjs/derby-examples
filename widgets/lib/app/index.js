@@ -16,3 +16,9 @@ get('/', function(page, model) {
     page.render()
   })
 })
+
+app.ready(function(model) {
+  app.showModal = function() {
+    model.set('_showModal', true)
+  }
+})

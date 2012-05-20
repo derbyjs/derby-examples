@@ -1,6 +1,7 @@
 var scripts = {
   connectionAlert: require('./connectionAlert')
 , dropdown: require('./dropdown')
+, modal: require('./modal')
 }
 
 module.exports = ui

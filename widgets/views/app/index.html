@@ -6,8 +6,16 @@
   <ui:connectionAlert>
 
 <Body:>
+  <ui:modal name="testModal" show={_showModal} title="Modal town" close="Meh" primary="You too!">
+    How nice to see you!
+  </ui:modal>
+
   <div class="container">
     <h1>Bootstrap widgets</h1>
-    <p></p>
-    <ui:dropdown value={test.selected} items={test.options}>
+    <div class=btn-toolbar>
+      <ui:dropdown value={test.selected} items={test.options}>
+      <div class=btn-group>
+        <button class=btn x-bind="click: showModal">Show modal</button>
+      </div>
+    </div>
   </div>
