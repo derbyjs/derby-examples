@@ -16,7 +16,11 @@
     <div class=btn-toolbar>
       <ui:dropdown value={test.selected} items={test.options}>
       <div class=btn-group>
-        <button class=btn x-bind="click: showModal">Show modal</button>
+        <app:button clickFn="showModal">Show modal</app:button>
       </div>
     </div>
   </div>
+
+<!-- demonstrate passing in an x-bind function name to a component -->
+<button: nonvoid>
+  <button class=btn x-bind="click: {{{clickFn}}}">Show modal</button>
