@@ -2,9 +2,9 @@
 
 // Components must export a create function, which only runs
 // in the browser
-exports.create = function(model, self, dom, elements) {
-  var toggle = elements.toggle
-    , menu = elements.menu
+exports.create = function(self, dom) {
+  var toggle = dom.element('toggle')
+    , menu = dom.element('menu')
     , open = self.at('open')
 
   // Listeners added inside of a component are removed when the
@@ -19,7 +19,7 @@ exports.create = function(model, self, dom, elements) {
   }
 
   exports.clickMenu = function(e) {
-    var item = model.at(e.target)
+    var item = self.at(e.target)
       , value = item.get().text
     open.set(false)
     if (value != null) {
@@ -30,6 +30,6 @@ exports.create = function(model, self, dom, elements) {
 
 // Components may export an init function, which runs on both
 // the server and browser before rendering
-exports.init = function(model, self) {
+exports.init = function(self) {
   self.setNull('value', self.get('items.0.text'))
 }

@@ -1,4 +1,4 @@
-exports.create = function(model, self) {
+exports.create = function(self) {
 
   exports.click = function(e) {
     var button = e.target.getAttribute('data-button')
