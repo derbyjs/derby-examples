@@ -1,7 +1,7 @@
 // self is a scoped model underneath _$component.{uid}
 
-// Components must export a create function, which only runs
-// in the browser
+// Components with scripts must export a create function, which
+// only runs in the browser
 exports.create = function(self, dom) {
   var toggle = dom.element('toggle')
     , menu = dom.element('menu')
