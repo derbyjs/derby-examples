@@ -2,8 +2,8 @@ var derby = require('derby')
   , app = derby.createApp(module)
   , get = app.get
 
-derby.use(require('./ui'))
 derby.use(require('derby-ui-boot'))
+derby.use(require('./ui'))
 
 get('/', function(page, model) {
   model.subscribe('test', function(err, test) {
