@@ -2,8 +2,8 @@ var derby = require('derby')
   , app = derby.createApp(module)
   , get = app.get
 
-// TODO: Figure out how to make browserify allow components to be in root directory
 derby.use(require('./ui'))
+derby.use(require('derby-ui-boot'))
 
 get('/', function(page, model) {
   model.subscribe('test', function(err, test) {

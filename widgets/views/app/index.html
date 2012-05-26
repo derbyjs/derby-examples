@@ -6,15 +6,15 @@
   <ui:connectionAlert>
 
 <Body:>
-  <ui:modal name="testModal" show={_showModal} close="Meh" primary="You too!">
+  <boot:modal name="testModal" show={_showModal} close="Meh" primary="You too!">
     <@title>Modal <i>town</i></@title>
     How nice to see you!
-  </ui:modal>
+  </boot:modal>
 
   <div class="container">
     <h1>Bootstrap widgets</h1>
     <div class=btn-toolbar>
-      <ui:dropdown value={test.selected} items={test.options}>
+      <boot:dropdown value={test.selected} items={test.options}>
       <div class=btn-group>
         <app:button clickFn="showModal">Show modal</app:button>
       </div>
