@@ -1,15 +1,15 @@
-exports.create = function(self) {
+exports.create = function(model) {
 
-  exports.connect = function() {
+  this.connect = function() {
     // Hide the reconnect link for a second after clicking it
-    self.set('hideReconnect', true)
+    model.set('hideReconnect', true)
     setTimeout(function() {
-      self.set('hideReconnect', false)
+      model.set('hideReconnect', false)
     }, 1000)
-    self.socket.socket.connect()
+    model.socket.socket.connect()
   }
 
-  exports.reload = function() {
+  this.reload = function() {
     window.location.reload()
   }
 }

@@ -12,9 +12,10 @@
   </boot:modal>
 
   <div class="container">
-    <h1>Bootstrap widgets</h1>
+    <h1 style="color:{test.color}">Bootstrap widgets</h1>
     <div class=btn-toolbar>
-      <boot:dropdown value={test.selected} items={test.options}>
+      <boot:dropdown items={test.numbers}>
+      <boot:dropdown value={test.color} items={test.colors}>
       <div class=btn-group>
         <app:button clickFn="showModal">Show modal</app:button>
       </div>

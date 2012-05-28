@@ -7,11 +7,17 @@ derby.use(require('./ui'))
 
 get('/', function(page, model) {
   model.subscribe('test', function(err, test) {
-    test.setNull('options', [
+    test.setNull('numbers', [
       {text: 'First'}
     , {text: 'Second'}
     , {text: 'Third'}
     ])
+    test.setNull('colors', [
+      {text: 'Red'}
+    , {text: 'Orange'}
+    , {text: 'Purple'}
+    ])
+    test.setNull('color', 'Purple')
     page.render()
   })
 })
