@@ -1,0 +1,13 @@
+{
+  "name": "contacts",
+  "description": "",
+  "version": "0.0.0",
+  "main": "./server.js",
+  "dependencies": {
+    "derby": "*",
+    "derby-ui-boot": "*",
+    "express": "3.x",
+    "gzippo": ">=0.1.4"
+  },
+  "private": true
+}

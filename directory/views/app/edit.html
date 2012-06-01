@@ -1,0 +1,46 @@
+<Body:>
+  <h2>{{#if _newId}}Add a new person{{else}}Edit {_person.name}{{/}}</h2>
+  <p></p>
+  <form class="well" x-bind="submit: done">
+    <div class="row">
+      <div class="span3">
+
+        <app:field label="Name" error={_nameError}>
+          <input id="name" value={_person.name}>
+        </app:field>
+
+        <app:field label="Email">
+          <input value={_person.email}>
+        </app:field>
+
+        <app:field label="Twitter">
+          <input value={_person.twitter}>
+        </app:field>
+
+      </div>
+      <div class="span3">
+
+        <app:field label="Gender">
+          <boot:dropdown value={_person.gender} options={_genders}>
+        </app:field>
+
+        <app:field label="Phone">
+          <input value={_person.phone}>
+        </app:field>
+
+      </div>
+    </div>
+    <p></p>
+    <button class="btn btn-primary" type="submit">
+      {{#if _newId}}Add person{{else}}Done{{/}}
+    </button> 
+    {{#if _newId}}
+      <button class="btn" type="button" x-bind="click: cancel">Cancel</button>
+    {{/}}
+  </form>
+
+<field: nonvoid>
+  <fieldset class="control-group {{{#if error}}}error{{{/}}}">
+    <label>{{{label}}}</label>
+    {{{content}}}
+  </fieldset>

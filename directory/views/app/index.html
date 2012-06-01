@@ -1,0 +1,31 @@
+<import: src="./home">
+<import: src="./edit">
+<import: src="./people">
+
+<Title:>
+  Company directory
+
+<Header:>
+  <ui:connectionAlert>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Directory</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            {{#each pages}}
+              <li class="{{#if equal(url, activeUrl)}}active{{/}}"><a href="{{url}}">{{title}}</a></li>
+            {{/}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+
+<Footer:>
+    <hr>
+    <footer>
+      <p>&copy; Company 2012</p>
+    </footer>
+  </div>
