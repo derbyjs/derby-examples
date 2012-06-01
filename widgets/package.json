@@ -1,10 +1,11 @@
 {
   "name": "widgets",
-  "description": "",
+  "description": "Random tests of Derby components",
   "version": "0.0.0",
   "main": "./server.js",
   "dependencies": {
     "derby": "*",
+    "derby-ui-boot": "*",
     "express": "3.x",
     "gzippo": ">=0.1.4"
   },

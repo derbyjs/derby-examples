@@ -1,6 +1,6 @@
 {
-  "name": "contacts",
-  "description": "",
+  "name": "directory",
+  "description": "A simple multi-page app that uses Derby Boot",
   "version": "0.0.0",
   "main": "./server.js",
   "dependencies": {
