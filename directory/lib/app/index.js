@@ -49,8 +49,9 @@ get('/people/:id', function(page, model, params) {
   model.del('_nameError')
   if (id === 'new') {
     model.async.incr('peopleCount', function(err, count) {
-      model.set('_newId', count)
-      renderEdit(page, model, params, count)
+      id = count.toString()
+      model.set('_newId', id)
+      renderEdit(page, model, params, id)
     })
   } else {
     renderEdit(page, model, params, id)
@@ -74,7 +75,6 @@ app.ready(function(model) {
     }
 
     var newId = model.get('_newId')
-    model.set('_person.id', newId)
     if (newId != null) model.push('directoryIds', newId)
     history.push('/people')
   }
@@ -88,7 +88,7 @@ app.ready(function(model) {
       if (ids) {
         var id = model.get('_person.id')
           , i = ids.indexOf(id)
-        model.remove('directoryIds', i)
+        if (i > -1) model.remove('directoryIds', i)
       }
       history.back()
     }) 
