@@ -74,11 +74,23 @@ app.ready(function(model) {
     }
 
     var newId = model.get('_newId')
+    model.set('_person.id', newId)
     if (newId != null) model.push('directoryIds', newId)
     history.push('/people')
   }
 
   app.cancel = function() {
     history.back()
+  }
+
+  app.deletePerson = function() {
+    model.async.get('directoryIds', function(err, ids) {
+      if (ids) {
+        var id = model.get('_person.id')
+          , i = ids.indexOf(id)
+        model.remove('directoryIds', i)
+      }
+      history.back()
+    }) 
   }
 })
