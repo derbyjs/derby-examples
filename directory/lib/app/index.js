@@ -39,12 +39,6 @@ function renderEdit(page, model, params, id) {
 
 get('/people/:id', function(page, model, params) {
   var id = params.id
-  model.set('_genders', [
-    {text: '(unknown)', value: ''}
-  , {text: 'Female'}
-  , {text: 'Male'}
-  , {text: 'Other'}
-  ])
   model.del('_newId')
   model.del('_nameError')
   if (id === 'new') {

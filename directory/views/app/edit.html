@@ -29,7 +29,12 @@
       <div class="span3">
 
         <app:field label="Gender">
-          <boot:dropdown value={_person.gender} options={_genders}>
+          <boot:dropdown value={_person.gender}>
+            <boot:option value="">(unknown)</boot:option>
+            <boot:option>Female</boot:option>
+            <boot:option>Male</boot:option>
+            <boot:option>Other</boot:option>
+          </boot:dropdown>
         </app:field>
 
         <app:field label="Phone">
