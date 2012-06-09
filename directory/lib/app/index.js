@@ -11,29 +11,30 @@ var pages = [
 , {url: '/people/new', title: 'Add somebody'}
 ]
 
-function render(name, page, params) {
+function render(name, page) {
+  console.log(page)
   var ctx = {
     pages: pages
-  , activeUrl: params.url
+  , activeUrl: page.params.url
   }
   page.render(name, ctx)
 }
 
-get('/', function(page, model, params) {
-  render('home', page, params)
+get('/', function(page, model) {
+  render('home', page)
 })
 
-get('/people', function(page, model, params) {
+get('/people', function(page, model) {
   model.subscribe('people', 'directoryIds', function(err, people) {
     model.refList('_people', people, 'directoryIds')
-    render('people', page, params)
+    render('people', page)
   })
 })
 
-function renderEdit(page, model, params, id) {
+function renderEdit(page, model, id) {
   model.subscribe('people.' + id, function(err, person) {
     model.ref('_person', person)
-    render('edit', page, params)
+    render('edit', page)
   })
 }
 
@@ -45,10 +46,10 @@ get('/people/:id', function(page, model, params) {
     model.async.incr('peopleCount', function(err, count) {
       id = count.toString()
       model.set('_newId', id)
-      renderEdit(page, model, params, id)
+      renderEdit(page, model, id)
     })
   } else {
-    renderEdit(page, model, params, id)
+    renderEdit(page, model, id)
   }
 })
 
