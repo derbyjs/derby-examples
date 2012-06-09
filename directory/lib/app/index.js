@@ -12,7 +12,6 @@ var pages = [
 ]
 
 function render(name, page) {
-  console.log(page)
   var ctx = {
     pages: pages
   , activeUrl: page.params.url
