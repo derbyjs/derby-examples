@@ -3,7 +3,7 @@ var derby = require('derby')
   , get = app.get
 
 derby.use(require('derby-ui-boot'))
-derby.use(require('./ui'))
+derby.use(require('../../ui'))
 
 var pages = [
   {url: '/', title: 'Home'}
