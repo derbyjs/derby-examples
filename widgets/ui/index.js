@@ -1,6 +1,6 @@
 var config = {
   filename: __filename
-, styles: '../../../styles/ui'
+, styles: '../styles/ui'
 , scripts: {
     connectionAlert: require('./connectionAlert')
   }
