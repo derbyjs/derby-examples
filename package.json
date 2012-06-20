@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "derby": "0.3.9",
-    "express": "3.x",
+    "express": "3.0.0beta2,
     "gzippo": ">=0.1.4",
     "racer-db-mongo": ">=0.3.3",
     "connect-mongo": ">=0.1.9"
