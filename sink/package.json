@@ -5,7 +5,7 @@
   "main": "./server.js",
   "dependencies": {
     "derby": "*",
-    "express": "3.x",
+    "express": "3.0.0beta2",
     "gzippo": ">=0.1.4"
   },
   "private": true,
