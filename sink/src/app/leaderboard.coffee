@@ -8,26 +8,26 @@ addPlayer = (players, name) ->
   players.set id, {id, name, score: randomScore()}
 
 get '/leaderboard', (page, model) ->
-  model.subscribe 'leaderboard', (err, leaderboard) ->
+  model.subscribe 'leaderboards.sink', (err, leaderboard) ->
     players = leaderboard.at 'players'
     unless players.get()
       for name in ['Parker Blue', 'Kelly Green', 'Winston Fairbanks']
         addPlayer players, name
 
     # Create list of players sorted in descending order by score
-    leaderboard.fn '_list', players, (items) ->
-      out = []
-      for id, item of items
-        out.push item if item?.id
-      return out.sort (a, b) ->
-        (b.score - a.score) || (b.id > a.id)
+    rankedPlayers = players.sort ['score', 'desc']
+
+    rankedPlayers = model.ref leaderboard.at('_list'), rankedPlayers
+    console.log rankedPlayers.path(), rankedPlayers.get()
+
+    model.on 'move', rankedPlayers.path(), -> console.log arguments
 
     model.ref leaderboard.at('_selected'), players, leaderboard.at('_selectedId')
     render page, 'leaderboard'
 
 
 ready (model) ->
-  leaderboard = model.at 'leaderboard'
+  leaderboard = model.at 'leaderboards.sink'
   players = leaderboard.at 'players'
   newPlayer = leaderboard.at '_newPlayer'
   selectedId = leaderboard.at '_selectedId'
@@ -42,7 +42,9 @@ ready (model) ->
       id = selected.get 'id'
       players.del id
 
-    incr: -> selected.incr 'score', 5
+    incr: ->
+      console.log selected.path()
+      selected.incr 'score', 5
     decr: -> selected.incr 'score', -5
 
     select: (e, el) ->
