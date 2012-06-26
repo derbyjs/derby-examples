@@ -2,7 +2,7 @@
   <html x-bind="click: leaderboard.deselect">
 
 <Body:>
-  {{#with leaderboards.sink}}
+  {{#with sink.leaderboard}}
   <form x-bind="submit: leaderboard.add">
     <input value={._newPlayer}> <input type=submit value="Add player"> 
     <button x-bind="click: leaderboard.remove" disabled={not(._selected)}>
@@ -34,7 +34,7 @@
     </div>
     <ul>
       {#each ._list}
-        <li class="{#if equal(.id, leaderboards.sink._selectedId)}selected{/}"
+        <li class="{#if equal(.id, sink.leaderboard._selectedId)}selected{/}"
             x-bind="click: leaderboard.select">
           <p class=score>{.score}</p>{{name}}
         </li>
