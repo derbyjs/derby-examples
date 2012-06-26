@@ -24,8 +24,8 @@ get('/', function(page, model) {
 })
 
 get('/people', function(page, model) {
-  model.subscribe('people', 'directoryIds', function(err, people) {
-    model.refList('_people', people, 'directoryIds')
+  model.subscribe('people', 'conf.main.directoryIds', function(err, people) {
+    model.refList('_people', people, 'conf.main.directoryIds')
     render('people', page)
   })
 })
@@ -69,7 +69,7 @@ app.ready(function(model) {
     }
 
     var newId = model.get('_newId')
-    if (newId != null) model.push('directoryIds', newId)
+    if (newId != null) model.push('conf.main.directoryIds', newId)
     history.push('/people')
   }
 
@@ -78,11 +78,11 @@ app.ready(function(model) {
   }
 
   app.deletePerson = function() {
-    model.async.get('directoryIds', function(err, ids) {
+    model.async.get('conf.main.directoryIds', function(err, ids) {
       if (ids) {
         var id = model.get('_person.id')
           , i = ids.indexOf(id)
-        if (i > -1) model.remove('directoryIds', i)
+        if (i > -1) model.remove('conf.main.directoryIds', i)
       }
       history.back()
     }) 
