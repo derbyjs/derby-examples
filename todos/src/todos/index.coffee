@@ -6,16 +6,27 @@ get '/', (page) ->
   page.redirect '/derby'
 
 get '/:groupName', (page, model, {groupName}) ->
-  groupTodosQuery = model.query('todos').where('group').equals(groupName)
-  model.subscribe "groups.#{groupName}", groupTodosQuery, (err, group) ->
+  groupTodosQuery = model.query('todos').forGroup(groupName)
+  model.subscribe "groups.#{groupName}", groupTodosQuery, (err, group, groupTodos) ->
     model.ref '_group', group
     todoIds = group.at 'todoIds'
-    group.setNull 'id', groupName
+
+#    sortedTransform = groupTodos.sort (todoA, todoB) ->
+#      ids = todoIds.get()
+#      ids.indexOf(todoA.id) - ids.indexOf(todoB.id)
+#
+#    model.ref '_todoList', sortedTransform
 
     # The refList supports array methods, but it stores the todo values
     # on an object by id. The todos are stored on the object 'todos',
     # and their order is stored in an array of ids at '_group.todoIds'
     model.refList '_todoList', 'todos', todoIds
+
+    # TODO Implement dynamic query parameters for local queries
+    #          todoList = model.query 'todos',
+    #            where:
+    #              todos: within: todoIds
+    #             sort: todoIds
 
     # Add some default todos if this is a new group. Items inserted into
     # a refList will automatically get an 'id' property if not specified
@@ -24,6 +35,10 @@ get '/:groupName', (page, model, {groupName}) ->
         {group: groupName, text: 'Example todo'},
         {group: groupName, text: 'Another example'},
         {group: groupName, text: 'This one is done already', completed: true}
+
+    # TODO Implement query aggregates for more idiomatic '_remaining'
+    #          model.ref '_remaining',
+    #            model.query('todos').where('completed').equals(true).count()
 
     # Create a reactive function that automatically keeps '_remaining'
     # updated with the number of remaining todos

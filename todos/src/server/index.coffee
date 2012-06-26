@@ -36,7 +36,7 @@ publicPath = path.join root, 'public'
   .use(expressApp.router)
   .use(serverError root)
 
-module.exports = server = http.createServer expressApp
+exports = module.exports = server = http.createServer expressApp
 
 
 ## SERVER ONLY ROUTES ##
@@ -49,6 +49,8 @@ expressApp.all '*', (req) ->
 
 derby.use(require 'racer-db-mongo')
 
-todos.createStore
+exports.store = todos.createStore
   listen: server
   db: {type: 'Mongo', uri: 'mongodb://localhost/derby-todos'}
+
+require './queries'
