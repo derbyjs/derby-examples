@@ -21,7 +21,7 @@ get '/leaderboard', (page, model) ->
 
     createList leaderboard, players
 
-    model.ref leaderboard.at('_selected'), players, leaderboard.at('_selectedId')
+    leaderboard.ref '_selected', players, leaderboard.at('_selectedId')
     render page, 'leaderboard'
 
 
@@ -43,8 +43,7 @@ ready (model) ->
       id = selected.get 'id'
       players.del id
 
-    incr: ->
-      selected.incr 'score', 5
+    incr: -> selected.incr 'score', 5
     decr: -> selected.incr 'score', -5
 
     select: (e, el) ->
