@@ -1,7 +1,7 @@
 {
   "name": "derby-examples",
   "description": "Example applications for the Derby framework",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "homepage": "http://derbyjs.com/",
   "repository": {
     "type": "git",
