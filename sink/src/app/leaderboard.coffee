@@ -3,15 +3,14 @@
 
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
-createFilter = (leaderboard) ->
-  model = leaderboard._root
-  listPath = leaderboard.path('_list')
-  players = leaderboard.at('players')
-  return model.ref listPath, players.sort ['score', 'desc']
-
 addPlayer = (players, name) ->
   id = players.id()
   players.set id, {id, name, score: randomScore()}
+
+# Create list of players sorted in descending order by score
+createList = (leaderboard, players) ->
+  list = players.sort ['score', 'desc']
+  leaderboard.ref '_list', list
 
 get '/leaderboard', (page, model) ->
   model.subscribe 'sink.leaderboard', (err, leaderboard) ->
@@ -20,8 +19,7 @@ get '/leaderboard', (page, model) ->
       for name in ['Parker Blue', 'Kelly Green', 'Winston Fairbanks']
         addPlayer players, name
 
-    # Create list of players sorted in descending order by score
-    rankedPlayers = createFilter leaderboard
+    createList leaderboard, players
 
     model.ref leaderboard.at('_selected'), players, leaderboard.at('_selectedId')
     render page, 'leaderboard'
@@ -34,7 +32,7 @@ ready (model) ->
   selectedId = leaderboard.at '_selectedId'
   selected = leaderboard.at '_selected'
 
-  createFilter leaderboard
+  createList leaderboard, players
 
   app.leaderboard =
     add: ->
