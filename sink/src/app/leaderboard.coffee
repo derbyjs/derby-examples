@@ -4,8 +4,7 @@
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
 addPlayer = (players, name) ->
-  id = players.id()
-  players.set id, {id, name, score: randomScore()}
+  players.add {name, score: randomScore()}
 
 # Create list of players sorted in descending order by score
 createList = (leaderboard, players) ->
