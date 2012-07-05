@@ -70,11 +70,11 @@
 
 <message:>
   <li>
-    <!-- Square brackets perform interpolation within a model name -->
-    <img src=img/s.png class="pic {{users.[userId].picClass}}" alt="">
+    <!-- Square brackets support creation of a path based on another path -->
+    <img src=img/s.png class="pic {{users[userId].picClass}}" alt="">
     <div class=message>
       <p class=time>{._displayTime}</p>
-      <p><b>{users.[userId].name}</b></p>
+      <p><b>{users[userId].name}</b></p>
       <p>{{comment}}</p>
     </div>
   </li>
