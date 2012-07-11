@@ -13,6 +13,13 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
+## STORE SETUP ##
+derby.use(require 'racer-db-mongo')
+store = todos.createStore
+  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-todos'}
+
+require('./queries')(store)
+
 (expressApp = express())
   .use(express.favicon())
   # Gzip static files and serve from memory
@@ -31,6 +38,9 @@ publicPath = path.join root, 'public'
   # .use(express.session cookie: {maxAge: ONE_YEAR})
   # .use(todos.session())
 
+  # Generates req.createModel method
+  .use(store.modelMiddleware())
+
   # The router method creates an express middleware from the app's routes
   .use(todos.router())
   .use(expressApp.router)
@@ -44,13 +54,4 @@ exports = module.exports = server = http.createServer expressApp
 expressApp.all '*', (req) ->
   throw "404: #{req.url}"
 
-
-## STORE SETUP ##
-
-derby.use(require 'racer-db-mongo')
-
-exports.store = todos.createStore
-  listen: server
-  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-todos'}
-
-require './queries'
+store.listen server
