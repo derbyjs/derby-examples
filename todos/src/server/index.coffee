@@ -34,9 +34,11 @@ require('./queries')(store)
 
   # Uncomment and supply secret to add Derby session handling
   # Derby session middleware creates req.model and subscribes to _session
-  # .use(express.cookieParser 'secret_sauce')
-  # .use(express.session cookie: {maxAge: ONE_YEAR})
-  # .use(todos.session())
+  # .use(express.cookieParser())
+  # .use(store.sessionMiddleware
+  #   secret: 'YOUR SECRET HERE'
+  #   cookie: {maxAge: ONE_YEAR}
+  # )
 
   # Generates req.createModel method
   .use(store.modelMiddleware())
