@@ -14,6 +14,10 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
+## STORE SETUP ##
+store = app.createStore()
+flickr.setup store, key: '86958e03c183fcb1b7fddfeb19f3a423'
+
 (expressApp = express())
   .use(express.favicon())
   # Gzip static files and serve from memory
@@ -28,9 +32,14 @@ publicPath = path.join root, 'public'
 
   # Uncomment and supply secret to add Derby session handling
   # Derby session middleware creates req.model and subscribes to _session
-  # .use(express.cookieParser 'secret_sauce')
-  # .use(express.session cookie: {maxAge: ONE_YEAR})
-  # .use(app.session())
+  # .use(express.cookieParser())
+  # .use(store.sessionMiddleware
+  #   secret: 'YOUR SECRET HERE'
+  #   cookie: {maxAge: ONE_YEAR}
+  # )
+
+  # Generates req.createModel method
+  .use(store.modelMiddleware())
 
   # The router method creates an express middleware from the app's routes
   .use(app.router())
@@ -45,9 +54,4 @@ module.exports = server = http.createServer expressApp
 expressApp.all '*', (req) ->
   throw "404: #{req.url}"
 
-
-## STORE SETUP ##
-
-store = app.createStore listen: server
-
-flickr.setup store, key: '86958e03c183fcb1b7fddfeb19f3a423'
+store.listen server

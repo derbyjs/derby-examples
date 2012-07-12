@@ -13,6 +13,9 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
+## STORE SETUP ##
+store = app.createStore()
+
 (expressApp = express())
   .use(express.favicon())
   # Gzip static files and serve from memory
@@ -26,10 +29,15 @@ publicPath = path.join root, 'public'
   .use(express.methodOverride())
 
   # Uncomment and supply secret to add Derby session handling
-  # Derby session middleware creates req.model and subscribes to _session
-  # .use(express.cookieParser 'secret_sauce')
-  # .use(express.session cookie: {maxAge: ONE_YEAR})
-  # .use(app.session())
+  # Derby session middleware creates req.session and socket.io sessions
+  # .use(express.cookieParser())
+  # .use(store.sessionMiddleware
+  #   secret: 'YOUR SECRET HERE'
+  #   cookie: {maxAge: ONE_YEAR}
+  # )
+
+  # Generates req.createModel method
+  .use(store.modelMiddleware())
 
   # The router method creates an express middleware from the app's routes
   .use(app.router())
@@ -44,7 +52,4 @@ module.exports = server = http.createServer expressApp
 expressApp.all '*', (req) ->
   throw "404: #{req.url}"
 
-
-## STORE SETUP ##
-
-app.createStore listen: server
+store.listen server

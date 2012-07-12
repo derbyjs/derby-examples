@@ -33,7 +33,7 @@ require('./queries')(store)
   # .use(express.methodOverride())
 
   # Uncomment and supply secret to add Derby session handling
-  # Derby session middleware creates req.model and subscribes to _session
+  # Derby session middleware creates req.session and socket.io sessions
   # .use(express.cookieParser())
   # .use(store.sessionMiddleware
   #   secret: 'YOUR SECRET HERE'
