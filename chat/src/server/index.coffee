@@ -7,12 +7,19 @@ derby = require 'derby'
 chat = require '../chat'
 serverError = require './serverError'
 
+derby.use derby.logPlugin
+
 
 ## SERVER CONFIGURATION ##
 
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
+
+## STORE SETUP ##
+derby.use(require 'racer-db-mongo')
+store = chat.createStore
+  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-chat'}
 
 (expressApp = express())
   .use(express.favicon())
@@ -26,13 +33,16 @@ publicPath = path.join root, 'public'
   # .use(express.bodyParser())
   # .use(express.methodOverride())
 
-  # Derby session middleware creates req.model and subscribes to _session
-  .use(express.cookieParser 'secret_sauce')
-  .use(express.session
+  # Uncomment and supply secret to add Derby session handling
+  # Derby session middleware creates req.session and socket.io sessions
+  .use(express.cookieParser())
+  .use(store.sessionMiddleware
+    secret: 'spy_v_spy'
     cookie: {maxAge: ONE_YEAR}
-    store: new MongoStore(db: 'derby-chat', collection: 'express-sessions')
   )
-  .use(chat.session())
+
+  # Generates req.createModel method
+  .use(store.modelMiddleware())
 
   # The router method creates an express middleware from the app's routes
   .use(chat.router())
@@ -47,11 +57,4 @@ module.exports = server = http.createServer expressApp
 expressApp.all '*', (req) ->
   throw "404: #{req.url}"
 
-
-## STORE SETUP ##
-
-derby.use(require 'racer-db-mongo')
-
-chat.createStore
-  listen: server
-  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-chat'}
+store.listen server
