@@ -41,6 +41,11 @@ store = chat.createStore
     cookie: {maxAge: ONE_YEAR}
   )
 
+  .use( (req, res, next) ->
+    req.session.userId ||= derby.uuid()
+    next()
+  )
+
   # Generates req.createModel method
   .use(store.modelMiddleware())
 

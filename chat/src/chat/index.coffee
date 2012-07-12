@@ -11,17 +11,15 @@ get '/:room?', (page, model, {room}) ->
   _room = room.toLowerCase().replace /[_ ]/g, '-'
   return page.redirect "/#{_room}"  if _room != room
 
-  # Render page if a userId is already stored in session data
-  if userId = model.get '_session.userId'
+  userId = model.get '_userId'
+  # Render page if the user already exists
+  if model.get "users.#{userId}"
     return getRoom page, model, room, userId
-
   # Otherwise, select a new userId and initialize user
-  model.async.incr 'configs.1.nextUserId', (err, userId) ->
-    model.set '_session.userId', userId
-    model.set "users.#{userId}",
-      name: 'User ' + userId
-      picClass: 'pic' + (userId % NUM_USER_IMAGES)
-    getRoom page, model, room, userId
+  model.set "users.#{userId}",
+    name: 'User ' + userId
+    picClass: 'pic' + (userId % NUM_USER_IMAGES)
+  getRoom page, model, room, userId
 
 getRoom = (page, model, roomName, userId) ->
   model.subscribe "rooms.#{roomName}", 'users', (err, room, users) ->
@@ -101,7 +99,7 @@ ready (model) ->
 
   exports.postMessage = ->
     model.push '_room.messages',
-      userId: model.get '_session.userId'
+      userId: model.get '_userId'
       comment: model.get '_newComment'
       time: +new Date
 
