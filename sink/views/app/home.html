@@ -1,6 +1,7 @@
 <Body:>
   {{#with home}}
-  <h1 style="color:{unspace(.titleColor)}">Welcome in {.titleColor}!</h1>
+  <!-- The value of _ipAddress is set in src/server/index.coffee -->
+  <h1 style="color:{unspace(.titleColor)}">Welcome in {.titleColor}, {{_ipAddress}}!</h1>
   <p>This is a collection of random demos. Check 'em out!</p><br>
   <p>
     <label>Title color: 
