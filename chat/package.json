@@ -5,7 +5,7 @@
   "main": "./server.js",
   "dependencies": {
     "derby": "*",
-    "express": "3.x",
+    "express": "3.0.0beta4",
     "gzippo": ">=0.1.4",
     "racer-db-mongo": "*",
     "connect-mongo": ">=0.1.9"

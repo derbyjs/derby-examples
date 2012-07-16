@@ -6,7 +6,7 @@
   "dependencies": {
     "derby": "*",
     "derby-ui-boot": "*",
-    "express": "3.x",
+    "express": "3.0.0beta4",
     "gzippo": ">=0.1.4"
   },
   "private": true

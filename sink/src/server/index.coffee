@@ -19,6 +19,11 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
+ipMiddleware = (req, res, next) ->
+  model = req.getModel()
+  model.set '_ipAddress', req.connection.remoteAddress
+  next()
+
 expressApp
   .use(express.favicon())
   # Gzip static files and serve from memory
@@ -38,8 +43,11 @@ expressApp
   #   cookie: {maxAge: ONE_YEAR}
   # )
 
-  # Adds req.createModel method
+  # Adds req.getModel method
   .use(store.modelMiddleware())
+  # Middelware can be inserted after the modelMiddleware and before
+  # the app router to pass server accessible data to a model
+  .use(ipMiddleware)
   # Creates an express middleware from the app's routes
   .use(app.router())
   .use(expressApp.router)

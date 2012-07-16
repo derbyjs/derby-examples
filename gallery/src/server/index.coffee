@@ -40,7 +40,7 @@ expressApp
   #   cookie: {maxAge: ONE_YEAR}
   # )
 
-  # Adds req.createModel method
+  # Adds req.getModel method
   .use(store.modelMiddleware())
   # Creates an express middleware from the app's routes
   .use(app.router())
