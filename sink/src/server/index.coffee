@@ -9,18 +9,20 @@ serverError = require './serverError'
 
 ## SERVER CONFIGURATION ##
 
+expressApp = express()
+server = http.createServer expressApp
+store = derby.createStore listen: server
+
+module.exports = server
+
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
-## STORE SETUP ##
-store = app.createStore()
-
-(expressApp = express())
+expressApp
   .use(express.favicon())
   # Gzip static files and serve from memory
   .use(gzippo.staticGzip publicPath, maxAge: ONE_YEAR)
-
   # Gzip dynamically rendered content
   .use(express.compress())
 
@@ -32,24 +34,19 @@ store = app.createStore()
   # Derby session middleware creates req.session and socket.io sessions
   # .use(express.cookieParser())
   # .use(store.sessionMiddleware
-  #   secret: 'YOUR SECRET HERE'
+  #   secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
   #   cookie: {maxAge: ONE_YEAR}
   # )
 
-  # Generates req.createModel method
+  # Adds req.createModel method
   .use(store.modelMiddleware())
-
-  # The router method creates an express middleware from the app's routes
+  # Creates an express middleware from the app's routes
   .use(app.router())
   .use(expressApp.router)
   .use(serverError root)
-
-module.exports = server = http.createServer expressApp
 
 
 ## SERVER ONLY ROUTES ##
 
 expressApp.all '*', (req) ->
   throw "404: #{req.url}"
-
-store.listen server
