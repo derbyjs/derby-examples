@@ -5,7 +5,6 @@ gzippo = require 'gzippo'
 derby = require 'derby'
 chat = require '../chat'
 serverError = require './serverError'
-MongoStore = require('connect-mongo')(express)
 
 
 ## SERVER CONFIGURATION ##
@@ -40,7 +39,6 @@ expressApp
   .use(store.sessionMiddleware
     secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
     cookie: {maxAge: ONE_YEAR}
-    # store: new MongoStore(db: 'derby-chat', collection: 'express-sessions')
   )
 
   # Adds req.createModel method

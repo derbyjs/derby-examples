@@ -8,33 +8,37 @@ NUM_USER_IMAGES = 10
 get '/:room?', (page, model, {room}) ->
   # Redirect users to URLs that only contain letters, numbers, and hyphens
   return page.redirect '/lobby'  unless room && /^[-\w ]+$/.test room
-  _room = room.toLowerCase().replace /[_ ]/g, '-'
-  return page.redirect "/#{_room}"  if _room != room
+  roomName = room.toLowerCase().replace /[_ ]/g, '-'
+  return page.redirect "/#{roomName}"  if roomName != room
 
-  userId = model.get '_userId'
-  # Render page if the user already exists
-  if model.get "users.#{userId}"
-    return getRoom page, model, room, userId
-  # Otherwise, select a new userId and initialize user
-  model.set "users.#{userId}",
-    name: 'User ' + userId
-    picClass: 'pic' + (userId % NUM_USER_IMAGES)
-  getRoom page, model, room, userId
-
-getRoom = (page, model, roomName, userId) ->
   model.subscribe "rooms.#{roomName}", 'users', (err, room, users) ->
     model.ref '_room', room
+    # The session middleware will assign a _userId automatically
+    userId = model.get '_userId'
+    model.ref '_user', users.at(userId)
 
-    # setNull will set a value if the object is currently null or undefined
-    model.setNull '_room.messages', []
+    # Render page if the user already exists
+    if users.get userId
+      return render page, model
 
-    # Any path name that starts with an underscore is private to the current
-    # client. Nothing set under a private path is synced back to the server.
-    model.set '_newComment', ''
-    model.ref '_user', "users.#{userId}"
-    model.fn '_numMessages', '_room.messages', (messages) -> messages.length
+    # Otherwise, initialize user and render
+    model.async.incr 'config.chat.userCount', (err, userCount) ->
+      users.set userId,
+        name: 'User ' + userCount
+        picClass: 'pic' + (userCount % NUM_USER_IMAGES)
+      render page, model
 
-    page.render()
+render = (page, model) ->
+  # setNull will set a value if the object is currently null or undefined
+  model.setNull '_room.messages', []
+
+  # Any path name that starts with an underscore is private to the current
+  # client. Nothing set under a private path is synced back to the server.
+  model.set '_newComment', ''
+  
+  model.fn '_numMessages', '_room.messages', (messages) -> messages.length
+
+  page.render()
 
 
 ## CONTROLLER FUNCTIONS ##
