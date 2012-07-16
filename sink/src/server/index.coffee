@@ -20,8 +20,12 @@ root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
 ipMiddleware = (req, res, next) ->
+  forwarded = req.header 'x-forwarded-for'
+  ipAddress = forwarded && forwarded.split(',')[0] ||
+    req.connection.remoteAddress
+
   model = req.getModel()
-  model.set '_ipAddress', req.connection.remoteAddress
+  model.set '_ipAddress', ipAddress
   next()
 
 expressApp
