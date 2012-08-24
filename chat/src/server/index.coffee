@@ -22,6 +22,10 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
+createUserId = (req, res, next) ->
+  req.session.userId ||= derby.uuid()
+  next()
+
 expressApp
   .use(express.favicon())
   # Gzip static files and serve from memory
@@ -43,6 +47,9 @@ expressApp
 
   # Adds req.getModel method
   .use(store.modelMiddleware())
+
+  .use(createUserId)
+
   # Creates an express middleware from the app's routes
   .use(chat.router())
   .use(expressApp.router)
