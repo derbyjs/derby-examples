@@ -55,13 +55,13 @@ ready (model) ->
     return hours + ':' + minutes + period + months[time.getMonth()] +
       ' ' + time.getDate() + ', ' + time.getFullYear()
 
-  # Display times are only set client-side, since the timezone is not known
-  # when performing server-side rendering
-  for message, i in model.get '_room.messages'
-    # _displayTime starts with an underscore so that its value is not
-    # stored or sent to other clients
-    model.set "_room.messages.#{i}._displayTime", displayTime message.time
-
+  @on 'render', ->
+    # Display times are only set client-side, since the timezone is not known
+    # when performing server-side rendering
+    for message, i in model.get '_room.messages'
+      # _displayTime starts with an underscore so that its value is not
+      # stored or sent to other clients
+      model.set "_room.messages.#{i}._displayTime", displayTime message.time
 
   # Exported functions are exposed as a global in the browser with the same
   # name as the module that includes Derby. They can also be bound to DOM
