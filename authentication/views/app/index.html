@@ -1,0 +1,25 @@
+<Title:>
+  Derby- Authentication example
+
+<Header:>
+  <app:alert>
+
+<Body:>
+  {#if _fb}
+  <!--  {_fb} -->
+  {else}
+    <a href="/auth/facebook"><img src="/fblogin-button.png"></a>
+  {/if}
+<alert:>
+  <div id="alert">
+    {#unless connected}
+      <p>
+        {#if canConnect}
+          Offline 
+          {#if _showReconnect}&ndash; <a x-bind="click: connect">Reconnect</a>{/}
+        {else}
+          Unable to reconnect &ndash; <a x-bind="click: reload">Reload</a>
+        {/}
+      </p>
+    {/}
+  </div>

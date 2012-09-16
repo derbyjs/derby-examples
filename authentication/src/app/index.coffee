@@ -1,0 +1,23 @@
+parseUrl = require('url').parse
+{get, view, ready} = app = require('derby').createApp module
+
+
+get "/", (page, model, params)->
+  console.log "Getting home"
+  if model.get("_fb")
+    console.log "_fb found"
+    model.subscribe "_fb", ()->
+      console.log "subscribing to _fb"
+      page.render 'home'
+  else page.render "home"
+
+
+ready (model) ->
+  window.model = model
+
+  model.set '_showReconnect', true
+  app.connect = ->
+    model.set '_showReconnect', false
+    setTimeout (-> model.set '_showReconnect', true), 1000
+    model.socket.socket.connect()
+  app.reload = -> window.location.reload()
