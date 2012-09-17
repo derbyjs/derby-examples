@@ -1,0 +1,17 @@
+{
+  "name": "derby-auth-example",
+  "description": "Demo application for Derby with authentication",
+  "version": "0.0.0",
+  "main": "./server.js",
+  "dependencies": {
+    "derby": "*",
+    "express": "3.0.0beta4",
+    "gzippo": ">=0.1.4",
+    "request": ">=2.9.153",
+    "everyauth": "*"
+  },
+  "private": true,
+  "devDependencies": {
+    "coffee-script": ">=1.3.1"
+  }
+}

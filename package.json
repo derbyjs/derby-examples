@@ -12,7 +12,8 @@
     "express": "3.0.0beta4",
     "gzippo": ">=0.1.4",
     "racer-db-mongo": "0.3.13",
-    "connect-mongo": ">=0.1.9"
+    "connect-mongo": ">=0.1.9",
+    "everyauth": "*"
   },
   "engines": {
     "node": ">=0.6.0"
