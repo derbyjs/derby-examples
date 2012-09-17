@@ -3,14 +3,7 @@ parseUrl = require('url').parse
 
 
 get "/", (page, model, params)->
-  console.log "Getting home"
-  if model.get("_fb")
-    console.log "_fb found"
-    model.subscribe "_fb", ()->
-      console.log "subscribing to _fb"
-      page.render 'home'
-  else page.render "home"
-
+  page.render "home"
 
 ready (model) ->
   window.model = model
