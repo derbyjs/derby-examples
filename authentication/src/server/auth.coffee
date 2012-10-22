@@ -1,6 +1,7 @@
 derby = require('derby')
 everyauth = require('everyauth')
 
+req = undefined
 model = undefined
 sess = undefined
 
@@ -9,7 +10,8 @@ module.exports = {
     setupQueries(store)
     setupAccessControl(store)
     setupEveryauth()
-  middleware: (req, res, next) ->
+  middleware: (request, res, next) ->
+    req = request
     model = req.getModel()
     sess = model.session
     newUser()
@@ -77,8 +79,8 @@ setupEveryauth = () ->
       model = req.getModel()
       q = model.query('users').withEveryauth('facebook', fbUserMetadata.id)
       model.fetch q, (err, user) ->
+        console.log {err:err, fbUserMetadata:fbUserMetadata}
         id = user && (u = user.get()) && u.length>0 && u[0].id
-        console.log {err:err, id:id, fbUserMetadata:fbUserMetadata}
         # Has user been tied to facebook account already?
         if (id && id!=session.userId)
           session.userId = id
