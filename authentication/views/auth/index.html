@@ -5,4 +5,16 @@
 	<ui:connectionAlert>
 
 <Body:>
-	{_user}
+
+	{#if _user.auth.facebook}
+		Logged in as {_user.auth.facebook.name}<br/>
+		<a href="/logout">Logout</a>
+	{else}
+	<div id='fb-login' class='fb_button' style='background-position: left -188px'>
+	    <a class='fb_button_medium' href='/auth/facebook'>
+	      <span id='fb_login_text' class='fb_button_text'>
+	        Connect with Facebook
+	      </span>
+	    </a>
+	</div>
+	{/}
