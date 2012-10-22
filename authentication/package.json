@@ -1,5 +1,5 @@
 {
-  "name": "todomvc-derbyjs",
+  "name": "derby-chat-example",
   "description": "",
   "version": "0.0.0",
   "main": "./server.js",
