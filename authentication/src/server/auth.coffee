@@ -77,7 +77,7 @@ setupEveryauth = () ->
       model = req.getModel()
       q = model.query('users').withEveryauth('facebook', fbUserMetadata.id)
       model.fetch q, (err, user) ->
-        id = user && !_.isEmpty(user.get()) && user.get()[0].id
+        id = user && (u = user.get()) && u.length>0 && u[0].id
         console.log {err:err, id:id, fbUserMetadata:fbUserMetadata}
         # Has user been tied to facebook account already?
         if (id && id!=session.userId)
