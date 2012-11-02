@@ -1,5 +1,5 @@
 {
-  "name": "derby-chat-example",
+  "name": "derby-auth-example",
   "description": "",
   "version": "0.0.0",
   "main": "./server.js",
