@@ -52,12 +52,12 @@ setupAccessControl = (store) ->
 
 ## -------- New user --------
 # They get to play around before creating a new account.
-newUser = () ->
+newUser = ->
   unless sess.userId
     sess.userId = derby.uuid()
     model.set "users.#{sess.userId}", {auth:{}}
   
-setupEveryauth = () ->
+setupEveryauth = ->
   everyauth.debug = true
   
   everyauth.everymodule.findUserById (id, callback) ->
@@ -65,7 +65,8 @@ setupEveryauth = () ->
     # see https://github.com/codeparty/racer/issues/39. Handled in app/auth.coffee for now
     callback null, null
   
-  # Facebook Authentication Logic 
+  ## Facebook Authentication Logic
+  ## -----------------------------
   everyauth
     .facebook
     .appId(process.env.FACEBOOK_KEY)
