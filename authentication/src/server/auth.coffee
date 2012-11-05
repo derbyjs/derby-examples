@@ -16,15 +16,19 @@ module.exports = {
     sess = model.session
     newUser()
     next()
+  setupExpress: setupExpress
 }
 
 setupQueries = (store) ->
   ## Setup Queries
   store.query.expose 'users', 'withId', (id) ->
     @byId(id)
-  store.query.expose 'users', 'withEveryauth', (provider, id) ->
-    console.log {withEveryauth:{provider:provider,id:id}}
-    @where("auth.#{provider}.id").equals(id)
+  store.query.expose 'users', 'withEveryauth', (provider, id, password=null) ->
+    console.log {withEveryauth:{provider:provider, id:id, password:password}}
+    if(password)
+      @where("auth.#{provider}.id").equals(id).where("auth.#{provider}.password").equals(password)
+    else
+      @where("auth.#{provider}.id").equals(id)
   store.queryAccess 'users', 'withEveryauth', (methodArgs) ->
     accept = arguments[arguments.length-1]
     accept(true) #for now
@@ -56,6 +60,17 @@ newUser = ->
   unless sess.userId
     sess.userId = derby.uuid()
     model.set "users.#{sess.userId}", {auth:{}}
+
+# Hack to get Everyauth to ¡
+setupExpress = (expressApp) ->
+  expressApp.engine 'html', do ->
+    cache = {}
+    return (path, options, cb) ->
+      try
+        str = cache[path] or cache[path] = fs.readFileSync path, 'utf8'
+        cb null, str
+      catch err
+        cb err
   
 setupEveryauth = ->
   everyauth.debug = true
@@ -76,7 +91,6 @@ setupEveryauth = ->
       session.auth ||= {}
       session.auth.facebook = fbUserMetadata.id
 
-      model = req.getModel()
       q = model.query('users').withEveryauth('facebook', fbUserMetadata.id)
       model.fetch q, (err, user) ->
         console.log {err:err, fbUserMetadata:fbUserMetadata}
@@ -98,21 +112,7 @@ setupEveryauth = ->
     .loginWith('email')
     .getLoginPath('/login')
     .postLoginPath('/login')
-    .loginView('login.jade')
-#    .loginLocals({
-#      title: 'Login'
-#    })
-#    .loginLocals(function (req, res) {
-#      return {
-#        title: 'Login'
-#      }
-#    })
-    .loginLocals((req, res, done) ->
-      setTimeout (->
-        done null,
-          title: "Async login"
-      ), 200
-  )
+#    .loginView('login.jade')
   .authenticate((login, password) ->
     errors = []
     errors.push "Missing login"  unless login
@@ -123,34 +123,24 @@ setupEveryauth = ->
     return ["Login failed"]  if user.password isnt password
     user
   )
-  
+  #.getRegisterPath is required by everyauth, but we won't use it
   .getRegisterPath("/register")
   .postRegisterPath("/register")
-  .registerView("register.jade")
-#  .registerLocals({
-#    title: 'Register'
-#  })
-#  .registerLocals(function (req, res) {
-#    return {
-#      title: 'Sync Register'
-#    }
-#  })
-  .registerLocals((req, res, done) ->
-    setTimeout (->
-      done null,
-        title: "Async Register"
-    ), 200
-  )
+#  .registerView("register")
   .validateRegistration((newUserAttrs, errors) ->
     login = newUserAttrs.login
-    errors.push "Login already taken"  if usersByLogin[login]
-    errors
+
+    q = model.query('users').withEveryauth('password', login)
+    model.fetch q, (err, user) ->
+      console.log {err:err, user:user}
+      errors.push "Login already taken"  if user && (u = user.get()) && u.length>0 && u[0].id
+      errors
+
   )
   .registerUser((newUserAttrs) ->
     login = newUserAttrs[@loginKey()]
-    usersByLogin[login] = addUser(newUserAttrs)
+    model.set("users.#{sess.userId}.auth.password", newUserAttrs)
   )
-
   .loginSuccessRedirect("/")
   .registerSuccessRedirect("/")
 

@@ -20,6 +20,7 @@ store = derby.createStore
 	db: {type: 'Mongo', uri: 'mongodb://localhost/derby-auth'}
 	listen: server
 authentication.setupStore(store)
+authentication.setupExpress(expressApp)
 
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
