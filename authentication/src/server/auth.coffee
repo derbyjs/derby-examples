@@ -67,8 +67,7 @@ setupEveryauth = ->
   
   ## Facebook Authentication Logic
   ## -----------------------------
-  everyauth
-    .facebook
+  everyauth.facebook
     .appId(process.env.FACEBOOK_KEY)
     .appSecret(process.env.FACEBOOK_SECRET)
     .findOrCreateUser( (session, accessToken, accessTokenExtra, fbUserMetadata) ->
@@ -92,6 +91,68 @@ setupEveryauth = ->
 
       fbUserMetadata
   ).redirectPath "/"
+
+  ## Login Authentication Logic
+  ## -----------------------------
+  everyauth.password
+    .loginWith('email')
+    .getLoginPath('/login')
+    .postLoginPath('/login')
+    .loginView('login.jade')
+#    .loginLocals({
+#      title: 'Login'
+#    })
+#    .loginLocals(function (req, res) {
+#      return {
+#        title: 'Login'
+#      }
+#    })
+    .loginLocals((req, res, done) ->
+      setTimeout (->
+        done null,
+          title: "Async login"
+      ), 200
+  )
+  .authenticate((login, password) ->
+    errors = []
+    errors.push "Missing login"  unless login
+    errors.push "Missing password"  unless password
+    return errors  if errors.length
+    user = usersByLogin[login]
+    return ["Login failed"]  unless user
+    return ["Login failed"]  if user.password isnt password
+    user
+  )
+  
+  .getRegisterPath("/register")
+  .postRegisterPath("/register")
+  .registerView("register.jade")
+#  .registerLocals({
+#    title: 'Register'
+#  })
+#  .registerLocals(function (req, res) {
+#    return {
+#      title: 'Sync Register'
+#    }
+#  })
+  .registerLocals((req, res, done) ->
+    setTimeout (->
+      done null,
+        title: "Async Register"
+    ), 200
+  )
+  .validateRegistration((newUserAttrs, errors) ->
+    login = newUserAttrs.login
+    errors.push "Login already taken"  if usersByLogin[login]
+    errors
+  )
+  .registerUser((newUserAttrs) ->
+    login = newUserAttrs[@loginKey()]
+    usersByLogin[login] = addUser(newUserAttrs)
+  )
+
+  .loginSuccessRedirect("/")
+  .registerSuccessRedirect("/")
 
   everyauth.everymodule.handleLogout (req, res) ->
     if req.session.auth && req.session.auth.facebook
