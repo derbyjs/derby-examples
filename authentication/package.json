@@ -8,8 +8,7 @@
     "gzippo": "*",
     "derby": "0.3.13",
     "racer-db-mongo": "0.3.13",
-    "connect-mongo": ">=0.1.9",
-    "everyauth": "git://github.com/lefnire/everyauth#express3"
+    "connect-mongo": ">=0.1.9"
   },
   "private": true,
   "devDependencies": {

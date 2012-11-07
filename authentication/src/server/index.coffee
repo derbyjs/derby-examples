@@ -5,9 +5,8 @@ gzippo = require 'gzippo'
 derby = require 'derby'
 app = require '../auth'
 serverError = require './serverError'
-everyauth = require('everyauth')
 MongoStore = require('connect-mongo')(express)
-authentication = require('./auth')
+derbyAuth = require('../../derby-auth')
 
 ## SERVER CONFIGURATION ##
 
@@ -49,8 +48,7 @@ expressApp
 
 	# Middelware can be inserted after the modelMiddleware and before
   # the app router to pass server accessible data to a model
-  .use(authentication.middleware(expressApp, store))
-  .use(everyauth.middleware())
+  .use(derbyAuth.middleware(expressApp, store))
 
 	# Creates an express middleware from the app's routes
 	.use(app.router())

@@ -1,0 +1,11 @@
+{
+    "name": "derby-auth",
+    "description": "Provides authentication to Derby",
+    "version": "0.0.0",
+    "main": "./index.js",
+    "dependencies": {
+        "derby": "*",
+        "everyauth": "git://github.com/lefnire/everyauth#express3"
+    },
+    "private": true
+}
