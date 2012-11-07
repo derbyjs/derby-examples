@@ -5,19 +5,17 @@ req = undefined
 model = undefined
 sess = undefined
 
-module.exports = {
-  setupStore: (store) ->
-    setupQueries(store)
-    setupAccessControl(store)
-    setupEveryauth()
-  middleware: (request, res, next) ->
+module.exports.middleware = (expressApp, store) ->
+  setupQueries(store)
+  setupAccessControl(store)
+  setupEveryauth()
+
+  return (request, res, next) ->
     req = request
     model = req.getModel()
     sess = model.session
     newUser()
     next()
-  setupExpress: setupExpress
-}
 
 setupQueries = (store) ->
   ## Setup Queries

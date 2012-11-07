@@ -19,8 +19,6 @@ derby.use(require 'racer-db-mongo')
 store = derby.createStore
 	db: {type: 'Mongo', uri: 'mongodb://localhost/derby-auth'}
 	listen: server
-authentication.setupStore(store)
-authentication.setupExpress(expressApp)
 
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
@@ -51,7 +49,7 @@ expressApp
 
 	# Middelware can be inserted after the modelMiddleware and before
   # the app router to pass server accessible data to a model
-  .use(authentication.middleware)
+  .use(authentication.middleware(expressApp, store))
   .use(everyauth.middleware())
 
 	# Creates an express middleware from the app's routes

@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "main": "./server.js",
   "dependencies": {
-    "express": "*",
-    "gzippo": "git://github.com/dbashford/gzippo.git",
+    "express": "3.0.0beta4",
+    "gzippo": "*",
     "derby": "0.3.13",
     "racer-db-mongo": "0.3.13",
     "connect-mongo": ">=0.1.9",
-    "everyauth": "git://github.com/bnoguchi/everyauth#express3"
+    "everyauth": "git://github.com/lefnire/everyauth#express3"
   },
   "private": true,
   "devDependencies": {
