@@ -19,6 +19,12 @@
 		</div>
 	{/}
 
+    {#if _user.auth.linkedin}
+        Logged in as {_user.auth.linkedin.firstName} {_user.auth.linkedin.lastName} - <a href="/logout">Logout</a>
+    {else}
+        <a class='fb_button_medium' href='/auth/linkedin'>Connect with LinkedIn</a>
+    {/}
+
     {#if _user.auth.password}
         Logged in as {_user.auth.password.id}<br/>>
         <a href="/logout">Logout</a>
