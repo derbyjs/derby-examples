@@ -34,19 +34,32 @@
         Logged in as {_user.auth.password.id}<br/>>
         <a href="/logout">Logout</a>
     {else}
+
+        <h2>Login</h2>
+        <ul class="errors">
+            {#each _errors as :error}<li class="error">{:error}</li>{/}
+        </ul>
+        <form action='/login' method='post'>
+            <label for="everyauth.password.loginFormFieldName">Login</label>
+            <input type='text' name="everyauth.password.loginFormFieldName" value="email" />
+
+            <label for="everyauth.password.passwordFormFieldName">Password</label>
+            <input type='password' name="everyauth.password.passwordFormFieldName" />
+
+            <div id="submit"><input type="submit" value="Login"/></div>
+        </form>
+
         <h2>Register</h2>
         <ul id="errors">
             {#each _errors as :error}<li class='error'>{:error}</li>{/}
         </ul>
         <form action='/register' method='post'>
-            <div id="login">
-                <label for="everyauth.password.loginFormFieldName">Login</label>
-                <input type='text' name="everyauth.password.loginFormFieldName" value="userParams[everyauth.password.loginFormFieldName]" />
-            </div>
-            <div id="password">
-                <label for="everyauth.password.passwordFormFieldName">Password</label>
-                <input type='password' name="everyauth.password.passwordFormFieldName" />
-            </div>
+            <label for="everyauth.password.loginFormFieldName">Login</label>
+            <input type='text' name="everyauth.password.loginFormFieldName" value="userParams[everyauth.password.loginFormFieldName]" />
+
+            <label for="everyauth.password.passwordFormFieldName">Password</label>
+            <input type='password' name="everyauth.password.passwordFormFieldName" />
+
             <div id="submit"><input type="submit" value="Register"/></div>
         </form>
     {/}
