@@ -6,7 +6,7 @@ derby = require 'derby'
 app = require '../auth'
 serverError = require './serverError'
 MongoStore = require('connect-mongo')(express)
-derbyAuth = require('../../derby-auth')
+derbyAuth = require('derby-auth')
 
 ## SERVER CONFIGURATION ##
 
@@ -22,6 +22,14 @@ store = derby.createStore
 ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
+
+# Set your own authentication keys. If you don't set them, derby-auth will use everyauth/example/conf.js as defaults
+authConf = {
+  fb: {
+    appId: process.env.FACEBOOK_KEY,
+    appSecret: process.env.FACEBOOK_SECRET
+  }
+};
 
 expressApp
 	.use(express.favicon())
@@ -48,7 +56,7 @@ expressApp
 
 	# Middelware can be inserted after the modelMiddleware and before
   # the app router to pass server accessible data to a model
-  .use(derbyAuth.middleware(expressApp, store))
+  .use(derbyAuth.middleware(expressApp, store, authConf))
 
 	# Creates an express middleware from the app's routes
 	.use(app.router())
