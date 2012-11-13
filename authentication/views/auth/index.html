@@ -6,24 +6,29 @@
 
 <Body:>
 
+    <p>
 	{#if _user.auth.facebook}
-		Logged in as {_user.auth.facebook.name}<br/>
-		<a href="/logout">Logout</a>
+		Logged in as {_user.auth.facebook.name} - <a href="/logout">Logout</a>
 	{else}
-		<div id='fb-login' class='fb_button' style='background-position: left -188px'>
-		    <a class='fb_button_medium' href='/auth/facebook'>
-		      <span id='fb_login_text' class='fb_button_text'>
-		        Connect with Facebook
-		      </span>
-		    </a>
-		</div>
+		<a href='/auth/facebook'>Connect with Facebook</a>
 	{/}
+    </p>
 
+    <p>
     {#if _user.auth.linkedin}
         Logged in as {_user.auth.linkedin.firstName} {_user.auth.linkedin.lastName} - <a href="/logout">Logout</a>
     {else}
-        <a class='fb_button_medium' href='/auth/linkedin'>Connect with LinkedIn</a>
+        <a href='/auth/linkedin'>Connect with LinkedIn</a>
     {/}
+    </p>
+
+    <p>
+    {#if _user.auth.github}
+        Logged in as {_user.auth.github.name} - <a href="/logout">Logout</a>
+    {else}
+        <a href='/auth/github'>Connect with Github</a>
+    {/}
+    </p>
 
     {#if _user.auth.password}
         Logged in as {_user.auth.password.id}<br/>>
