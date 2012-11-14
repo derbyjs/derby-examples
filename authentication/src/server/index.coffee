@@ -29,10 +29,10 @@ derbyAuth = require('derby-auth')
 strategies =
   facebook:
       strategy: require('passport-facebook').Strategy,
-      conf: {clientID: process.env.FACEBOOK_KEY, clientSecret: process.env.FACEBOOK_SECRET, callbackURL: "http://localhost:3000/auth/facebook/callback"}
+      conf: {clientID: process.env.FACEBOOK_KEY, clientSecret: process.env.FACEBOOK_SECRET}
   linkedin:
       strategy: require('passport-linkedin').Strategy,
-      conf: {consumerKey: process.env.LINKEDIN_API_KEY, consumerSecret: process.env.LINKEDIN_SECRET_KEY, callbackURL: "http://127.0.0.1:3000/auth/linkedin/callback"}
+      conf: {consumerKey: process.env.LINKEDIN_API_KEY, consumerSecret: process.env.LINKEDIN_SECRET_KEY}
 #  github:
 #      strategy: require('passport-github').Strategy,
 #      conf: {clientID: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET}
