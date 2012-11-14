@@ -21,32 +21,32 @@
     <div class="well">
         <h2>Connect With:</h2>
         {#if _user.auth.facebook}
-            <p>Logged in with Facebook: {_user.auth.facebook.name}</p>
+            <p><span class="label">facebook</span><pre class="prettyprint">_user.auth.facebook.name = {_user.auth.facebook.name}</pre></p>
         {else}
             <a class="btn" href='/auth/facebook'>Facebook</a>
         {/}
 
         {#if _user.auth.linkedin}
-            <p>Logged in with LinkedIn: {_user.auth.linkedin.name} {_user.auth.linkedin}</p>
+            <p><span class="label">linkedin</span><pre class="prettyprint">_user.auth.linkedin.name = {_user.auth.linkedin.name}</pre></p>
         {else}
             <a class="btn" href='/auth/linkedin'>LinkedIn</a>
         {/}
 
         {#if _user.auth.github}
-            <p>Logged in with Github {_user.auth.github.name}</p>
+            <p><span class="label">github</span><pre class="prettyprint">_user.auth.github.name = {_user.auth.github.name}</pre></p>
         {else}
             <a class="btn" href='/auth/github'>Github</a>
         {/}
 
         {#if _user.auth.twitter}
-            <p>Logged in with Twitter {_user.auth.twitter.name}</p>
+            <p><span class="label">twitter</span><pre class="prettyprint">_user.auth.twitter.name = {_user.auth.twitter.name}</pre></p>
         {else}
-            <a class="btn" href='/auth/github'>Twitter</a>
+            <a class="btn" href='/auth/twitter'>Twitter</a>
         {/}
 
         <p>
             {#if _user.auth.local}
-                <p>Logged in as {_user.auth.local.username}</p>
+                <p><span class="label">registration</span><pre class="prettyprint">_user.auth.local.username = {_user.auth.local.username}</pre></p>
             {else}
                 <h2>Login</h2>
                 <ul class="errors">
