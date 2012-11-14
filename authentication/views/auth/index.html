@@ -1,0 +1,81 @@
+<Title:>
+  DerbyJS • Authentication
+
+<Header:>
+	<ui:connectionAlert>
+
+<Body:>
+
+    {#if _loggedIn}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Be sure to leave the brand out there if you want it shown -->
+                    <span class="brand">Logged In</span>
+                    <a class="btn pull-right" href="/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    {/}
+
+    <div class="well">
+        {#if _flash}
+            {#if _flash.error}
+                <ul class="alert alert-error">
+                    {#each _flash.error as :error}<li>{:error}</li>{/}
+                </ul>
+            {/}
+
+            {#if _flash.info}
+                <ul class="alert alert-success">
+                    {#each _flash.info as :info}<li>{:info}</li>{/}
+                </ul>
+            {/}
+
+        {/}
+
+        <h2>Connect With:</h2>
+        {#if _user.auth.facebook}
+            <p><span class="label">facebook</span><pre class="prettyprint">_user.auth.facebook.name = {_user.auth.facebook.name}</pre></p>
+        {else}
+            <a class="btn" href='/auth/facebook'>Facebook</a>
+        {/}
+
+        {#if _user.auth.linkedin}
+            <p><span class="label">linkedin</span><pre class="prettyprint">_user.auth.linkedin.name = {_user.auth.linkedin.name}</pre></p>
+        {else}
+            <a class="btn" href='/auth/linkedin'>LinkedIn</a>
+        {/}
+
+        {#if _user.auth.github}
+            <p><span class="label">github</span><pre class="prettyprint">_user.auth.github.name = {_user.auth.github.name}</pre></p>
+        {else}
+            <a class="btn" href='/auth/github'>Github</a>
+        {/}
+
+        {#if _user.auth.twitter}
+            <p><span class="label">twitter</span><pre class="prettyprint">_user.auth.twitter.name = {_user.auth.twitter.name}</pre></p>
+        {else}
+            <a class="btn" href='/auth/twitter'>Twitter</a>
+        {/}
+
+        <p>
+            {#if _user.auth.local}
+                <p><span class="label">registration</span><pre class="prettyprint">_user.auth.local.username = {_user.auth.local.username}</pre></p>
+            {else}
+                <h2>Login</h2>
+                <form action='/login' method='post'>
+                    <input type='text' name="username" placeholder="Username" />
+                    <input type='password' name="password" placeholder="Password"/>
+                    <div id="submit"><input type="submit" value="Login"/></div>
+                </form>
+
+                <h2>Register</h2>
+                <form action='/register' method='post'>
+                    <input type='text' name="username" placeholder="Username"/>
+                    <input type='password' name="password" placeholder="Password" />
+                    <div id="submit"><input type="submit" value="Register"/></div>
+                </form>
+            {/}
+        </p>
+    </div>

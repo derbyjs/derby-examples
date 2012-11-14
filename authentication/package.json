@@ -1,0 +1,23 @@
+{
+  "name": "derby-auth-example",
+  "description": "",
+  "version": "0.0.0",
+  "main": "./server.js",
+  "dependencies": {
+    "express": "3.0.0beta4",
+    "gzippo": "*",
+    "derby": "0.3.13",
+    "derby-ui-boot": "*",
+    "racer-db-mongo": "0.3.13",
+    "connect-mongo": ">=0.1.9",
+    "derby-auth": "*",
+    "passport-facebook": "*",
+    "passport-twitter": "*",
+    "passport-linkedin": "*",
+    "passport-github": "*"
+  },
+  "private": true,
+  "devDependencies": {
+    "coffee-script": ">=1.3.1"
+  }
+}
