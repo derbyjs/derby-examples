@@ -19,6 +19,12 @@
     {/}
 
     <div class="well">
+        {#if _errors}
+            <ul class="alert alert-error">
+                {#each _errors as :error}<li>{:error}</li>{/}
+            </ul>
+        {/}
+
         <h2>Connect With:</h2>
         {#if _user.auth.facebook}
             <p><span class="label">facebook</span><pre class="prettyprint">_user.auth.facebook.name = {_user.auth.facebook.name}</pre></p>
@@ -49,9 +55,6 @@
                 <p><span class="label">registration</span><pre class="prettyprint">_user.auth.local.username = {_user.auth.local.username}</pre></p>
             {else}
                 <h2>Login</h2>
-                <ul class="errors">
-                    {#each _errors as :error}<li class="error">{:error}</li>{/}
-                </ul>
                 <form action='/login' method='post'>
                     <input type='text' name="username" placeholder="Username" />
                     <input type='password' name="password" placeholder="Password"/>
@@ -59,9 +62,6 @@
                 </form>
 
                 <h2>Register</h2>
-                <ul id="errors">
-                    {#each _errors as :error}<li class='error'>{:error}</li>{/}
-                </ul>
                 <form action='/register' method='post'>
                     <input type='text' name="username" placeholder="Username"/>
                     <input type='password' name="password" placeholder="Password" />
