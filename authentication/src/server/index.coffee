@@ -38,7 +38,7 @@ strategies =
       strategy: require('passport-linkedin').Strategy
       conf:
           consumerKey: process.env.LINKEDIN_API_KEY || authConf.linkedin.apiKey
-          consumerSecret: process.env.LINKEDIN_SECRET_KEY || authoConf.linkedin.apiSecret
+          consumerSecret: process.env.LINKEDIN_SECRET_KEY || authConf.linkedin.apiSecret
   github:
       strategy: require('passport-github').Strategy
       conf:
