@@ -10,17 +10,9 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-
-
                     <!-- Be sure to leave the brand out there if you want it shown -->
                     <span class="brand">Logged In</span>
                     <a class="btn pull-right" href="/logout">Logout</a>
-
-                    <!-- Everything you want hidden at 940px or less, place within here -->
-                    <div class="nav-collapse collapse">
-                        <!-- .nav, .navbar-search, .navbar-form, etc -->
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -54,7 +46,7 @@
 
         <p>
             {#if _user.auth.local}
-                Logged in as {_user.auth.local.username}<br/>>
+                <p>Logged in as {_user.auth.local.username}</p>
             {else}
                 <h2>Login</h2>
                 <ul class="errors">
