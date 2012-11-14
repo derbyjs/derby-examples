@@ -1,3 +1,3 @@
 # Derby.js Authentication Example
 
-Uses [Everyauth](https://github.com/bnoguchi/everyauth/tree/express3) middleware for authentication (be sure to use the express3 branch). Currently only has a Facebook integration example, but you can implement the rest of the examples easily by following [Everyauth's sample code](https://github.com/bnoguchi/everyauth/tree/express3/example). Note, the keys are set as environment variables (~/.profile) instead of a conf file for security-sake - it's how sensitive variables are accessed on PaaS providers such as Heroku.
+Uses the [derby-auth](https://github.com/lefnire/derby-auth) module to provide authentication to DerbyJS. Check out `server/index.js` and `views/auth/index.html`.
