@@ -9,7 +9,11 @@
     "derby": "0.3.13",
     "racer-db-mongo": "0.3.13",
     "connect-mongo": ">=0.1.9",
-    "derby-auth": "*"
+    "derby-auth": "*",
+    "passport-facebook": "*",
+    "passport-twitter": "*",
+    "passport-linkedin": "*",
+    "passport-github": "*"
   },
   "private": true,
   "devDependencies": {

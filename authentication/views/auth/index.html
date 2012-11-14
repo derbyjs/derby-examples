@@ -30,8 +30,8 @@
     {/}
     </p>
 
-    {#if _user.auth.password}
-        Logged in as {_user.auth.password.id}<br/>>
+    {#if _user.auth.local}
+        Logged in as {_user.auth.local.username}<br/>>
         <a href="/logout">Logout</a>
     {else}
 
@@ -40,12 +40,8 @@
             {#each _errors as :error}<li class="error">{:error}</li>{/}
         </ul>
         <form action='/login' method='post'>
-            <label for="everyauth.password.loginFormFieldName">Login</label>
-            <input type='text' name="everyauth.password.loginFormFieldName" value="email" />
-
-            <label for="everyauth.password.passwordFormFieldName">Password</label>
-            <input type='password' name="everyauth.password.passwordFormFieldName" />
-
+            <input type='text' name="username" placeholder="Username" />
+            <input type='password' name="password" placeholder="Password"/>
             <div id="submit"><input type="submit" value="Login"/></div>
         </form>
 
@@ -54,12 +50,8 @@
             {#each _errors as :error}<li class='error'>{:error}</li>{/}
         </ul>
         <form action='/register' method='post'>
-            <label for="everyauth.password.loginFormFieldName">Login</label>
-            <input type='text' name="everyauth.password.loginFormFieldName" value="userParams[everyauth.password.loginFormFieldName]" />
-
-            <label for="everyauth.password.passwordFormFieldName">Password</label>
-            <input type='password' name="everyauth.password.passwordFormFieldName" />
-
+            <input type='text' name="username" placeholder="Username"/>
+            <input type='password' name="password" placeholder="Password" />
             <div id="submit"><input type="submit" value="Register"/></div>
         </form>
     {/}

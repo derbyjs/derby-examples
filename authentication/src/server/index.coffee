@@ -6,9 +6,6 @@ derby = require 'derby'
 app = require '../auth'
 serverError = require './serverError'
 MongoStore = require('connect-mongo')(express)
-derbyAuth = require('derby-auth')
-
-## SERVER CONFIGURATION ##
 
 expressApp = express()
 server = http.createServer expressApp
@@ -23,48 +20,50 @@ ONE_YEAR = 1000 * 60 * 60 * 24 * 365
 root = path.dirname path.dirname __dirname
 publicPath = path.join root, 'public'
 
-# Set your own authentication keys. If you don't set them, derby-auth will use everyauth/example/conf.js as defaults
-authConf = {
-  fb: {
-    appId: process.env.FACEBOOK_KEY,
-    appSecret: process.env.FACEBOOK_SECRET
-  }
-};
+###
+  Derby Auth Setup
+  TODO documentation
+###
+derbyAuth = require('derby-auth')
+# An array of strategies you'll use - strategy objects and their configurations
+strategies =
+  facebook:
+      strategy: require('passport-facebook').Strategy,
+      conf: {clientID:process.env.FACEBOOK_KEY, clientSecret: process.env.FACEBOOK_SECRET}
+  linkedin:
+      strategy: require('passport-linkedin').Strategy,
+      conf: {consumerKey:process.env.LINKEDIN_API_KEY, consumerSecret: process.env.LINKEDIN_SECRET_KEY}
+#  github:
+#      strategy: require('passport-github').Strategy,
+#      conf: {clientID: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET}
+#  twitter:
+#      strategy: require('passport-twitter').Strategy,
+#      conf: {consumerKey: process.env.TWITTER_CONSUMER_KEY, consumerSecret: process.env.TWITTER_CONSUMER_SECRET}
 
 expressApp
 	.use(express.favicon())
-	# Gzip static files and serve from memory
 	.use(gzippo.staticGzip publicPath, maxAge: ONE_YEAR)
-	# Gzip dynamically rendered content
 	.use(express.compress())
-
-	# Uncomment to add form data parsing support
-   .use(express.bodyParser())
-   .use(express.methodOverride())
-
-    # Uncomment and supply secret to add Derby session handling
-    # Derby session middleware creates req.session and socket.io sessions
-    .use(express.cookieParser())
-  	.use(store.sessionMiddleware
+  .use(express.bodyParser())
+  .use(express.methodOverride())
+  .use(express.cookieParser())
+  .use(store.sessionMiddleware
       secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
       cookie: {maxAge: ONE_YEAR}
       store: new MongoStore(url: 'mongodb://localhost/derby-auth')
     )
-
-	# Adds req.getModel method
 	.use(store.modelMiddleware())
 
 	# Middelware can be inserted after the modelMiddleware and before
   # the app router to pass server accessible data to a model
-  .use(derbyAuth.middleware(expressApp, store, authConf))
+  .use(derbyAuth.middleware(expressApp, store, strategies))
 
-	# Creates an express middleware from the app's routes
 	.use(app.router())
 	.use(expressApp.router)
 	.use(serverError root)
 
-
-## SERVER ONLY ROUTES ##
+# Passport needs static routes, so we set them up here.
+derbyAuth.routes(expressApp)
 
 expressApp.all '*', (req) ->
 	throw "404: #{req.url}"
