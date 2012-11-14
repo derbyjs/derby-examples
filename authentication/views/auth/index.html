@@ -19,10 +19,19 @@
     {/}
 
     <div class="well">
-        {#if _errors}
-            <ul class="alert alert-error">
-                {#each _errors as :error}<li>{:error}</li>{/}
-            </ul>
+        {#if _flash}
+            {#if _flash.error}
+                <ul class="alert alert-error">
+                    {#each _flash.error as :error}<li>{:error}</li>{/}
+                </ul>
+            {/}
+
+            {#if _flash.info}
+                <ul class="alert alert-success">
+                    {#each _flash.info as :info}<li>{:info}</li>{/}
+                </ul>
+            {/}
+
         {/}
 
         <h2>Connect With:</h2>
