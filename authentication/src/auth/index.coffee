@@ -11,7 +11,7 @@ get '/', (page, model) ->
 		page.render()
 
   model.fn '_loggedIn', '_user.auth', (auth) ->
-    return (auth.facebook or auth.linkedin or auth.twitter or auth.github)
+    return (auth.facebook or auth.linkedin or auth.twitter or auth.github or auth.local)
 
 ready (model) ->
 	#nothing here
