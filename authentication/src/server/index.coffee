@@ -22,23 +22,35 @@ publicPath = path.join root, 'public'
 
 ###
   Derby Auth Setup
-  TODO documentation
+  (1) Setup a hash of strategies you'll use - strategy objects and their configurations
+  Note, API keys should be stored as environment variables (eg, process.env.FACEBOOK_KEY, process.env.FACEBOOK_SECRET)
+  rather than a configuration file. We're storing it in conf.js for demo purposes.
 ###
 derbyAuth = require('derby-auth')
-# An array of strategies you'll use - strategy objects and their configurations
+authConf = require('./conf')
 strategies =
   facebook:
-      strategy: require('passport-facebook').Strategy,
-      conf: {clientID: process.env.FACEBOOK_KEY, clientSecret: process.env.FACEBOOK_SECRET}
+      strategy: require('passport-facebook').Strategy
+      conf:
+          clientID: process.env.FACEBOOK_KEY || authConf.fb.appId
+          clientSecret: process.env.FACEBOOK_SECRET || authConf.fb.appSecret
   linkedin:
-      strategy: require('passport-linkedin').Strategy,
-      conf: {consumerKey: process.env.LINKEDIN_API_KEY, consumerSecret: process.env.LINKEDIN_SECRET_KEY}
-#  github:
-#      strategy: require('passport-github').Strategy,
-#      conf: {clientID: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET}
-#  twitter:
-#      strategy: require('passport-twitter').Strategy,
-#      conf: {consumerKey: process.env.TWITTER_CONSUMER_KEY, consumerSecret: process.env.TWITTER_CONSUMER_SECRET}
+      strategy: require('passport-linkedin').Strategy
+      conf:
+          consumerKey: process.env.LINKEDIN_API_KEY || authConf.linkedin.apiKey
+          consumerSecret: process.env.LINKEDIN_SECRET_KEY || authoConf.linkedin.apiSecret
+  github:
+      strategy: require('passport-github').Strategy
+      conf:
+          clientID: process.env.GITHUB_CLIENT_ID || authConf.github.appId
+          clientSecret: process.env.GITHUB_CLIENT_SECRET || authConf.github.appSecret
+          callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+  twitter:
+      strategy: require('passport-twitter').Strategy
+      conf:
+          consumerKey: process.env.TWITTER_CONSUMER_KEY || authConf.twit.consumerKey
+          consumerSecret: process.env.TWITTER_CONSUMER_SECRET || authConf.twit.consumerSecret
+          callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
 
 expressApp
 	.use(express.favicon())
@@ -56,13 +68,15 @@ expressApp
 
 	# Middelware can be inserted after the modelMiddleware and before
   # the app router to pass server accessible data to a model
+  # (2) For derby-auth, We pass in {expressApp} (to setup routes), store(to setup accessControl & queries), and
+  # our strategy objects and their configurations (see above)
   .use(derbyAuth.middleware(expressApp, store, strategies))
 
 	.use(app.router())
 	.use(expressApp.router)
 	.use(serverError root)
 
-# Passport needs static routes, so we set them up here.
+# (3) Additionally, Passport needs static routes for some auth setup, so we set that up here.
 derbyAuth.routes(expressApp)
 
 expressApp.all '*', (req) ->
