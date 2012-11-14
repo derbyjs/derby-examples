@@ -7,6 +7,7 @@
     "express": "3.0.0beta4",
     "gzippo": "*",
     "derby": "0.3.13",
+    "derby-ui-boot": "*",
     "racer-db-mongo": "0.3.13",
     "connect-mongo": ">=0.1.9",
     "derby-auth": "*",

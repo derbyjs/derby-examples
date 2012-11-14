@@ -6,52 +6,75 @@
 
 <Body:>
 
-    <p>
-	{#if _user.auth.facebook}
-		Logged in as {_user.auth.facebook.name} - <a href="/logout">Logout</a>
-	{else}
-		<a href='/auth/facebook'>Connect with Facebook</a>
-	{/}
-    </p>
+    {#if _loggedIn}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
 
-    <p>
-    {#if _user.auth.linkedin}
-        Logged in as {_user.auth.linkedin.firstName} {_user.auth.linkedin.lastName} - <a href="/logout">Logout</a>
-    {else}
-        <a href='/auth/linkedin'>Connect with LinkedIn</a>
+
+                    <!-- Be sure to leave the brand out there if you want it shown -->
+                    <span class="brand">Logged In</span>
+                    <a class="btn pull-right" href="/logout">Logout</a>
+
+                    <!-- Everything you want hidden at 940px or less, place within here -->
+                    <div class="nav-collapse collapse">
+                        <!-- .nav, .navbar-search, .navbar-form, etc -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
     {/}
-    </p>
 
-    <p>
-    {#if _user.auth.github}
-        Logged in as {_user.auth.github.name} - <a href="/logout">Logout</a>
-    {else}
-        <a href='/auth/github'>Connect with Github</a>
-    {/}
-    </p>
+    <div class="well">
+        <h2>Connect With:</h2>
+        {#if _user.auth.facebook}
+            <p>Logged in with Facebook: {_user.auth.facebook.name}</p>
+        {else}
+            <a class="btn" href='/auth/facebook'>Facebook</a>
+        {/}
 
-    {#if _user.auth.local}
-        Logged in as {_user.auth.local.username}<br/>>
-        <a href="/logout">Logout</a>
-    {else}
+        {#if _user.auth.linkedin}
+            <p>Logged in with LinkedIn: {_user.auth.linkedin.name} {_user.auth.linkedin}</p>
+        {else}
+            <a class="btn" href='/auth/linkedin'>LinkedIn</a>
+        {/}
 
-        <h2>Login</h2>
-        <ul class="errors">
-            {#each _errors as :error}<li class="error">{:error}</li>{/}
-        </ul>
-        <form action='/login' method='post'>
-            <input type='text' name="username" placeholder="Username" />
-            <input type='password' name="password" placeholder="Password"/>
-            <div id="submit"><input type="submit" value="Login"/></div>
-        </form>
+        {#if _user.auth.github}
+            <p>Logged in with Github {_user.auth.github.name}</p>
+        {else}
+            <a class="btn" href='/auth/github'>Github</a>
+        {/}
 
-        <h2>Register</h2>
-        <ul id="errors">
-            {#each _errors as :error}<li class='error'>{:error}</li>{/}
-        </ul>
-        <form action='/register' method='post'>
-            <input type='text' name="username" placeholder="Username"/>
-            <input type='password' name="password" placeholder="Password" />
-            <div id="submit"><input type="submit" value="Register"/></div>
-        </form>
-    {/}
+        {#if _user.auth.twitter}
+            <p>Logged in with Twitter {_user.auth.twitter.name}</p>
+        {else}
+            <a class="btn" href='/auth/github'>Twitter</a>
+        {/}
+
+        <p>
+            {#if _user.auth.local}
+                Logged in as {_user.auth.local.username}<br/>>
+            {else}
+                <h2>Login</h2>
+                <ul class="errors">
+                    {#each _errors as :error}<li class="error">{:error}</li>{/}
+                </ul>
+                <form action='/login' method='post'>
+                    <input type='text' name="username" placeholder="Username" />
+                    <input type='password' name="password" placeholder="Password"/>
+                    <div id="submit"><input type="submit" value="Login"/></div>
+                </form>
+
+                <h2>Register</h2>
+                <ul id="errors">
+                    {#each _errors as :error}<li class='error'>{:error}</li>{/}
+                </ul>
+                <form action='/register' method='post'>
+                    <input type='text' name="username" placeholder="Username"/>
+                    <input type='password' name="password" placeholder="Password" />
+                    <div id="submit"><input type="submit" value="Register"/></div>
+                </form>
+            {/}
+        </p>
+    </div>
