@@ -2,15 +2,16 @@
   <button x-bind="click: tableEditor.addRow">Add row</button> 
   <button x-bind="click: tableEditor.addCol">Add column</button>
   <hr>
+  {{#with sink.table}}
   <table>
     <tr>
       <td></td>
-      {#each table.cols}
+      {#each .cols}
         <th x-bind="mousedown: tableEditor.colDown" class=col>{.name}</th>
       {/}
       <td></td>
     </tr>
-    {#each table.rows}
+    {#each .rows}
       <tr class=row>
         <th x-bind="mousedown: tableEditor.rowDown">{.name}</th>
         {#each .cells}<td><input value={.text}></td>{/}
@@ -19,7 +20,8 @@
     {/}
     <tr class=foot>
       <td></td>
-      {#each table.cols}<td><button x-bind="click: tableEditor.deleteCol">Delete</button></td>{/}
+      {#each .cols}<td><button x-bind="click: tableEditor.deleteCol">Delete</button></td>{/}
       <td></td>
     </tr>
   </table>
+  {{/}}

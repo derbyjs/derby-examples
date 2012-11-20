@@ -12,18 +12,18 @@
   </boot:modal>
 
   <div class="container">
-    <h1 style="color:{test.color}">Bootstrap widgets</h1>
+    <h1 style="color:{widgets.data.color}">Bootstrap widgets</h1>
     <div class=btn-toolbar>
-      <boot:dropdown options={test.numbers}></boot:dropdown>
-      <boot:dropdown value={test.color} options={test.colors}></boot:dropdown>
+      <boot:dropdown options={widgets.data.numbers}></boot:dropdown>
+      <boot:dropdown value={widgets.data.color} options={widgets.data.colors}></boot:dropdown>
       <div class=btn-group>
         <app:button clickFn="showModal">Show modal</app:button>
       </div>
     </div>
 
-    <boot:tabs current={test.currentTab}>
+    <boot:tabs current={widgets.data.currentTab}>
       <boot:tab title="One">
-        Stuff
+        Stuff'n
       </boot:tab>
       <boot:tab title="Two">
         More stuff
@@ -33,4 +33,4 @@
 
 <!-- demonstrate passing in an x-bind function name to a component -->
 <button: nonvoid>
-  <button class=btn x-bind="click: {{{clickFn}}}">Show modal</button>
+  <button class=btn x-bind="click: {{@clickFn}}">Show modal</button>

@@ -54,7 +54,7 @@
 </div>
 
 <field: nonvoid>
-  <fieldset class="control-group {{{#if error}}}error{{{/}}}">
-    <label>{{{label}}}</label>
-    {{{content}}}
+  <fieldset class="control-group {#if @error}error{/}">
+    <label>{{@label}}</label>
+    {{@content}}
   </fieldset>

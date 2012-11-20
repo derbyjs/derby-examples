@@ -3,7 +3,7 @@
 sortableTable = require './sortableTable'
 
 get '/table', (page, model) ->
-  model.subscribe 'table', (err, table) ->
+  model.subscribe 'sink.table', (err, table) ->
     table.setNull
       rows: [
         {name: 1, cells: [{}, {}, {}]}
@@ -21,8 +21,9 @@ get '/table', (page, model) ->
 
 ready (model) ->
 
-  rows = model.at 'table.rows'
-  cols = model.at 'table.cols'
+  table = model.at 'sink.table'
+  rows = table.at 'rows'
+  cols = table.at 'cols'
 
   app.tableEditor =
     deleteRow: (e, el) ->
@@ -33,11 +34,11 @@ ready (model) ->
       i = model.at(el).leaf()
       row = rows.get 'length'
       while row--
-        rows.remove "#{row}.cells", i
+        rows.at(row + '.cells').remove i
       cols.remove i
 
     addRow: ->
-      name = model.incr('table.lastRow') + 1
+      name = table.incr('lastRow') + 1
       cells = []
       col = cols.get 'length'
       while col--
@@ -47,8 +48,8 @@ ready (model) ->
     addCol: ->
       row = rows.get 'length'
       while row--
-        rows.push "#{row}.cells", {}
-      name = alpha model.incr 'table.lastCol'
+        rows.at(row + '.cells').push {}
+      name = alpha table.incr('lastCol')
       cols.push {name}
 
   alpha = (num, out = '') ->
@@ -67,4 +68,4 @@ ready (model) ->
       cols.move from, to
       row = rows.get 'length'
       while row--
-        rows.move "#{row}.cells", from, to
+        rows.at(row + '.cells').move from, to

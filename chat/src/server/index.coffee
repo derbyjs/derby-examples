@@ -8,6 +8,8 @@ serverError = require './serverError'
 MongoStore = require('connect-mongo')(express)
 
 
+derby.use(derby.logPlugin)
+
 ## SERVER CONFIGURATION ##
 
 expressApp = express()
