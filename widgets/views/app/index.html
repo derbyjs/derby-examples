@@ -6,7 +6,10 @@
   <ui:connectionAlert>
 
 <Body:>
-  <boot:modal name="testModal" show={_showModal} close="Meh" primary="You too!">
+  <!-- The "init" and "create" events are emitted for all components with a script -->
+  <!-- Custom events like "close" may also be bound -->
+  <boot:modal bind="create: createModal, close: closeModal" close="Meh" primary="You too!">
+    <!-- Attributes may be passed via tags that start with @ as well -->
     <@title>Modal <i>town</i></@title>
     How nice to see you!
   </boot:modal>

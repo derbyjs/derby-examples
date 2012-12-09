@@ -23,14 +23,21 @@ get('/', function(page, model) {
 })
 
 app.ready(function(model) {
-  app.on('create:testModal', function(modal) {
+  // The "init" and "create" events may be used to get access to
+  // a component instance's script object
+  app.createModal = function(modal) {
+    app.showModal = function() {
+      modal.show();
+    }
+    // Custom event emitters may be added on the component itself
     modal.on('close', function(action, cancel) {
-      if (!window.confirm('Action: ' + action + '\n\nContinue to close?')) {
-        cancel()
-      }
+      console.log('Action: ' + action)
     })
-  })
-  app.showModal = function() {
-    model.set('_showModal', true)
+  }
+  // They may also be bound via a template
+  app.closeModal = function(action, cancel) {
+    if (!window.confirm('Action: ' + action + '\n\nContinue to close?')) {
+      cancel()
+    }
   }
 })
