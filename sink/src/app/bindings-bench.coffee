@@ -1,10 +1,9 @@
-{get, ready} = app = require './index'
-{render} = require './shared'
+app = require './index'
 
 # Change N to change the number of drawn circles.
 N = 100
 
-get '/bindings-bench', (page, model) ->
+app.get app.pages.bindingsBench.href, (page, model) ->
   boxes = []
   for i in [0...N]
     boxes.push
@@ -16,11 +15,11 @@ get '/bindings-bench', (page, model) ->
       i: i
   model.set '_boxes', boxes
 
-  render page, 'bindingsBench',
+  page.render 'bindingsBench',
     modes: ['setProperty', 'setBox', 'setAll']
 
 
-ready (model) ->
+app.enter app.pages.bindingsBench.href, (model) ->
   boxes = model.at '_boxes'
 
   tickProperty = (box) ->

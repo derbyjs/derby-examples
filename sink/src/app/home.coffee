@@ -1,14 +1,13 @@
-{get, ready, view} = app = require './index'
-{render} = require './shared'
+app = require './index'
 
 # Define a view helper functions for use in templates
-view.fn 'unspace', (s) ->
+app.view.fn 'unspace', (s) ->
   s && s.replace /\s/g, ''
 
-view.fn 'capitalize', (s) ->
+app.view.fn 'capitalize', (s) ->
   s && s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 
-get '/', (page, model) ->
+app.get app.pages.home.href, (page, model) ->
   model.subscribe 'home', (err, home) ->
     home.setNull 'titleColor', 'black'
     home.setNull 'colors', [
@@ -19,13 +18,16 @@ get '/', (page, model) ->
       {name: 'dark turquoise'}
       {name: 'dark orchid'}
     ]
-    render page, 'home'
+    page.render 'home'
 
+app.fn 'home',
+  select: (e, el) ->
+    name = @model.at(el).get('name')
+    @model.set 'home.titleColor', name
 
-ready (model) ->
-  home = model.at 'home'
-  colors = home.at 'colors'
-  titleColor = home.at 'titleColor'
+app.enter app.pages.home.href, (model) ->
+  colors = model.at 'home.colors'
+  titleColor = model.at 'home.titleColor'
 
   # DOM bindings pass in the event object as the last argument
   # when they set a value in the model
@@ -43,7 +45,3 @@ ready (model) ->
     titleSelect = document.getElementById 'titleSelect'
     if e && e.target.className == 'colorInput' && parseInt(index) == titleSelect.selectedIndex
       titleColor.set value
-
-  app.home =
-    select: (e, el) ->
-      titleColor.set model.at(el).get('name')

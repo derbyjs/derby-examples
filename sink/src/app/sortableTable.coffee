@@ -2,10 +2,9 @@ dragging = null
 onRowMove = onColMove = ->
 
 exports.init = (app, exported, options) ->
-  {addListener} = app.view.dom
-  addListener document, 'mousemove', onMove
-  addListener document, 'mouseup', -> endDragging()
-  addListener window, 'blur', -> endDragging(true)
+  app.dom.addListener document, 'mousemove', onMove
+  app.dom.addListener document, 'mouseup', -> endDragging()
+  app.dom.addListener window, 'blur', -> endDragging(true)
   {onRowMove, onColMove} = options
 
   exported.rowDown = (e) ->

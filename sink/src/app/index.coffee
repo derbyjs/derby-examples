@@ -1,5 +1,6 @@
-{get, ready} = app = require('derby').createApp module
-{render} = require './shared'
+app = require('derby').createApp module
+require './pages'
+
 require './home'
 require './live-css'
 require './table'
@@ -7,18 +8,18 @@ require './leaderboard'
 require './bindings-bench'
 
 ['get', 'post', 'put', 'del'].forEach (method) ->
-  app[method] '/submit', (page, model, {body, query}) ->
+  app[method] app.pages.submit.href, (page, model, {body, query}) ->
     args = JSON.stringify {method, body, query}, null, '  '
-    render page, 'submit', {args}
+    page.render 'submit', {args}
 
-get '/error', ->
+app.get app.pages.error.href, ->
   throw new Error 500
 
-get '/back', (page) ->
+app.get app.pages.back.href, (page) ->
   page.redirect 'back'
 
 
-ready (model) ->
+app.ready (model) ->
   model.set '_showReconnect', true
   exports.connect = ->
     # Hide the reconnect link for a second after clicking it

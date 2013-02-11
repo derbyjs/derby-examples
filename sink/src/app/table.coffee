@@ -1,8 +1,7 @@
-{get, ready} = app = require './index'
-{render} = require './shared'
+app = require './index'
 sortableTable = require './sortableTable'
 
-get '/table', (page, model) ->
+app.get app.pages.tableEditor.href, (page, model) ->
   model.subscribe 'sink.table', (err, table) ->
     table.setNull
       rows: [
@@ -16,10 +15,10 @@ get '/table', (page, model) ->
         {name: 'C'}
       ]
       lastCol: 2
-    render page, 'tableEditor'
+    page.render 'tableEditor'
 
 
-ready (model) ->
+app.ready (model) ->
 
   table = model.at 'sink.table'
   rows = table.at 'rows'

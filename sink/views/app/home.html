@@ -17,7 +17,7 @@
       {#each .colors}
         <p>
           <input type=radio name=titleRadio checked="{equal(.name, home.titleColor)}"> 
-          <input class=colorInput value={.name}> 
+          <input class=color-input value={.name}> 
           <button x-bind="click: home.select">Select</button>
         </p>
       {/}

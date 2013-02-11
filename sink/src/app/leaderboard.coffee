@@ -1,47 +1,43 @@
-{get, ready, view} = app = require './index'
-{render} = require './shared'
+app = require './index'
+
+Leaderboard = app.Collection '_leaderboard',
+  init: ->
+    # Create list of players sorted in descending order by score
+    @ref 'list', @page.players.sort ['score', 'desc']
+    # A reference to the currently selected player
+    @ref 'selected', @page.players, @at('selectedId')
+
+Players = app.Collection 'players',
+  init: ->
+    # Don't do anything if already created
+    return if @get()
+    # Add some default players
+    @add name for name in ['Parker Blue', 'Kelly Green', 'Winston Fairbanks']
+    return
+  add: (name) ->
+    @_super.add {name, score: randomScore()}
 
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
-addPlayer = (players, name) ->
-  players.add {name, score: randomScore()}
 
-get '/leaderboard', (page, model) ->
-  model.subscribe 'sink.leaderboard', (err, leaderboard) ->
-    players = leaderboard.at 'players'
-    unless players.get()
-      for name in ['Parker Blue', 'Kelly Green', 'Winston Fairbanks']
-        addPlayer players, name
+app.get app.pages.leaderboard.href, (page, model) ->
+  model.subscribe Players, ->
+    page.init Leaderboard, Players
+    page.render 'leaderboard'
 
-    # Create list of players sorted in descending order by score
-    list = players.sort ['score', 'desc']
-    leaderboard.ref '_list', list
+app.fn 'leaderboard',
+  add: ->
+    name = @_leaderboard.del 'newPlayer'
+    @players.add name if name
+  remove: ->
+    id = @_leaderboard.get 'selectedId'
+    @players.del id
 
-    leaderboard.ref '_selected', players, leaderboard.at('_selectedId')
-    render page, 'leaderboard'
+  incr: -> @_leaderboard.incr 'selected.score', 5
+  decr: -> @_leaderboard.incr 'selected.score', -5
 
-
-ready (model) ->
-  leaderboard = model.at 'sink.leaderboard'
-  players = leaderboard.at 'players'
-  newPlayer = leaderboard.at '_newPlayer'
-  selectedId = leaderboard.at '_selectedId'
-  selected = leaderboard.at '_selected'
-
-  app.leaderboard =
-    add: ->
-      return unless name = newPlayer.get()
-      addPlayer players, name
-      newPlayer.set ''
-    remove: ->
-      id = selected.get 'id'
-      players.del id
-
-    incr: -> selected.incr 'score', 5
-    decr: -> selected.incr 'score', -5
-
-    select: (e, el) ->
-      id = model.at(el).get 'id'
-      selectedId.set id
-    deselect: ->
-      selectedId.set null
+  select: (e, el) ->
+    id = @model.at(el).get 'id'
+    @_leaderboard.set 'selectedId', id
+  deselect: ->
+    @_leaderboard.del 'selectedId'

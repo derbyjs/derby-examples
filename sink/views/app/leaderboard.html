@@ -2,12 +2,12 @@
   <html x-bind="click: leaderboard.deselect">
 
 <Body:>
-  {{#with sink.leaderboard}}
+  {{#with _leaderboard}}
   <form x-bind="submit: leaderboard.add">
-    <input value={._newPlayer}> <input type=submit value="Add player"> 
-    <button x-bind="click: leaderboard.remove" disabled={not(._selected)}>
+    <input value="{.newPlayer}"> <input type="submit" value="Add player"> 
+    <button x-bind="click: leaderboard.remove" disabled="{not(.selected)}">
       Remove 
-      {#if ._selected}
+      {#if .selected}
         {.name}
       {else}
         selected
@@ -20,10 +20,10 @@
     from bubbling further and reaching the document node. All clicks
     outside of this div will continue bubbling up to the document.
   -->
-  <div id=leaderboard x-bind=click>
-    <div class=selectedPlayer>
-      {#if ._selected}
-        <p class=vote>
+  <div id="leaderboard" x-bind="click">
+    <div class="selected-player">
+      {#if .selected}
+        <p class="vote">
           <button x-bind="click: leaderboard.incr">+ 5</button>
           <button x-bind="click: leaderboard.decr">- 5</button>
         </p>
@@ -33,10 +33,10 @@
       {/}
     </div>
     <ul>
-      {#each ._list}
-        <li class="{#if equal(.id, sink.leaderboard._selectedId)}selected{/}"
+      {#each .list}
+        <li class="{#if equal(.id, _leaderboard.selectedId)}selected{/}"
             x-bind="click: leaderboard.select">
-          <p class=score>{.score}</p>{{name}}
+          <p class="score">{.score}</p>{{name}}
         </li>
       {/}
     </ul>

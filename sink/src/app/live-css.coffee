@@ -1,10 +1,9 @@
-{get, ready, view} = app = require './index'
-{render} = require './shared'
+app = require './index'
 
-view.fn 'cssProperty', cssProperty = (style) ->
+app.view.fn 'cssProperty', cssProperty = (style) ->
   if style.active then "#{style.prop || ''}: #{style.value || ''};" else ''
 
-get '/live-css', (page, model) ->
+app.get app.pages.liveCss.href, (page, model) ->
   model.subscribe 'liveCss', (err, liveCss) ->
     liveCss.setNull
       styles: [
@@ -18,23 +17,20 @@ get '/live-css', (page, model) ->
         return true if style.active
       return false
     model.del '_poppedOut'
-    render page, 'liveCss'
+    page.render 'liveCss'
 
 # This is a transition route, which defines how to apply an update
 # without re-rendering the entire page. Note that going directly to
 # '/live-css/popout' will first call the route above and then call
 # the forward route below before rendering
-get from: '/live-css', to: '/live-css/popout',
+app.get from: app.pages.liveCss.href, to: app.pages.liveCss.href + '/popout',
   forward: (model) ->
     model.set '_poppedOut', true
   back: (model) ->
     model.del '_poppedOut'
 
-
-ready (model) ->
-
-  app.liveCss =
-    addStyle: ->
-      model.push 'liveCss.styles', {}
-    deleteStyle: (e, el) ->
-      model.at(el).remove()
+app.fn 'liveCss',
+  addStyle: ->
+    @model.push 'liveCss.styles', {}
+  deleteStyle: (e, el) ->
+    @model.at(el).remove()

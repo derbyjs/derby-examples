@@ -7,19 +7,20 @@
 <import: src=bindingsBench>
 
 <Title:>
-  Derby demo: {{title}}
+  Derby demo: {{pageTitle($ns)}}
 
 <Header:>
-  <body class={{currentPage}}>
+  <!-- $ns is the namespace supplied to the render function -->
+  <body class={{dash($ns)}}>
   <!-- components are void by default, and should not have a closing tag -->
   <app:shared:alert>
   <!-- if a component is nonvoid, it must have a closing tag -->
   <app:nav>
-    {{#each pages}}
-      {{#if current}}
-        <b>{{text}}</b>
+    {{#each navItems($ns)}}
+      {{#if isCurrent}}
+        <b>{{title}}</b>
       {{else}}
-        <a href={{url}}>{{text}}</a>
+        <a href={{href}}>{{title}}</a>
       {{/}}
       {{#unless isLast}} | {{/}}
     {{/}}
