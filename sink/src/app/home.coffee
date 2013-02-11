@@ -21,9 +21,8 @@ app.get app.pages.home.href, (page, model) ->
     page.render 'home'
 
 app.fn 'home',
-  select: (e, el) ->
-    name = @model.at(el).get('name')
-    @model.set 'home.titleColor', name
+  select: (e) ->
+    @model.set 'home.titleColor', e.get('.name')
 
 app.enter app.pages.home.href, (model) ->
   colors = model.at 'home.colors'

@@ -36,8 +36,7 @@ app.fn 'leaderboard',
   incr: -> @_leaderboard.incr 'selected.score', 5
   decr: -> @_leaderboard.incr 'selected.score', -5
 
-  select: (e, el) ->
-    id = @model.at(el).get 'id'
-    @_leaderboard.set 'selectedId', id
+  select: (e) ->
+    @_leaderboard.set 'selectedId', e.get('.id')
   deselect: ->
     @_leaderboard.del 'selectedId'
