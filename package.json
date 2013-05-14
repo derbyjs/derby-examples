@@ -1,21 +1,17 @@
 {
   "name": "derby-examples",
   "description": "Example applications for the Derby framework",
-  "version": "0.3.15",
+  "version": "0.5.0alpha",
   "homepage": "http://derbyjs.com/",
   "repository": {
     "type": "git",
     "url": "git://github.com/codeparty/derby-examples.git"
   },
   "dependencies": {
-    "derby": "0.3.15",
+    "derby": "0.5.x",
     "express": "3.x",
-    "gzippo": ">=0.2.0",
-    "racer-db-mongo": "0.3.14",
-    "connect-mongo": "0.3.x"
-  },
-  "engines": {
-    "node": ">=0.6.0"
+    "connect-mongo": "0.3.x",
+    "racer-browserchannel": "*"
   },
   "devDependencies": {},
   "optionalDependencies": {}

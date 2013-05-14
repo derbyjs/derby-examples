@@ -4,11 +4,9 @@
   "version": "0.0.0",
   "main": "./server.js",
   "dependencies": {
+    "express": "3.x",
     "derby": "*",
-    "express": "3.x"
+    "racer-browserchannel": "*"
   },
-  "private": true,
-  "devDependencies": {
-    "coffee-script": ">=1.3.1"
-  }
+  "private": true
 }
