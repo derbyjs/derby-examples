@@ -1,7 +1,7 @@
 <Body:>
   <div class="row">
     <div class="span8">
-      {#if _people}
+      {#if _page.people}
         <table class="table table-striped">
           <thead>
             <tr>
@@ -13,7 +13,7 @@
             </tr>
           </thead>
           <tbody>
-            {#each _people}
+            {#each _page.people}
               <tr>
                 <td><a href="/people/{.id}">{.name}</a></td>
                 <td>{.phone}</td>

@@ -1,8 +1,9 @@
+var path = require('path')
 var derby = require('derby')
-  , isProduction = derby.util.isProduction
+var isProduction = derby.util.isProduction
 
-module.exports = function(root) {
-  var staticPages = derby.createStatic(root)
+module.exports = function() {
+  var staticPages = derby.createStatic(path.dirname(path.dirname(__dirname)))
 
   return function(err, req, res, next) {
     if (err == null) return next()

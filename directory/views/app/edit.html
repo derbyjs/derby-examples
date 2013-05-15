@@ -1,11 +1,11 @@
 <Body:>
   <div style="display:table-cell">
   <h2>
-    {{#if _newId}}
-      Add a new person
-    {{else}}
-      Edit {_person.name}
+    {{#if _page.person.id}}
+      Edit {_page.person.name}
       <a x-bind="click: deletePerson" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
+    {{else}}
+      Add a new person
     {{/}}
   </h2>
   <p></p>
@@ -13,23 +13,23 @@
     <div class="row">
       <div class="span3">
 
-        <app:field label="Name" error={_nameError}>
-          <input type="text" id="name" value={_person.name}>
+        <app:field label="Name" error={_page.nameError}>
+          <input type="text" id="name" value={_page.person.name}>
         </app:field>
 
         <app:field label="Email">
-          <input type="text" value={_person.email}>
+          <input type="text" value={_page.person.email}>
         </app:field>
 
         <app:field label="Twitter">
-          <input type="text" value={_person.twitter}>
+          <input type="text" value={_page.person.twitter}>
         </app:field>
 
       </div>
       <div class="span3">
 
         <app:field label="Gender">
-          <boot:dropdown value={_person.gender}>
+          <boot:dropdown value={_page.person.gender}>
             <boot:option value="">(unknown)</boot:option>
             <boot:option>Female</boot:option>
             <boot:option>Male</boot:option>
@@ -38,16 +38,16 @@
         </app:field>
 
         <app:field label="Phone">
-          <input type="text" value={_person.phone}>
+          <input type="text" value={_page.person.phone}>
         </app:field>
 
       </div>
     </div>
     <p></p>
     <button class="btn btn-primary" type="submit">
-      {{#if _newId}}Add person{{else}}Done{{/}}
+      {{#if _page.person.id}}Done{{else}}Add person{{/}}
     </button> 
-    {{#if _newId}}
+    {{#unless _page.person.id}}
       <button class="btn" type="button" x-bind="click: cancel">Cancel</button>
     {{/}}
   </form>

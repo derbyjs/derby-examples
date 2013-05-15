@@ -1,9 +1,9 @@
 var derby = require('derby')
-  , app = derby.createApp(module)
-  , get = app.get
 
 derby.use(require('derby-ui-boot'))
 derby.use(require('../../ui'))
+
+var app = derby.createApp(module);
 
 var pages = [
   {url: '/', title: 'Home'}
@@ -19,72 +19,65 @@ function render(name, page) {
   page.render(name, ctx)
 }
 
-get('/', function(page, model) {
+app.get('/', function(page, model) {
   render('home', page)
 })
 
-get('/people', function(page, model) {
-  model.subscribe('people', 'conf.main.directoryIds', function(err, people) {
-    model.refList('_people', people, 'conf.main.directoryIds')
+app.get('/people', function(page, model, params, next) {
+  model.subscribe('people', 'directory.ids', function(err) {
+    if (err) return next(err)
+    model.refList('_page.people', 'people', 'directory.ids')
     render('people', page)
   })
 })
 
-function renderEdit(page, model, id) {
-  model.subscribe('people.' + id, function(err, person) {
-    model.ref('_person', person)
+app.get('/people/:id', function(page, model, params, next) {
+  if (params.id === 'new') {
+    return render('edit', page)
+  }
+  var person = model.at('people.' + params.id)
+  model.subscribe(person, 'directory.ids', function(err) {
+    if (err) return next(err)
+    if (!person.get()) return next()
+    model.ref('_page.person', person)
     render('edit', page)
   })
-}
-
-get('/people/:id', function(page, model, params) {
-  var id = params.id
-  model.del('_newId')
-  model.del('_nameError')
-  if (id === 'new') {
-    model.async.incr('peopleCount', function(err, count) {
-      id = count.toString()
-      model.set('_newId', id)
-      renderEdit(page, model, id)
-    })
-  } else {
-    renderEdit(page, model, id)
-  }
 })
 
-app.ready(function(model) {
-  var history = app.view.history
-
-  app.done = function() {
-    if (!model.get('_person.name')) {
-      var checkName = function(value) {
+app.fn({
+  done: function() {
+    var model = this.model;
+    var name = model.at('_page.person.name')
+    if (!name.get()) {
+      var checkName = name.on('change', function(value) {
         if (!value) return
-        model.del('_nameError')
-        model.removeListener('_person.name', checkName)
-      }
-      model.on('set', '_person.name', checkName)
-      model.set('_nameError', true)
+        model.del('_page.nameError')
+        name.removeListener('change', checkName)
+      })
+      model.set('_page.nameError', true)
       document.getElementById('name').focus()
       return
     }
 
-    var newId = model.get('_newId')
-    if (newId != null) model.push('conf.main.directoryIds', newId)
-    history.push('/people')
+    if (!model.get('_page.person.id')) {
+      var id = model.add('people', model.get('_page.person'))
+      model.push('directory.ids', id)
+    }
+    app.history.push('/people')
   }
 
-  app.cancel = function() {
-    history.back()
+, cancel: function() {
+    app.history.back()
   }
 
-  app.deletePerson = function() {
-    model.async.get('conf.main.directoryIds', function(err, ids) {
-      if (ids) {
-        var id = model.get('_person.id')
-          , i = ids.indexOf(id)
-        if (i > -1) model.remove('conf.main.directoryIds', i)
-      }
-      history.back()
-    }) 
+, deletePerson: function() {
+    var model = this.model;
+    var ids = model.at('directory.ids')
+    var id = model.get('_page.person.id')
+    var i = (ids.get() || []).indexOf(id)
+    if (i > -1) model.remove('directory.ids', i)
+    // Update model without emitting events so that the page doesn't update
+    model.silent().del('_page.person')
+    app.history.back()
   }
-})
+});
