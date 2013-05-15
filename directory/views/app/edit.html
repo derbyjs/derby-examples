@@ -46,9 +46,9 @@
     <p></p>
     <button class="btn btn-primary" type="submit">
       {{#if _page.person.id}}Done{{else}}Add person{{/}}
-    </button> 
+    </button>
     {{#unless _page.person.id}}
-      <button class="btn" type="button" x-bind="click: cancel">Cancel</button>
+      &sp;<button class="btn" type="button" x-bind="click: cancel">Cancel</button>
     {{/}}
   </form>
 </div>

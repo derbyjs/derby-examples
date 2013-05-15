@@ -13,9 +13,15 @@
         <a class="brand" href="/">Directory</a>
         <div class="nav-collapse">
           <ul class="nav">
-            {{#each pages}}
-              <li class="{{#if equal(url, activeUrl)}}active{{/}}"><a href="{{url}}">{{title}}</a></li>
-            {{/}}
+            <li class="{{#if equal($url, '/')}}active{{/}}">
+              <a href="/">Home</a>
+            </li>
+            <li class="{{#if equal($url, '/people')}}active{{/}}">
+              <a href="/people">People</a>
+            </li>
+            <li class="{{#if equal($url, '/people/new')}}active{{/}}">
+              <a href="/people/new">Add somebody</a>
+            </li>
           </ul>
         </div>
       </div>

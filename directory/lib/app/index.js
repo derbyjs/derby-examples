@@ -5,22 +5,8 @@ derby.use(require('../../ui'))
 
 var app = derby.createApp(module)
 
-var pages = [
-  {url: '/', title: 'Home'}
-, {url: '/people', title: 'People'}
-, {url: '/people/new', title: 'Add somebody'}
-]
-
-function render(name, page) {
-  var ctx = {
-    pages: pages
-  , activeUrl: page.params.url
-  }
-  page.render(name, ctx)
-}
-
 app.get('/', function(page, model) {
-  render('home', page)
+  page.render('home')
 })
 
 app.get('/people', function(page, model, params, next) {
@@ -28,20 +14,20 @@ app.get('/people', function(page, model, params, next) {
   peopleQuery.subscribe(function(err) {
     if (err) return next(err)
     peopleQuery.ref('_page.people');
-    render('people', page)
+    page.render('people')
   })
 })
 
 app.get('/people/:id', function(page, model, params, next) {
   if (params.id === 'new') {
-    return render('edit', page)
+    return page.render('edit')
   }
   var person = model.at('people.' + params.id)
   model.subscribe(person, function(err) {
     if (err) return next(err)
     if (!person.get()) return next()
     model.ref('_page.person', person)
-    render('edit', page)
+    page.render('edit')
   })
 })
 
