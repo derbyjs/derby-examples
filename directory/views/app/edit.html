@@ -14,7 +14,7 @@
       <div class="span3">
 
         <app:field label="Name" error={_page.nameError}>
-          <input type="text" id="name" value={_page.person.name}>
+          <input type="text" id="name" value={_page.person.name} autofocus={{not(_page.person.id)}}>
         </app:field>
 
         <app:field label="Email">
