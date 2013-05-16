@@ -1,32 +1,31 @@
 <Body:>
   <div class="row">
     <div class="span8">
-      {#if _page.people}
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Twitter</th>
-              <th>Gender</th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each _page.people}
-              <tr>
-                <td><a href="/people/{.id}">{.name}</a></td>
-                <td>{.phone}</td>
-                <td><a href="mailto:{.email}">{.email}</a></td>
-                <td><a href="http://twitter.com/{.twitter}">{.twitter}</a></td>
-                <td>{.gender}</td>
-              </tr>
-            {/}
-          </tbody>
-        </table>
-      {else}
+      {#unless _page.people}
         <h3>No people added yet.</h3>
         <p>How about <a href="/people/new">adding someone</a>?</p>
       {/}
+      <table class="table table-striped" style="{#unless _page.people}display:none{/}">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Twitter</th>
+            <th>Gender</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each _page.people}
+            <tr>
+              <td><a href="/people/{.id}">{.name}</a></td>
+              <td>{.phone}</td>
+              <td><a href="mailto:{.email}">{.email}</a></td>
+              <td><a href="http://twitter.com/{.twitter}">{.twitter}</a></td>
+              <td>{.gender}</td>
+            </tr>
+          {/}
+        </tbody>
+      </table>
     </div>
   </div>
