@@ -18,11 +18,13 @@
         </app:field>
 
         <app:field label="Email">
-          <input type="text" value={_page.person.email}>
+          <!-- The atomic option means that the entire text is overwritten
+          on any input instead of just inserting and removing characters. -->
+          <input x-atomic type="text" value={_page.person.email}>
         </app:field>
 
         <app:field label="Twitter">
-          <input type="text" value={_page.person.twitter}>
+          <input x-atomic type="text" value={_page.person.twitter}>
         </app:field>
 
       </div>
@@ -38,7 +40,7 @@
         </app:field>
 
         <app:field label="Phone">
-          <input type="text" value={_page.person.phone}>
+          <input x-atomic type="text" value={_page.person.phone}>
         </app:field>
 
       </div>
