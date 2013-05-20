@@ -1,6 +1,5 @@
 var path = require('path')
 var derby = require('derby')
-var isProduction = derby.util.isProduction
 
 module.exports = function() {
   var staticPages = derby.createStatic(path.dirname(path.dirname(__dirname)))
@@ -12,11 +11,13 @@ module.exports = function() {
 
     // Customize error handling here
     var message = err.message || err.toString()
-      , status = parseInt(message)
-    if (status === 404) {
-      staticPages.render('404', res, {url: req.url}, 404)
+    var status = parseInt(message)
+    status = (status >= 400 && status < 600) ? status : 500
+
+    if (status === 403 || status === 404 || status === 500) {
+      staticPages.render('error', res, status.toString(), status)
     } else {
-      res.send( ((status >= 400) && (status < 600)) ? status : 500)
+      res.send(status)
     }
   }
 }
