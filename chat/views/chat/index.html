@@ -15,20 +15,17 @@
 -->
 
 <Title:>
-  Chat ({_numMessages}) - {_user.name}
+  Chat ({_room.messages.length}) - {_user.name}
 
 <Head:>
   <meta name=viewport content="width=device-width">
-
-<Header:>
-  <!-- Other templates are referenced like custom HTML elements -->
-  <app:alert>
 
 <Body:>
   <div id=page>
     <div id=messages>
       <ul id=messageList>
-        {#each _room.messages}
+        {#each _room.messages as :message}
+          <!-- Other templates are referenced like custom HTML elements -->
           <app:message>
         {/}
       </ul>
@@ -38,43 +35,19 @@
       <div id=inputs>
         <input id=inputName value={_user.name}>
         <form id=inputForm x-bind=submit:postMessage>
-          <input id=commentInput value={_newComment} autofocus>
+          <input id=commentInput value={_page.newComment} autofocus>
         </form>
       </div>
     </div>
   </div>
 
-<!--
-  connected and canConnect are built-in properties of model. If a variable
-  is not defined in the current context, it will be looked up in the model
-  data and the model properties
--->
-<alert:>
-  <div id=alert>
-    <!--
-      Handlebars syntax is used for conditional blocks, except that the
-      name need not be repeated in the closing tag or if-else blocks
-    -->
-    {#unless connected}
-      <p>
-        {#if canConnect}
-          <!-- Leading space is removed, and trailing space is maintained -->
-          Offline 
-          {#if _showReconnect}&ndash; <a x-bind=click:connect>Reconnect</a>{/}
-        {else}
-          Unable to reconnect &ndash; <a x-bind=click:reload>Reload</a>
-        {/}
-      </p>
-    {/}
-  </div>
-
 <message:>
   <li>
     <!-- Square brackets support creation of a path based on another path -->
-    <img src=img/s.png class="pic {{users[userId].picClass}}" alt="">
+    <img src=img/s.png class="pic {{users[:message.userId].picClass}}" alt="">
     <div class=message>
-      <p class=time>{._displayTime}</p>
-      <p><b>{users[userId].name}</b></p>
-      <p>{{comment}}</p>
+      <p class=time>{{displayTime(:message)}}</p>
+      <p><b>{users[:message.userId].name}</b></p>
+      <p>{{:message.comment}}</p>
     </div>
   </li>

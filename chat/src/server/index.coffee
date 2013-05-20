@@ -1,66 +1,62 @@
 http = require 'http'
-path = require 'path'
 express = require 'express'
-gzippo = require 'gzippo'
-derby = require 'derby'
-chat = require '../chat'
-serverError = require './serverError'
+coffeeify = require 'coffeeify'
 MongoStore = require('connect-mongo')(express)
+derby = require 'derby'
+app = require '../chat'
+serverError = require './serverError'
 
+expressApp = express();
+server = http.createServer(expressApp);
 
-derby.use(derby.logPlugin)
+module.exports = server;
 
-## SERVER CONFIGURATION ##
-
-expressApp = express()
-server = http.createServer expressApp
-module.exports = server
-
-derby.use(require 'racer-db-mongo')
+# The store creates models and syncs data
 store = derby.createStore
-  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-chat'}
-  listen: server
+  server: server
+  db: derby.db.mongo 'localhost:27017/derby-chat?auto_reconnect', {safe: true}
 
-ONE_YEAR = 1000 * 60 * 60 * 24 * 365
-root = path.dirname path.dirname __dirname
-publicPath = path.join root, 'public'
+store
+  .use(require 'racer-browserchannel')
+
+store.on 'bundle', (browserify) ->
+  # Add support for directly requiring coffeescript in browserify bundles
+  browserify.transform coffeeify
 
 createUserId = (req, res, next) ->
-  req.session.userId ||= derby.uuid()
+  model = req.getModel()
+  userId = req.session.userId ||= model.id()
+  model.set '_session.userId', userId
   next()
+
+path = require 'path'
 
 expressApp
   .use(express.favicon())
-  # Gzip static files and serve from memory
-  .use(gzippo.staticGzip publicPath, maxAge: ONE_YEAR)
   # Gzip dynamically rendered content
-  .use(express.compress())
+  # .use(express.compress())
+  .use(app.scripts(store))
+  .use(express.static __dirname + '/../../public')
 
-  # Uncomment to add form data parsing support
-  # .use(express.bodyParser())
-  # .use(express.methodOverride())
-
-  # Uncomment and supply secret to add Derby session handling
-  # Derby session middleware creates req.session and socket.io sessions
-  .use(express.cookieParser())
-  .use(store.sessionMiddleware
-    secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
-    cookie: {maxAge: ONE_YEAR}
-    store: new MongoStore(db: 'derby-chat')
-  )
+  # Respond to requests for application script bundles
+  # racer-browserchannel adds a middleware to the store for responding to
+  # requests from remote models
+  .use(store.socketMiddleware())
 
   # Adds req.getModel method
   .use(store.modelMiddleware())
 
+  .use(express.cookieParser())
+  .use(express.session
+    secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
+    store: new MongoStore(db: 'derby-chat', safe: true)
+  )
   .use(createUserId)
 
   # Creates an express middleware from the app's routes
-  .use(chat.router())
+  .use(app.router())
   .use(expressApp.router)
-  .use(serverError root)
+  .use(serverError())
 
-
-## SERVER ONLY ROUTES ##
-
-expressApp.all '*', (req) ->
-  throw "404: #{req.url}"
+expressApp.all '*', (req, res, next) ->
+  next '404: ' + req.url
