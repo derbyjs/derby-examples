@@ -12,7 +12,7 @@ module.exports = server;
 // The store creates models and syncs data
 var store = derby.createStore({
   server: server
-, db: derby.db.mongo('localhost:27017/test?auto_reconnect', {safe: true})
+, db: derby.db.mongo('localhost:27017/derby-directory?auto_reconnect', {safe: true})
 });
 
 store

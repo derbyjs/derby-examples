@@ -31,34 +31,32 @@ app.get('/people/:id', function(page, model, params, next) {
   })
 })
 
-app.fn({
-  done: function() {
-    var model = this.model;
-    var person = model.at('_page.person')
-    if (!person.get('name')) {
-      var checkName = person.on('change', 'name', function(value) {
-        if (!value) return
-        model.del('_page.nameError')
-        model.removeListener('change', checkName)
-      })
-      model.set('_page.nameError', true)
-      document.getElementById('name').focus()
-      return
-    }
-
-    if (!person.get('id')) {
-      model.add('people', person.get())
-    }
-    app.history.push('/people')
+app.done = function() {
+  var model = this.model;
+  var person = model.at('_page.person')
+  if (!person.get('name')) {
+    var checkName = person.on('change', 'name', function(value) {
+      if (!value) return
+      model.del('_page.nameError')
+      model.removeListener('change', checkName)
+    })
+    model.set('_page.nameError', true)
+    document.getElementById('name').focus()
+    return
   }
 
-, cancel: function() {
-    app.history.back()
+  if (!person.get('id')) {
+    model.add('people', person.get())
   }
+  app.history.push('/people')
+}
 
-, deletePerson: function() {
-    // Update model without emitting events so that the page doesn't update
-    this.model.silent().del('_page.person')
-    app.history.back()
-  }
-})
+app.cancel = function() {
+  app.history.back()
+}
+
+app.deletePerson = function() {
+  // Update model without emitting events so that the page doesn't update
+  this.model.silent().del('_page.person')
+  app.history.back()
+}
