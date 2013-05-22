@@ -1,56 +1,49 @@
 http = require 'http'
-path = require 'path'
 express = require 'express'
-gzippo = require 'gzippo'
+coffeeify = require 'coffeeify'
 derby = require 'derby'
-todos = require '../todos'
+app = require '../todos'
 serverError = require './serverError'
 
+expressApp = express();
+server = http.createServer(expressApp);
 
-## SERVER CONFIGURATION ##
+module.exports = server;
 
-expressApp = express()
-server = http.createServer expressApp
-module.exports = server
-
-derby.use(require 'racer-db-mongo')
+# The store creates models and syncs data
 store = derby.createStore
-  db: {type: 'Mongo', uri: 'mongodb://localhost/derby-todos'}
-  listen: server
-require('./queries')(store)
+  server: server
+  db: derby.db.mongo 'localhost:27017/derby-todos?auto_reconnect', {safe: true}
 
-ONE_YEAR = 1000 * 60 * 60 * 24 * 365
-root = path.dirname path.dirname __dirname
-publicPath = path.join root, 'public'
+store
+  .use(require 'racer-browserchannel')
+
+publicDir = require('path').join __dirname + '/../../public'
+
+store.on 'bundle', (browserify) ->
+  browserify.add publicDir + '/jquery-1.9.1.min.js'
+  browserify.add publicDir + '/jquery-ui-1.10.3.custom.min.js'
+  # Add support for directly requiring coffeescript in browserify bundles
+  browserify.transform coffeeify
 
 expressApp
   .use(express.favicon())
-  # Gzip static files and serve from memory
-  .use(gzippo.staticGzip publicPath, maxAge: ONE_YEAR)
   # Gzip dynamically rendered content
   .use(express.compress())
+  .use(app.scripts(store))
 
-  # Uncomment to add form data parsing support
-  # .use(express.bodyParser())
-  # .use(express.methodOverride())
-
-  # Uncomment and supply secret to add Derby session handling
-  # Derby session middleware creates req.session and socket.io sessions
-  # .use(express.cookieParser())
-  # .use(store.sessionMiddleware
-  #   secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
-  #   cookie: {maxAge: ONE_YEAR}
-  # )
+  # Respond to requests for application script bundles
+  # racer-browserchannel adds a middleware to the store for responding to
+  # requests from remote models
+  .use(store.socketMiddleware())
 
   # Adds req.getModel method
   .use(store.modelMiddleware())
+
   # Creates an express middleware from the app's routes
-  .use(todos.router())
+  .use(app.router())
   .use(expressApp.router)
-  .use(serverError root)
+  .use(serverError())
 
-
-## SERVER ONLY ROUTES ##
-
-expressApp.all '*', (req) ->
-  throw "404: #{req.url}"
+expressApp.all '*', (req, res, next) ->
+  next '404: ' + req.url
