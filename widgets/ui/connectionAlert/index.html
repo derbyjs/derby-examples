@@ -1,14 +1,16 @@
 <connectionAlert:>
   <div class="connection">
-    {#unless connected}
+    {#unless equal($connection.state, 'connected')}
       <p class="alert">
-        {#if canConnect}
-          Offline 
-          {#unless :self.hideReconnect}
-            &ndash; <a x-bind="click:connect">Reconnect</a>
-          {/}
-        {else}
+        {#if equal($connection.state, 'stopped')}
           Unable to reconnect &ndash; <a x-bind="click:reload">Reload</a>
+        {else}
+          <span>{sentenceCase($connection.state)}</span>
+          <span>
+            {#unless :self.hideReconnect}
+              &sp;&ndash; <a x-bind="click:reconnect">Reconnect</a>
+            {/}
+          </span>
         {/}
       </p>
     {/}
