@@ -1,48 +1,40 @@
 app = require './index.coffee'
 
-# Leaderboard = app.ViewModel '_page',
-#   init: ->
-#     # Create list of players sorted in descending order by score
-#     @ref 'list', @page.players.sort ['score', 'desc']
-#     # A reference to the currently selected player
-#     @ref 'selected', @page.players, @at('selectedId')
-
-# Players = app.ViewModel 'players',
-#   init: ->
-#     # Don't do anything if already created
-#     return if @get()
-    
-#     return
-#   add: (name) ->
-#     @_super.add {name, score: randomScore()}
-
-# randomScore = -> Math.floor(Math.random() * 20) * 5
+randomScore = -> Math.floor(Math.random() * 20) * 5
 
 app.get app.pages.leaderboard.href, (page, model, params, next) ->
-  players = model.at 'players'
-  players.subscribe (err) ->
+  playersQuery = model.query 'players', {$orderby: {'data.score': -1}}
+  playersQuery.subscribe (err) ->
     return next err if err
-    unless players.get()
+    list = playersQuery.ref '_page.list'
+
+    unless list.get 'length'
       # Add some default players
-      @add name for name in ['Parker Blue', 'Kelly Green', 'Winston Fairbanks']
+      for name in ['Parker Blue', 'Kelly Green', 'Winston White']
+        model.add 'players', {name, score: randomScore()}
 
     page.render 'leaderboard'
 
 app.enter app.pages.leaderboard.href, (model) ->
-  console.log(arguments)
+  model.on 'change', '_page.selectedId', (id) ->
+    if id
+      model.ref '_page.selected', 'players.' + id
+    else
+      model.removeRef '_page.selected'
 
 app.fn 'leaderboard',
   add: ->
-    name = @_page.del 'newPlayer'
-    @players.add name if name
+    name = @model.del '_page.newPlayer'
+    @model.add 'players', {name, score: randomScore()} if name
   remove: ->
-    id = @_page.get 'selectedId'
-    @players.del id
+    @model.del '_page.selected'
 
-  incr: -> @_page.incr 'selected.score', 5
-  decr: -> @_page.incr 'selected.score', -5
+  increment: ->
+    @model.increment '_page.selected.score', 5
+  decrement: ->
+    @model.increment '_page.selected.score', -5
 
   select: (e) ->
-    @_page.set 'selectedId', e.get('.id')
+    @model.set '_page.selectedId', e.get('.id')
   deselect: ->
-    @_page.del 'selectedId'
+    @model.del '_page.selectedId'

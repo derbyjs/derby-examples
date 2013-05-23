@@ -2,13 +2,12 @@
   <html x-bind="click: leaderboard.deselect">
 
 <Body:>
-  {{#with _leaderboard}}
   <form x-bind="submit: leaderboard.add">
-    <input value="{.newPlayer}"> <input type="submit" value="Add player"> 
-    <button x-bind="click: leaderboard.remove" disabled="{not(.selected)}">
+    <input value="{_page.newPlayer}"> <input type="submit" value="Add player">&sp;
+    <button x-bind="click: leaderboard.remove" disabled="{not(_page.selectedId)}">
       Remove&sp;
-      {#if .selected}
-        {.name}
+      {#if _page.selected}
+        {{.name}}
       {else}
         selected
       {/}
@@ -22,23 +21,22 @@
   -->
   <div id="leaderboard" x-bind="click">
     <div class="selected-player">
-      {#if .selected}
+      {#if _page.selected}
         <p class="vote">
-          <button x-bind="click: leaderboard.incr">+ 5</button>
-          <button x-bind="click: leaderboard.decr">- 5</button>
+          <button x-bind="click: leaderboard.increment">+ 5</button>
+          <button x-bind="click: leaderboard.decrement">- 5</button>
         </p>
-        <span>{.name}</span>
+        {{.name}}
       {else}
         Click a player to select
       {/}
     </div>
     <ul>
-      {#each .list}
-        <li class="{#if equal(.id, _leaderboard.selectedId)}selected{/}"
+      {#each _page.list as :player}
+        <li class="{#if equal(.id, _page.selectedId)}selected{/}"
             x-bind="click: leaderboard.select">
-          <p class="score">{.score}</p>{{name}}
+          <p class="score">{:player.score}</p>{{.name}}
         </li>
       {/}
     </ul>
   </div>
-  {{/}}
