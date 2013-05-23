@@ -2,11 +2,11 @@ app = require './index.coffee'
 
 # Define a view helper functions for use in templates
 app.view.fn 'unspace', (s) ->
-  if typeof s isnt 'string' return s
+  return s if typeof s isnt 'string'
   return s.replace /\s/g, ''
 
 app.view.fn 'capitalize', (s) ->
-  if typeof s isnt 'string' return s
+  return s if typeof s isnt 'string'
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 
 app.get app.pages.home.href, (page, model) ->

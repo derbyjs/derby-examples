@@ -5,10 +5,10 @@ derby = require 'derby'
 app = require '../app'
 serverError = require './serverError'
 
-expressApp = express();
-server = http.createServer(expressApp);
+expressApp = express()
+server = http.createServer(expressApp)
 
-module.exports = server;
+module.exports = server
 
 # The store creates models and syncs data
 store = derby.createStore
