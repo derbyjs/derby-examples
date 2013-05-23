@@ -4,7 +4,7 @@
 <Body:>
   <form x-bind="submit: leaderboard.add">
     <input value="{_page.newPlayer}"> <input type="submit" value="Add player">&sp;
-    <button x-bind="click: leaderboard.remove" disabled="{not(_page.selectedId)}">
+    <button x-bind="click: leaderboard.remove" disabled="{not(_page.selected)}">
       Remove&sp;
       {#if _page.selected}
         {{.name}}
