@@ -1,4 +1,3 @@
-<import: src=shared>
 <import: src=home>
 <import: src=liveCss>
 <import: src=tableEditor>
@@ -12,8 +11,6 @@
 <Header:>
   <!-- $ns is the namespace supplied to the render function -->
   <body class={{dash($ns)}}>
-  <!-- components are void by default, and should not have a closing tag -->
-  <app:shared:alert>
   <!-- if a component is nonvoid, it must have a closing tag -->
   <app:nav>
     {{#each navItems($ns)}}

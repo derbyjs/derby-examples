@@ -1,4 +1,4 @@
-app = require './index'
+app = require './index.coffee'
 
 # Change N to change the number of drawn circles.
 N = 100
@@ -13,17 +13,17 @@ app.get app.pages.bindingsBench.href, (page, model) ->
       color: 0
       content: 0
       i: i
-  model.set '_boxes', boxes
+  model.set '_page.boxes', boxes
 
   page.render 'bindingsBench',
     modes: ['setProperty', 'setBox', 'setAll']
 
 
 app.enter app.pages.bindingsBench.href, (model) ->
-  boxes = model.at '_boxes'
+  boxes = model.at '_page.boxes'
 
   tickProperty = (box) ->
-    count = box.incr 'count'
+    count = box.increment 'count'
     box.set 'top', Math.sin(count / 10) * 10
     box.set 'left', Math.cos(count / 10) * 10
     box.set 'color', count % 255
@@ -71,7 +71,7 @@ app.enter app.pages.bindingsBench.href, (model) ->
     fn()
     if frames++ == 20
       fps = frames * 1000 / (new Date - start)
-      model.set '_fps', fps.toFixed(1)
+      model.set '_page.fps', fps.toFixed(1)
       frames = 0
       start = +new Date
     timeout = setTimeout run, 0
@@ -83,8 +83,8 @@ app.enter app.pages.bindingsBench.href, (model) ->
   app.start = (e, el) ->
     clearTimeout timeout
     mode = el.innerHTML
-    model.set '_bindProperties', mode is 'setProperty'
-    model.set '_mode', mode
+    model.set '_page.bindProperties', mode is 'setProperty'
+    model.set '_page.mode', mode
     fn = modes[mode]
     frames = 0
     start = +new Date

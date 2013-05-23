@@ -1,8 +1,10 @@
-app = require './index'
-sortableTable = require './sortableTable'
+app = require './index.coffee'
+sortableTable = require './sortableTable.coffee'
 
-app.get app.pages.tableEditor.href, (page, model) ->
-  model.subscribe 'sink.table', (err, table) ->
+app.get app.pages.tableEditor.href, (page, model, params, next) ->
+  table = model.at 'sink.table'
+  table.subscribe (err) ->
+    return next err if err
     table.setNull
       rows: [
         {name: 1, cells: [{}, {}, {}]}
@@ -37,7 +39,7 @@ app.ready (model) ->
       cols.remove i
 
     addRow: ->
-      name = table.incr('lastRow') + 1
+      name = table.increment('lastRow') + 1
       cells = []
       col = cols.get 'length'
       while col--
@@ -48,7 +50,7 @@ app.ready (model) ->
       row = rows.get 'length'
       while row--
         rows.at(row + '.cells').push {}
-      name = alpha table.incr('lastCol')
+      name = alpha table.increment('lastCol')
       cols.push {name}
 
   alpha = (num, out = '') ->

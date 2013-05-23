@@ -6,7 +6,7 @@
   <form x-bind="submit: leaderboard.add">
     <input value="{.newPlayer}"> <input type="submit" value="Add player"> 
     <button x-bind="click: leaderboard.remove" disabled="{not(.selected)}">
-      Remove 
+      Remove&sp;
       {#if .selected}
         {.name}
       {else}

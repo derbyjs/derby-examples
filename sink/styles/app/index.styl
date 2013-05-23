@@ -39,14 +39,14 @@ table {
   padding-left: 1em;
   margin: 0
 }
-.css-output {
+#css-output {
   border: 1px solid rgba(black, 0);
   background: rgba(white, 0);
 }
 .popup-title {
   display: none;
 }
-.popped-out {
+#css-output.popped-out {
   position: fixed;
   border: 1px solid rgba(black, .2);
   box-shadow: 0 1px 8px rgba(black, .2), 0 16px 32px rgba(black, .2);
@@ -66,8 +66,12 @@ table {
     background: #f3f3f3;
     border-bottom: 1px solid #e7e7e7;
   }
-  .popup-content {
-    padding: 1em;
+  textarea {
+    position: absolute;
+    top: 2.5em;
+    right: 1em;
+    bottom: 1em;
+    left: 1em;
   }
 }
 

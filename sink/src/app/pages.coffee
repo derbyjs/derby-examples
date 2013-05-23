@@ -1,4 +1,4 @@
-app = require './index'
+app = require './index.coffee'
 
 app.pages =
   home:

@@ -2,8 +2,8 @@
 
   <div>
     <p>
-      {#if _mode}
-        Mode: <b>{_mode}</b> &nbsp; FPS: <b>{_fps}</b>
+      {#if _page.mode}
+        Mode: <b>{_page.mode}</b> &nbsp; FPS: <b>{_page.fps}</b>
       {else}
         Select a mode to run:
       {/}
@@ -14,11 +14,12 @@
     </p>
   </div>
 
-  {#if _bindProperties}
+  {#if _page.bindProperties}
     <div>
-      {#each _boxes}
+      {#each _page.boxes as :box}
         <div class="box-view">
-          <div id="box-{{$index}}" class="box" style="top: {.top}px; left: {.left}px; background: rgb(0, 0, {.color});">
+          <div id="box-{{$index}}" class="box"
+            style="top: {.top}px; left: {.left}px; background: rgb(0, 0, {.color});">
             {.content}
           </div>
         </div>
@@ -26,9 +27,10 @@
     </div>
   {else}
     <div>
-      {#each _boxes}
+      {#each _page.boxes}
         <div class="box-view">
-          <div id="box-{{$index}}" class="box" style="top: {{top}}px; left: {{left}}px; background: rgb(0, 0, {{color}});">
+          <div id="box-{{$index}}" class="box"
+          style="top: {{top}}px; left: {{left}}px; background: rgb(0, 0, {{color}});">
             {{content}}
           </div>
         </div>

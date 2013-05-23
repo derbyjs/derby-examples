@@ -29,8 +29,6 @@ createUserId = (req, res, next) ->
   model.set '_session.userId', userId
   next()
 
-path = require 'path'
-
 expressApp
   .use(express.favicon())
   # Gzip dynamically rendered content

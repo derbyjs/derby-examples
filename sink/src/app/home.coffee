@@ -1,4 +1,4 @@
-app = require './index'
+app = require './index.coffee'
 
 # Define a view helper functions for use in templates
 app.view.fn 'unspace', (s) ->
@@ -8,7 +8,8 @@ app.view.fn 'capitalize', (s) ->
   s && s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 
 app.get app.pages.home.href, (page, model) ->
-  model.subscribe 'home', (err, home) ->
+  home = model.at 'home'
+  home.subscribe (err) ->
     home.setNull 'titleColor', 'black'
     home.setNull 'colors', [
       {name: 'black'}
