@@ -5,18 +5,18 @@
   <p>This is a collection of random demos. Check 'em out!</p><br>
   <p>
     <label>Title color:&sp;
-      <select id=titleSelect>
+      <select id=title-select>
         {#each .colors}
           <option selected="{equal(.name, home.titleColor)}">{capitalize(.name)}</option>
         {/}
       </select>
     </label>&sp;
-    <input id=titleInput value={.titleColor}>
+    <input id=title-input value={.titleColor}>
     <h3>Colors:</h3>
     <div>
       {#each .colors}
         <p>
-          <input type=radio name=titleRadio checked="{equal(.name, home.titleColor)}">&sp;
+          <input type=radio name=title-radio checked="{equal(.name, home.titleColor)}">&sp;
           <input class=color-input value={.name}>&sp;
           <button x-bind="click: home.select">Select</button>
         </p>

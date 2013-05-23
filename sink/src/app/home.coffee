@@ -34,14 +34,16 @@ app.enter app.pages.home.href, (model) ->
 
   # Set the color of the currently selected option when updating
   # the titleColor to keep that option selected
-  titleColor.on 'pre:set', (value, previous, isLocal, e) ->
-    titleSelect = document.getElementById 'titleSelect'
-    if e && e.target.id == 'titleInput'
+  titleColor.on 'beforeBinding:change', (value, previous, passed) ->
+    return unless passed.$e
+    titleSelect = document.getElementById 'title-select'
+    if passed.$e.target.id == 'title-input'
       colors.at(titleSelect.selectedIndex).set 'name', value
 
   # Set the color of the title when updating an option if the
   # option is currently selected
-  colors.on 'pre:set', '*.name', (index, value, previous, isLocal, e) ->
-    titleSelect = document.getElementById 'titleSelect'
-    if e && e.target.className == 'colorInput' && parseInt(index) == titleSelect.selectedIndex
+  colors.on 'beforeBinding:change', '*.name', (index, value, previous, passed) ->
+    return unless passed.$e
+    titleSelect = document.getElementById 'title-select'
+    if passed.$e.target.className == 'color-input' && parseInt(index) == titleSelect.selectedIndex
       titleColor.set value
