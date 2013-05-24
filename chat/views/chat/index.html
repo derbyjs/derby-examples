@@ -46,8 +46,8 @@
     <!-- Square brackets support creation of a path based on another path -->
     <div class="pic {users[:message.userId].picClass}"></div>
     <div class=message>
-      <p class=time>{displayTime(:message)}</p>
+      <p class=time>{{displayTime(:message)}}</p>
       <p><b>{users[:message.userId].name}</b></p>
-      <p>{:message.comment}</p>
+      <p>{{:message.comment}}</p>
     </div>
   </li>
