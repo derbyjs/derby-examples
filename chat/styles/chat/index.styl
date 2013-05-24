@@ -55,11 +55,12 @@ input
   border-radius: 8px
   min-height: 32px
   padding: 8px 12px
-  white-space: pre
+  white-space: pre-wrap
 .time
   float: right
   color: #888
 .pic
+  background: url("/img/s.png")
   width: 48px
   height: 48px
   position: absolute
@@ -67,9 +68,7 @@ input
   margin: 0 8px
 for num in 0 1 2 3 4 5 6 7 8 9
   .pic{num}
-    height: 480px
-    clip: rect(48px * num, 48px, 48px * (num + 1), 0)
-    margin-top: -48px * num
+    background-position: 0 -48px * num
 
 #foot
   background: #ddd

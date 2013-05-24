@@ -5,35 +5,53 @@ app = require('derby').createApp module
 
 NUM_USER_IMAGES = 10
 
-app.get '/:roomName?', (page, model, {roomName}, next) ->
+app.on 'model', (model) ->
+  model.fn 'pluckUserIds', (list, additional) ->
+    ids = {}
+    ids[additional] = true if additional
+    for item in list || []
+      ids[item.userId] = true if item?.userId
+    return Object.keys ids
+
+app.get '/:room?', (page, model, {room}, next) ->
   # Only handle URLs that use alphanumberic characters, underscores, and dashes
-  return page.redirect '/lobby' unless /^[a-zA-Z0-9_-]+$/.test roomName
+  return page.redirect '/lobby' unless room && /^[a-zA-Z0-9_-]+$/.test room
+  model.set '_page.room', room
 
-  room = model.at "rooms.#{roomName}"
-  users = model.at 'users'
-  model.subscribe room, users, (err) ->
+  messagesQuery = model.query 'messages',
+    room: room
+    $limit: 10
+    $orderby: {time: -1}
+
+  messagesQuery.subscribe (err) ->
     return next err if err
-    model.ref '_room', room
 
-    # setNull will set a value if the object is currently null or undefined
-    room.setNull 'messages', []
+    messagesQuery.ref '_page.recentMessages'
+    # Reverse is a default model function
+    model.start 'reverse', '_page.messages', '_page.recentMessages'
 
-    userId = model.get '_session.userId'
-    user = model.ref '_user', users.at(userId)
-
-    # Render page if the user already exists
-    return page.render() if user.get()
-
-    # Otherwise, initialize user and render
-    userCount = model.at 'chat.userCount'
-    userCount.fetch (err) ->
+    # Subscribe to all displayed userIds, including the userIds associated
+    # with each message and the current session's userId
+    model.start 'pluckUserIds', '_page.userIds', '_page.messages', '_session.userId'
+    usersQuery = model.query 'users', '_page.userIds'
+    usersQuery.subscribe (err) ->
       return next err if err
-      userCount.increment (err) ->
+
+      user = model.ref '_user', 'users.' + model.get('_session.userId')
+
+      # Render page if the user already exists
+      return page.render() if user.get()
+
+      # Otherwise, initialize user and render
+      userCount = model.at 'chat.userCount'
+      userCount.fetch (err) ->
         return next err if err
-        user.set
-          name: 'User ' + userCount.get()
-          picClass: 'pic' + (userCount.get() % NUM_USER_IMAGES)
-        page.render()
+        userCount.increment (err) ->
+          return next err if err
+          user.set
+            name: 'User ' + userCount.get()
+            picClass: 'pic' + (userCount.get() % NUM_USER_IMAGES)
+          page.render()
 
 ## CONTROLLER FUNCTIONS ##
 
@@ -52,13 +70,15 @@ app.view.fn 'displayTime', (message) ->
   return message && displayTime(message.time)
 
 app.fn 'postMessage', ->
-  comment = @model.get '_page.newComment'
+  comment = @model.del '_page.newComment'
   return unless comment
-  @model.push '_room.messages',
+  # Scroll the page regardless when posting
+  @atBottom = true
+  @model.add 'messages',
+    room: @model.get '_page.room'
     userId: @model.get '_session.userId'
     comment: comment
     time: +new Date
-  @model.set '_page.newComment', ''
 
 app.view.inline ->
   do window.onresize = ->
@@ -69,17 +89,16 @@ app.ready (model) ->
   messages = document.getElementById 'messages'
   messageList = document.getElementById 'messageList'
 
-  atBottom = true
-  @dom.addListener messages, 'scroll', (e) ->
+  # Don't auto-scroll the page if the user has scrolled up from the bottom
+  @atBottom = true
+  @dom.addListener messages, 'scroll', (e) =>
     bottom = messageList.offsetHeight
     containerHeight = messages.offsetHeight
     scrollBottom = messages.scrollTop + containerHeight
-    atBottom = bottom < containerHeight || scrollBottom > bottom - 100
+    @atBottom = bottom < containerHeight || scrollBottom > bottom - 100
 
-  # Regular model mutator events are emitted after both the model and view
-  # bindings have been updated
-  model.on 'insert', '_room.messages', (index, values, isLocal) ->
-    # Scoll page when adding a message or when another user adds a message
-    # and the page is already at the bottom
-    if isLocal || atBottom
-      messages.scrollTop = messageList.offsetHeight
+  # Scoll the page on message insertion or when a new message is loaded by the
+  # subscription, which might happen after insertion
+  autoScroll = => messages.scrollTop = messageList.offsetHeight if @atBottom
+  model.on 'insert', '_page.messages', autoScroll
+  model.on 'load', 'messages.*', autoScroll
