@@ -3,7 +3,7 @@ app = require './index.coffee'
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
 app.get app.pages.leaderboard.href, (page, model, params, next) ->
-  playersQuery = model.query 'players', {$orderby: {'data.score': -1}, $limit: 5}
+  playersQuery = model.query 'players', {$orderby: {score: -1}, $limit: 5}
   playersQuery.subscribe (err) ->
     return next err if err
     list = playersQuery.ref '_page.list'
