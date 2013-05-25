@@ -1,1 +1,1 @@
-require('derby').run(require('./index'));
+require('derby').run(__dirname);
