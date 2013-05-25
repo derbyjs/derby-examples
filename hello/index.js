@@ -5,15 +5,15 @@ var liveDbMongo = require('livedb-mongo');
 var app = require('./app');
 
 // The store creates models and syncs data
-if (process.env.REDISCLOUD_URL) {
-  var redisUrl = require('url').parse(process.env.REDISCLOUD_URL);
-  var redis = require('redis').createClient(redisUrl.port, redisUrl.hostname, {no_ready_check: true});
+if (process.env.REDISTOGO_URL) {
+  var redisUrl = require('url').parse(process.env.REDISTOGO_URL);
+  var redis = require('redis').createClient(redisUrl.port, redisUrl.hostname);
   redis.auth(redisUrl.auth.split(":")[1]);
 } else {
   var redis = require('redis').createClient();
 }
 redis.select(3);
-var mongoUri = process.env.MONGOHQ_URL || 'localhost:27017/derby-directory';
+var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-directory';
 var store = derby.createStore({
   db: liveDbMongo(mongoUri + '?auto_reconnect', {safe: true})
 , redis: redis
