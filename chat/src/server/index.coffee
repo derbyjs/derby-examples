@@ -10,8 +10,8 @@ app = require '../chat'
 expressApp = module.exports = express()
 
 # The store creates models and syncs data
-if process.env.REDISTOGO_URL
-  redisUrl = require('url').parse process.env.REDISTOGO_URL
+if process.env.OPENREDIS_URL
+  redisUrl = require('url').parse process.env.OPENREDIS_URL
   redis = require('redis').createClient redisUrl.port, redisUrl.hostname
   redis.auth(redisUrl.auth.split(":")[1])
 else
