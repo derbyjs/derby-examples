@@ -17,7 +17,7 @@ if process.env.REDISCLOUD_URL
 else
   redis = require('redis').createClient()
 redis.select 1
-mongoUri = process.env.MONGOHQ_URL || 'localhost:27017/derby-chat'
+mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-chat'
 store = derby.createStore
   db: liveDbMongo(mongoUri + '?auto_reconnect', safe: true)
   redis: redis
@@ -49,7 +49,7 @@ expressApp
   .use(express.cookieParser())
   .use(express.session
     secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
-    store: new MongoStore(db: 'derby-chat', safe: true)
+    store: new MongoStore(url: mongoUri, safe: true)
   )
   .use(createUserId)
 
