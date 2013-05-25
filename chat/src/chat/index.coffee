@@ -4,6 +4,7 @@ app = require('derby').createApp module
 ## ROUTES ##
 
 NUM_USER_IMAGES = 10
+ONE_DAY = 1000 * 60 * 60 * 24
 
 app.on 'model', (model) ->
   model.fn 'pluckUserIds', (list, additional) ->
@@ -20,7 +21,7 @@ app.get '/:room?', (page, model, {room}, next) ->
 
   messagesQuery = model.query 'messages',
     room: room
-    $limit: 10
+    time: {$gt: new Date - ONE_DAY}
     $orderby: {time: -1}
 
   messagesQuery.subscribe (err) ->
