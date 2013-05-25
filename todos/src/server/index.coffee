@@ -9,9 +9,12 @@ app = require '../todos'
 expressApp = module.exports = express()
 
 # The store creates models and syncs data
-redisUrl = require('url').parse process.env.REDISCLOUD_URL
-redis = require('redis').createClient redisUrl.port, redisUrl.hostname, {no_ready_check: true}
-redis.auth(redisUrl.auth.split(":")[1])
+if process.env.REDISCLOUD_URL
+  redisUrl = require('url').parse process.env.REDISCLOUD_URL
+  redis = require('redis').createClient redisUrl.port, redisUrl.hostname, {no_ready_check: true}
+  redis.auth(redisUrl.auth.split(":")[1])
+else
+  redis = require('redis').createClient()
 redis.select 5
 mongoUri = process.env.MONGOHQ_URL || 'localhost:27017/derby-todos'
 store = derby.createStore
