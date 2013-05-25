@@ -1,1 +1,1 @@
-require('derby').run(require('./lib/server'));
+require('derby').run(require('./index'));
