@@ -10,10 +10,11 @@ app.view.fn 'capitalize', (s) ->
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 
 app.get app.pages.home.href, (page, model) ->
-  home = model.at 'home'
-  home.subscribe (err) ->
-    home.setNull 'titleColor', 'black'
-    home.setNull 'colors', [
+  titleColor = model.at 'home.titleColor'
+  colors = model.at 'home.colors'
+  model.subscribe titleColor, colors (err) ->
+    titleColor.setNull 'black'
+    colors.setNull [
       {name: 'black'}
       {name: 'deep pink'}
       {name: 'lime green'}

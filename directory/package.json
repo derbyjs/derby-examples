@@ -1,12 +1,7 @@
 {
-  "name": "directory",
+  "name": "derby-directory-example",
   "description": "A simple multi-page app that uses Derby Boot",
   "version": "0.0.0",
-  "main": "./server.js",
-  "dependencies": {
-    "derby": "*",
-    "derby-ui-boot": "*",
-    "express": "3.x"
-  },
+  "main": "./lib/server/index.js",
   "private": true
 }

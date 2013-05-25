@@ -1,22 +1,22 @@
-http = require 'http'
 express = require 'express'
 coffeeify = require 'coffeeify'
 derby = require 'derby'
-app = require '../todos'
+racerBrowserChannel = require 'racer-browserchannel'
+liveDbMongo = require 'livedb-mongo'
 serverError = require './serverError'
+app = require '../todos'
 
-expressApp = express();
-server = http.createServer(expressApp);
-
-module.exports = server;
+expressApp = module.exports = express()
 
 # The store creates models and syncs data
+redisUrl = require('url').parse process.env.REDISCLOUD_URL
+redis = require('redis').createClient redisUrl.port, redisUrl.hostname, {no_ready_check: true}
+redis.auth(redisUrl.auth.split(":")[1])
+redis.select 5
+mongoUri = process.env.MONGOHQ_URL || 'localhost:27017/derby-todos'
 store = derby.createStore
-  server: server
-  db: derby.db.mongo 'localhost:27017/derby-todos?auto_reconnect', {safe: true}
-
-store
-  .use(require 'racer-browserchannel')
+  db: liveDbMongo(mongoUri + '?auto_reconnect', safe: true)
+  redis: redis
 
 publicDir = require('path').join __dirname + '/../../public'
 
@@ -32,11 +32,9 @@ expressApp
   .use(express.compress())
   .use(app.scripts(store))
 
-  # Respond to requests for application script bundles
-  # racer-browserchannel adds a middleware to the store for responding to
-  # requests from remote models
-  .use(store.socketMiddleware())
-
+  # Add browserchannel client-side scripts to model bundles created by store,
+  # and return middleware for responding to remote client messages
+  .use(racerBrowserChannel store)
   # Adds req.getModel method
   .use(store.modelMiddleware())
 

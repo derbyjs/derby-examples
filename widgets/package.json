@@ -1,13 +1,7 @@
 {
-  "name": "widgets",
+  "name": "derby-widgets-example",
   "description": "Random tests of Derby components",
   "version": "0.0.0",
-  "main": "./server.js",
-  "dependencies": {
-    "derby": "*",
-    "derby-ui-boot": "*",
-    "express": "3.0.0beta4",
-    "gzippo": ">=0.1.4"
-  },
+  "main": "./lib/server/index.js",
   "private": true
 }

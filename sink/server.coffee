@@ -1,1 +1,1 @@
-require('derby').run __dirname + '/src/server', 3001
+require('derby').run require('./src/server')
