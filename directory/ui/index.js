@@ -1,14 +1,11 @@
 var config = {
-  styles: '../styles/ui'
+  filename: __filename
+, styles: '../styles/ui'
 , scripts: {
     connectionAlert: require('./connectionAlert')
   }
 };
 
-config.filename = __filename
-
-module.exports = ui
-
-function ui(derby, options) {
-  derby.createLibrary(config, options)
-}
+module.exports = function(app, options) {
+  app.createLibrary(config, options);
+};

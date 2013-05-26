@@ -1,9 +1,8 @@
-var derby = require('derby')
+var app = require('derby').createApp(module)
 
-derby.use(require('derby-ui-boot'))
-derby.use(require('../../ui'))
-
-var app = derby.createApp(module)
+app
+  .use(require('derby-ui-boot'))
+  .use(require('../../ui'))
 
 app.get('/', function(page, model, params, next) {
   var data = model.at('widgets.data')

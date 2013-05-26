@@ -6,9 +6,6 @@ var config = {
   }
 };
 
-module.exports = ui
-ui.decorate = 'derby'
-
-function ui(derby, options) {
-  derby.createLibrary(config, options)
-}
+module.exports = function(app, options) {
+  app.createLibrary(config, options);
+};
