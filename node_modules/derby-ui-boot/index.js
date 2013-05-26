@@ -1,6 +1,6 @@
 var config = {
   ns: 'boot'
-, filename = __filename
+, filename: __filename
 , scripts: {
     dropdown: require('./dropdown')
   , option: require('./dropdown/option')
