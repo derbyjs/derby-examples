@@ -1,30 +1,26 @@
-var lessRoot = __dirname + '/node_modules/bootstrap/less/'
-  , config = {
-      ns: 'boot'
-    , scripts: {
-        dropdown: require('./dropdown')
-      , option: require('./dropdown/option')
-      , modal: require('./modal')
-      , tabs: require('./tabs')
-      , tab: {}
-      }
-    }
+var config = {
+  ns: 'boot'
+, filename = __filename
+, scripts: {
+    dropdown: require('./dropdown')
+  , option: require('./dropdown/option')
+  , modal: require('./modal')
+  , tabs: require('./tabs')
+  , tab: {}
+  }
+}
 
-config.filename = __filename
-
-module.exports = boot
-boot.decorate = 'derby'
-
-function boot(derby, options) {
+module.exports = function(app, options) {
   var outConfig = Object.create(config)
-    , styles, outStyles, i, len, style
+  var lessRoot = __dirname + '/node_modules/bootstrap/less/'
 
+  var outStyles
   if (options && 'styles' in options) {
-    styles = options.styles
+    var styles = options.styles
     if (typeof styles === 'string') styles = [styles]
     if (Array.isArray(styles)) {
       outStyles = []
-      for (i = 0, len = styles.length; i < len; i++) {
+      for (var i = 0, len = styles.length; i < len; i++) {
         outStyles.push(lessRoot + styles[i]) 
       }
     }
@@ -32,6 +28,5 @@ function boot(derby, options) {
     outStyles = lessRoot + 'bootstrap'
   }
   outConfig.styles = outStyles
-  derby.createLibrary(outConfig, options)
-  return this
+  app.createLibrary(outConfig, options)
 }
