@@ -16,7 +16,8 @@
     "connect-mongo": "~0.3.2",
     "derby-ui-boot": "0.1.x",
     "coffeeify": "~0.4.0",
-    "coffee-script": "~1.6.2"
+    "coffee-script": "~1.6.2",
+    "nodetime": "~0.8.12"
   },
   "engines": {
     "node": "0.10.x"

@@ -2,6 +2,13 @@ var http = require('http');
 var express = require('express');
 require('coffee-script');
 
+if (process.env.NODETIME_ACCOUNT_KEY) {
+  require('nodetime').profile({
+    accountKey: process.env.NODETIME_ACCOUNT_KEY
+  , appName: 'derby-examples'
+  });
+}
+
 var expressApp = express();
 var server = http.createServer(expressApp);
 
