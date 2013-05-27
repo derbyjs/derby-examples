@@ -19,9 +19,7 @@ app.get app.pages.tableEditor.href, (page, model, params, next) ->
       lastCol: 2
     page.render 'tableEditor'
 
-
-app.ready (model) ->
-
+app.enter app.pages.tableEditor.href, (model) ->
   table = model.at 'sink.table'
   rows = table.at 'rows'
   cols = table.at 'cols'
