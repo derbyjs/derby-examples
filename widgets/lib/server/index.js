@@ -7,8 +7,10 @@ var serverError = require('./serverError');
 
 var expressApp = module.exports = express();
 
-// The store creates models and syncs data
-if (process.env.OPENREDIS_URL) {
+if (process.env.REDIS_HOST) {
+  var redis = require('redis').createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
+  redis.auth(process.env.REDIS_PASSWORD);
+} else if (process.env.OPENREDIS_URL) {
   var redisUrl = require('url').parse(process.env.OPENREDIS_URL);
   var redis = require('redis').createClient(redisUrl.port, redisUrl.hostname);
   redis.auth(redisUrl.auth.split(":")[1]);
@@ -16,9 +18,10 @@ if (process.env.OPENREDIS_URL) {
   var redis = require('redis').createClient();
 }
 redis.select(6);
-var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-widgets';
+var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-widgets';
+// The store creates models and syncs data
 var store = derby.createStore({
-  db: liveDbMongo(mongoUri + '?auto_reconnect', {safe: true})
+  db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true})
 , redis: redis
 });
 

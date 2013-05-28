@@ -1,11 +1,15 @@
 {
   "name": "derby-examples",
+  "subdomain": "derby-examples",
   "description": "Example applications for the Derby framework",
   "version": "0.5.0alpha",
   "homepage": "http://derbyjs.com/",
   "repository": {
     "type": "git",
     "url": "git://github.com/codeparty/derby-examples.git"
+  },
+  "scripts": {
+    "start": "node server.js"
   },
   "dependencies": {
     "derby": "0.5.x",
