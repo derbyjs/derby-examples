@@ -13,6 +13,7 @@ var expressApp = express();
 var server = http.createServer(expressApp);
 
 expressApp
+  .use('/_check', function(req, res) { res.send('OK'); })
   .use(express.vhost('chat.derbyjs.com', require('./chat')))
   .use(express.vhost('directory.derbyjs.com', require('./directory')))
   .use(express.vhost('hello.derbyjs.com', require('./hello')))
