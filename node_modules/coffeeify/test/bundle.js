@@ -7,7 +7,7 @@ function bundle (file) {
         t.plan(1);
 
         var b = browserify();
-        b.add(__dirname + '/../example/foo.coffee');
+        b.add(__dirname + file);
         b.transform(__dirname + '/..');
         b.bundle(function (err, src) {
             if (err) t.fail(err);
