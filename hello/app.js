@@ -2,8 +2,7 @@ var app = require('derby').createApp(module);
 
 // Templates define both HTML and model <- -> view bindings
 app.view.make('Body',
-  'Holler: <input value="{hello.message}">' +
-  '<h2>{hello.message}</h2>'
+  'Holler: <input value="{hello.message}"><h2>{hello.message}</h2>'
 );
 
 // Routes render on client as well as server
