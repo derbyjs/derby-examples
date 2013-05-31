@@ -28,7 +28,13 @@ module.exports = function (file) {
 
     function write (buf) { data += buf }
     function end () {
-        this.queue(compile(file, data));
+        var src;
+        try {
+            src = compile(file, data);
+        } catch (error) {
+            this.emit('error', error);
+        }
+        this.queue(src);
         this.queue(null);
     }
 };
