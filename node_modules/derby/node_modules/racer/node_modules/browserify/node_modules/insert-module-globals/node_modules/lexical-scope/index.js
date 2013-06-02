@@ -89,11 +89,7 @@ module.exports = function (src) {
             !isFunction(p) && p.type !== 'Program';
             p = p.parent
         );
-        var id = idOf(node);
-        if (node.type === 'VariableDeclaration') {
-            // the var gets stripped off so the id needs updated
-            id = id.replace(/\.init$/, '.right');
-        }
+        var id = idOf(p);
         if (!locals[id]) locals[id] = {};
         return id;
     }
@@ -109,7 +105,6 @@ function isFunction (x) {
 function idOf (node) {
     var id = [];
     for (var n = node; n.type !== 'Program'; n = n.parent) {
-        if (!isFunction(n)) continue;
         var key = keyOf(n).join('.');
         id.unshift(key);
     }

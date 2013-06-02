@@ -12,6 +12,6 @@ test('parameters from inline arguments', function (t) {
     t.same(scope.locals, {
         'body.0': [ 'a' ],
         '': [ 'foo' ],
-        'body.0.argument': [ 'c' ]
+        'body.0.body.body.1.argument': [ 'c' ]
     });
 });
