@@ -12,13 +12,13 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "derby": "0.5.x",
+    "derby": "~0.5.0",
     "express": "~3.2.5",
     "redis": "~0.8.3",
     "livedb-mongo": "~0.1.0",
     "racer-browserchannel": "~0.1.0",
     "connect-mongo": "~0.3.2",
-    "derby-ui-boot": "0.1.x",
+    "derby-ui-boot": "~0.1.0",
     "coffeeify": "~0.4.0",
     "coffee-script": "~1.6.2",
     "nodetime": "~0.8.12"
