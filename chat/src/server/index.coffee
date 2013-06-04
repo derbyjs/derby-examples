@@ -18,7 +18,7 @@ else if process.env.OPENREDIS_URL
   redis.auth redisUrl.auth.split(":")[1]
 else
   redis = require('redis').createClient()
-redis.select 1
+redis.select 11
 mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-chat'
 # The store creates models and syncs data
 store = derby.createStore
