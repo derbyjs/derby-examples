@@ -42,7 +42,7 @@ Then, clone this repo from GitHub.
 You can run each of the examples from their own directories:
 
 ```
-$ ~/derby-examples/sink
+$ cd ~/derby-examples/sink
 $ node server.js
 ```
 
