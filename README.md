@@ -42,7 +42,7 @@ Then, clone this repo from GitHub.
 You can run each of the examples from their own directories:
 
 ```
-$ ~/derby-examples/sink
+$ cd ~/derby-examples/sink
 $ node server.js
 ```
 
@@ -50,7 +50,7 @@ The examples written in CoffeeScript are meant to be run via the coffee command:
 
 ```
 $ npm install -g coffee-script
-$ ~/derby-examples/chat
+$ cd ~/derby-examples/chat
 $ coffee server.coffee
 ```
 
