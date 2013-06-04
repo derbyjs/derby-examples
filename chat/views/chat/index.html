@@ -15,7 +15,7 @@
 -->
 
 <Title:>
-  Chat ({_page.messages.length}) - {_user.name}
+  Chat ({_page.messages.length}) - {_page.user.name}
 
 <Head:>
   <meta name=viewport content="width=device-width">
@@ -31,9 +31,9 @@
       </ul>
     </div>
     <div id=foot>
-      <div class="pic {_user.picClass}"></div>
+      <div class="pic {_page.user.picClass}"></div>
       <div id=inputs>
-        <input id=inputName value={_user.name}>
+        <input id=inputName value={_page.user.name}>
         <form id=inputForm x-bind=submit:postMessage>
           <input id=commentInput value={_page.newComment} autofocus>
         </form>
