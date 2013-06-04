@@ -35,22 +35,24 @@ Hello world example.
 
 To install Derby and create your own project please see [Getting started](http://derbyjs.com/#getting_started) in the Derby docs.
 
-To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/).
+To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/). You'll also need [MongoDB](http://www.mongodb.org/downloads) and [Redis 2.6](http://redis.io/download) installed and running.
 
-Install derby-examples from npm
+Then, clone this repo from GitHub.
 
-```
-$ npm install derby-examples
-```
-
-Then you can run each of the examples from their own directories
+You can run each of the examples from their own directories:
 
 ```
-$ cd node_modules/derby-examples/sink
+$ ~/derby-examples/sink
 $ node server.js
 ```
 
-Note that to run the chat and todos examples, you will need to install [MongoDB](http://www.mongodb.org/downloads) and start the Mongo server.
+The examples written in CoffeeScript are meant to be run via the coffee command:
+
+```
+$ npm install -g coffee-script
+$ ~/derby-examples/chat
+$ coffee server.coffee
+```
 
 ## MIT License
 Copyright (c) 2011 by Brian Noguchi and Nate Smith
