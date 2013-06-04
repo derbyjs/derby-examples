@@ -50,7 +50,7 @@ The examples written in CoffeeScript are meant to be run via the coffee command:
 
 ```
 $ npm install -g coffee-script
-$ ~/derby-examples/chat
+$ cd ~/derby-examples/chat
 $ coffee server.coffee
 ```
 
