@@ -37,7 +37,10 @@ module.exports = function (src) {
             if (node.parent.type === 'MemberExpression'
             && node.parent.property === node) return;
             if (isFunction(node.parent)) return;
-            
+            if (node.parent.type === 'LabeledStatement') return;
+            if (node.parent.type === 'ContinueStatement') return;
+            if (node.parent.type === 'BreakStatement') return;
+         
             if (node.parent.type === 'AssignmentExpression') {
                 var isLeft0 = node.parent.left.type === 'MemberExpression'
                     && node.parent.left.object === node.name

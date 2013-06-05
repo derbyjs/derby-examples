@@ -1,0 +1,6 @@
+*.swp
+*.un~
+*.gz
+*.rdb
+node_modules/
+scratch/
