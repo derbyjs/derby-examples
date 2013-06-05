@@ -21,7 +21,8 @@
     "derby-ui-boot": "~0.1.0",
     "coffeeify": "~0.4.0",
     "coffee-script": "~1.6.2",
-    "nodetime": "~0.8.12"
+    "nodetime": "~0.8.12",
+    "webkit-devtools-agent": "~0.1.1"
   },
   "engines": {
     "node": "0.10.x"
