@@ -10,6 +10,11 @@ var uuid = require('uuid');
 var merge = require('racer-util/object').merge;
 var deepCopy = require('racer-util/object').deepCopy;
 
+/**
+ * Setup everyauth, so we can log in via Twitter, Facebook, LinkedIn, and
+ * Github.
+ */
+
 var everyauth = require('everyauth');
 var conf = require('./conf.json');
 
@@ -22,38 +27,6 @@ everyauth.everymodule
       callback(null, $user.get());
     });
   });
-
-
-function findOrCreateUser (userPromise, store, req, session, subUser, addToSubUser, subUserKey, condition) {
-  var model = store.createModel(null, req);
-  var userQuery = model.query('users', {$query: {$or: [condition, {_id: session.userId}]}});
-  model.fetch(userQuery, function (err) {
-    if (err) return userPromise.fail(err);
-    var user = userQuery.get()[0];
-    if (user) {
-      if (! session.userId) {
-        session.userId = user.id;
-      }
-      model.set('users.' + user.id + '.' + subUserKey, merge(subUser, addToSubUser), function (err) {
-        if (err) return userPromise.fail(err);
-        user = model.get('users.' + user.id);
-        session.save(function (err) {
-          if (err) return userPromise.fail(err);
-          userPromise.fulfill(user);
-        });
-      });
-    } else {
-      var userToAdd = {};
-      userToAdd[subUserKey] = merge(subUser, addToSubUser);
-      var userId = model.add('users', userToAdd, function (err) {
-        if (err) return userPromise.fail(err);
-        var user = model.get('users.' + userId);
-        session.userId = user.id;
-        userPromise.fulfill(user);
-      });
-    }
-  });
-}
 
 everyauth.twitter
   .consumerKey(conf.twitter.consumerKey)
@@ -115,6 +88,9 @@ everyauth.github
     return userPromise;
   });
 
+
+// Set up our express app
+
 var expressApp = module.exports = express();
 
 // Get Redis configuration
@@ -129,7 +105,7 @@ if (process.env.REDIS_HOST) {
   var redis = require('redis').createClient();
 }
 redis.select(process.env.REDIS_DB || 7);
-// Get Mongo configuration 
+// Get Mongo configuration
 var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/auth';
 var mongo = mongoskin.db(mongoUrl + '?auto_reconnect', {safe: true});
@@ -140,6 +116,10 @@ var store = derby.createStore({
 , redis: redis
 });
 
+/**
+ * Express middleware for exposing the user to the model (accessible by the
+ * server and browser only to the user, via model.get('_session.user').
+ */
 function rememberUser (req, res, next) {
   var model = req.getModel();
   var userId = req.session.userId;
@@ -151,6 +131,12 @@ function rememberUser (req, res, next) {
   });
 }
 
+/**
+ * Assign the connect session to ShareJS's useragent (there is 1 useragent per
+ * browser tab or window that is connected to our server via browserchannel).
+ * We'll probably soon move this into racer core, so developers won't need to
+ * remember to have this code here.
+ */
 store.shareClient.use('connect', function (shareRequest, next) {
   var req = shareRequest.req;
   if (req) {
@@ -159,6 +145,12 @@ store.shareClient.use('connect', function (shareRequest, next) {
   next();
 });
 
+/**
+ * A convenience method for declaring access control on queries. For usage, see
+ * the example code below (`store.onQuery('items', ...`)). This may be moved
+ * into racer core. We'll want to experiment to see if this particular
+ * interface is sufficient, before committing this convenience method to core.
+ */
 store.onQuery = function (collectionName, callback) {
   this.shareClient.use('query', function (shareRequest, next) {
     if (collectionName !== shareRequest.collection) return next();
@@ -168,9 +160,7 @@ store.onQuery = function (collectionName, callback) {
   });
 };
 
-// TODO Protect writes
-// store.onChange = function 
-
+// Items can only be seen by their owners
 store.onQuery('items', function (sourceQuery, session, next) {
   if (sourceQuery.userId !== session.userId) {
     return next(new Error('Unauthorized'));
@@ -180,12 +170,28 @@ store.onQuery('items', function (sourceQuery, session, next) {
 
 // TODO Access control on an individual document based on its attributes, e.g.,
 //      a user should not be able to fetch an item that does not belong to him/her.
-store.shareClient.use('fetch', function (shareRequest, next) {
+
+/**
+ * Delegate to ShareJS directly to protect fetches and subscribes. Will try to
+ * come up with a different interface that does not expose this much of ShareJS
+ * to the developer using racer.
+ */
+
+store.shareClient.use('subscribe', protectRead);
+store.shareClient.use('fetch', protectRead);
+
+function protectRead (shareRequest, next) {
   if (shareRequest.collection !== 'users') return next();
   if (shareRequest.docName === shareRequest.agent.connectSession.userId) return next();
   return next(new Error('Not allowed to fetch users who are not you.'));
-});
+}
 
+/**
+ * A convenience method for declaring access control on writes. For usage, see
+ * the example code below (`store.onChange('users', ...`)). This may be moved
+ * into racer core. We'll want to experiment to see if this particular
+ * interface is sufficient, before committing this convenience method to core.
+ */
 store.onChange = function (collectionName, callback) {
   this.shareClient.use('validate', function (shareRequest, next) {
     var collection = shareRequest.collection;
@@ -209,6 +215,8 @@ store.onChange = function (collectionName, callback) {
 };
 
 /**
+ * Only allow items to be created, modified, and deleted by the owner of the item.
+ *
  * @param {String} docId is the document id that is being changed
  * @param {Object} opData
  * @param {Object} snapshotData
@@ -242,6 +250,10 @@ store.onChange('items', function (docId, opData, snapshotData, session, isServer
   }
 });
 
+/**
+ * Only allow users to modify or delete themselves. Only allow the server to
+ * create users.
+ */
 store.onChange('users', function (docId, opData, snapshotData, session, isServer, next) {
   if (docId === (session && session.userId)) {
     next();
@@ -266,7 +278,6 @@ expressApp
   .use(app.scripts(store))
   // Serve static files from the public directory
   .use(express.static(__dirname + '/../../public'))
-  //
 
   // Session middleware
   .use(express.cookieParser())
@@ -275,8 +286,8 @@ expressApp
   , store: new MongoStore({url: mongoUrl, safe: true})
   }))
 
+  // everyauth middleware
   .use(everyauth.middleware({autoSetupRoutes: false}))
-//  .use(everyauth.middleware())
 
   // Add browserchannel client-side scripts to model bundles created by store,
   // and return middleware for responding to remote client messages
@@ -289,22 +300,29 @@ expressApp
   // .use(express.bodyParser())
   // .use(express.methodOverride())
 
-  // Create an express middleware from the app's routes
+  // Make sure to assign the user to model's _session.user, so we can access
+  // the user in our app. You can also assign other things to the model's session
+  // via middleware like this.
   .use(rememberUser)
+
+  // Create an express middleware from the app's routes
   .use(app.router())
-  .use(expressApp.router)
+//  .use(expressApp.router)
   .use(error())
 
 // SERVER-SIDE ROUTES //
 
+// Logs out users by clearing the session
 expressApp.get('/logout', function (req, res, next) {
-  req.logout();
   var session = req.session;
   for (var k in session) if (session.hasOwnProperty(k) && k !== 'cookie') {
     delete session[k];
   }
   res.redirect('/');
 });
+
+// Defines route handling required for OAuth with Twitter, Faceook, LinkedIn,
+// and Github. everyauth does the heavy lifting.
 
 expressApp.get('/auth/twitter', everyauth.twitter.middleware('entryPath'));
 expressApp.get('/auth/twitter/callback', everyauth.twitter.redirectPath('/').middleware('callbackPath'));
@@ -321,3 +339,43 @@ expressApp.get('/auth/github/callback', everyauth.github.redirectPath('/').middl
 expressApp.all('*', function(req, res, next) {
   next('404: ' + req.url);
 });
+
+/**
+ * Helper method used in our everyauth configuration
+ * @param {Promise} userPromise
+ * @param {Store} store
+ * @param {Http.Request} req
+ * @param {Session} session
+ * @param {Object} subUser is the user deployed from
+ */
+function findOrCreateUser (userPromise, store, req, session, subUser, addToSubUser, subUserKey, condition) {
+  var model = store.createModel(null, req);
+  var userQuery = model.query('users', {$query: {$or: [condition, {_id: session.userId}]}});
+  model.fetch(userQuery, function (err) {
+    if (err) return userPromise.fail(err);
+    var user = userQuery.get()[0];
+    if (user) {
+      if (! session.userId) {
+        session.userId = user.id;
+      }
+      model.set('users.' + user.id + '.' + subUserKey, merge(subUser, addToSubUser), function (err) {
+        if (err) return userPromise.fail(err);
+        user = model.get('users.' + user.id);
+        session.save(function (err) {
+          if (err) return userPromise.fail(err);
+          userPromise.fulfill(user);
+        });
+      });
+    } else {
+      var userToAdd = {};
+      userToAdd[subUserKey] = merge(subUser, addToSubUser);
+      var userId = model.add('users', userToAdd, function (err) {
+        if (err) return userPromise.fail(err);
+        var user = model.get('users.' + userId);
+        session.userId = user.id;
+        userPromise.fulfill(user);
+      });
+    }
+  });
+}
+
