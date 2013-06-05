@@ -38,7 +38,7 @@ app.get '/:room?', (page, model, {room}, next) ->
     usersQuery.subscribe (err) ->
       return next err if err
 
-      user = model.ref '_user', 'users.' + model.get('_session.userId')
+      user = model.ref '_page.user', 'users.' + model.get('_session.userId')
 
       # Render page if the user already exists
       return page.render() if user.get()
