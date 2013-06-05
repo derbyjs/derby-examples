@@ -140,14 +140,7 @@ var store = derby.createStore({
 , redis: redis
 });
 
-//store.on('client', function (browserchannelSession, reject) {
-//  browserchannelSession.on('req', function (req) {
-//    console.log("REQ");
-//    req.session;
-//  });
-//});
-
-function rememberUserId (req, res, next) {
+function rememberUser (req, res, next) {
   var model = req.getModel();
   var userId = req.session.userId;
   if (! userId) return next();
@@ -297,7 +290,7 @@ expressApp
   // .use(express.methodOverride())
 
   // Create an express middleware from the app's routes
-  .use(rememberUserId)
+  .use(rememberUser)
   .use(app.router())
   .use(expressApp.router)
   .use(error())
