@@ -3,6 +3,7 @@ var express = require('express');
 var fs = require('fs');
 require('coffee-script');
 
+require('webkit-devtools-agent');
 if (process.env.NODETIME_ACCOUNT_KEY) {
   require('nodetime').profile({
     accountKey: process.env.NODETIME_ACCOUNT_KEY
@@ -37,7 +38,7 @@ expressApp
   .use(express.vhost('widgets.derbyjs.com', require('./widgets')))
 
 server.listen(port, function() {
-  console.log('Go to: http://localhost:%d/', port);
+  console.log('%d listening. Go to: http://localhost:%d/', process.pid, port);
 });
 
 process.on('uncaughtException', function(err) {
