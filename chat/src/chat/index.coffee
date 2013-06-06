@@ -7,6 +7,8 @@ NUM_USER_IMAGES = 10
 ONE_DAY = 1000 * 60 * 60 * 24
 
 app.on 'model', (model) ->
+  model.fn 'timeSort', (a, b) ->
+    a?.time - b?.time
   model.fn 'pluckUserIds', (list, additional) ->
     ids = {}
     ids[additional] = true if additional
@@ -22,18 +24,17 @@ app.get '/:room?', (page, model, {room}, next) ->
   messagesQuery = model.query 'messages',
     room: room
     time: {$gt: new Date - ONE_DAY}
-    $orderby: {time: -1}
 
   messagesQuery.subscribe (err) ->
     return next err if err
 
-    messagesQuery.ref '_page.recentMessages'
-    # Reverse is a default model function
-    model.start 'reverse', '_page.messages', '_page.recentMessages'
+    # Filters and sorts get computed in the client, so messages will appear
+    # immediately even if the client is offline
+    model.sort('messages', 'timeSort').ref '_page.messages'
 
     # Subscribe to all displayed userIds, including the userIds associated
     # with each message and the current session's userId
-    model.start 'pluckUserIds', '_page.userIds', '_page.messages', '_session.userId'
+    model.start 'pluckUserIds', '_page.userIds', '_page.messages', '_session.userId', {copy: false}
     usersQuery = model.query 'users', '_page.userIds'
     usersQuery.subscribe (err) ->
       return next err if err
