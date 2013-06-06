@@ -32,3 +32,7 @@ expressApp
 server.listen(port, function() {
   console.log('Go to: http://localhost:%d/', port);
 });
+
+process.on('uncaughtException', function(err) {
+  console.log('Uncaught exception: ' + err.stack);
+});
