@@ -22,7 +22,7 @@ var isReady = true;
 expressApp
   .use('/_check', function(req, res) {
     if (isReady)
-      res.send(204);
+      res.send('OK');
     else
       res.send(503);
   })
