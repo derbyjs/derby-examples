@@ -16,8 +16,15 @@ var server = http.createServer(expressApp);
 var port = process.env.PORT || 3000;
 express.logger.token('port', function(req, res) { return port; });
 
+var isReady = true;
+
 expressApp
-  .use('/_check', function(req, res) { res.send('OK'); })
+  .use('/_check', function(req, res) {
+    if (isReady)
+      res.send(204);
+    else
+      res.send(503);
+  })
   .use(express.logger({
     format: ':port :remote-addr - - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":user-agent" - :response-time ms',
     stream: fs.createWriteStream('reqlog.txt', {flags:'a', encoding:'utf8', mode:0666})
@@ -35,4 +42,8 @@ server.listen(port, function() {
 
 process.on('uncaughtException', function(err) {
   console.log('Uncaught exception: ' + err.stack);
+});
+
+process.on('SIGUSR2', function() {
+  isReady = false;
 });
