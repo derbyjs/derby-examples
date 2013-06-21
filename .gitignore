@@ -1,4 +1,5 @@
 .DS_Store
 *.swp
 /node_modules/derby/bin
+/node_modules/derby/node_modules/racer/examples
 reqlog.txt

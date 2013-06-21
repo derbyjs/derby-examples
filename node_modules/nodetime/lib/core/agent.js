@@ -1,5 +1,6 @@
 'use strict';
 
+var os = require('os');
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
@@ -31,7 +32,7 @@ var StdoutWriter = require('../addons/stdout-writer').StdoutWriter;
 
 function Agent() {
   this.initialized = false;
-  this.version = '0.8.12';
+  this.version = '0.8.13';
   this.nextId = Math.round(Math.random() * Math.pow(10, 6));
   this.nodetimeNative = undefined;
 
@@ -43,9 +44,10 @@ function Agent() {
   this.server = undefined;
   this.proxyServer = undefined;
   this.precompiled = undefined;
+  this.stackTraceLimit = undefined;
   this.features = {
     transactionProfiler: true, 
-    hostMetrics: false,
+    hostMetrics: true,
     redisMetrics: true,
     mongodbMetrics: true
   };
@@ -110,8 +112,8 @@ Agent.prototype.init = function(opts) {
   self.stdout = opts.stdout;
   self.server = opts.server;
   self.proxyServer = opts.proxy;
-  self.precompiled = 
-    opts.precompiled === undefined || opts.precompiled;
+  self.precompiled = opts.precompiled === undefined || opts.precompiled;
+  self.stackTraceLimit = (opts.stackTraceLimit >= 0 ? opts.stackTraceLimit : 1000);
 
   // compatibility
   if(opts.features.transactionsProfiler === undefined && opts.transactions !== undefined) 
@@ -123,12 +125,13 @@ Agent.prototype.init = function(opts) {
   // end compatibility
 
   self.features.transactionProfiler = 
-      opts.features.transactionProfiler === undefined || opts.features.transactionProfiler;
-  self.features.hostMetrics = !!opts.features.hostMetrics;
+    opts.features.transactionProfiler === undefined || opts.features.transactionProfiler;
+  self.features.hostMetrics = 
+    opts.features.hostMetrics || !os.hostname().match(/^[a-f0-9\-]{36}$/);
   self.features.redisMetrics =
-      opts.features.redisMetrics === undefined || opts.features.redisMetrics;
+    opts.features.redisMetrics === undefined || opts.features.redisMetrics;
   self.features.mongodbMetrics =
-      opts.features.mongodbMetrics === undefined || opts.features.mongodbMetrics;
+    opts.features.mongodbMetrics === undefined || opts.features.mongodbMetrics;
 
 
   // Initialize logger first.
@@ -253,7 +256,7 @@ Agent.prototype.loadNativeExtention = function() {
     self.nodetimeNative = require('nodetime-native');
   }
   catch(err) {
-    this.logger.error(err);
+    self.logger.log("Failed loaded nodetime-native extention.");
   }
 
   if(!self.nodetimeNative && self.precompiled) {
@@ -275,10 +278,10 @@ Agent.prototype.loadNativeExtention = function() {
         !self.nodetimeNative.cpuTime || 
         !self.nodetimeNative.cpuTime()
       ) {
-        throw new Error("Failed loading precompiled package...");
+        throw new Error("Failed loading precompiled extention.");
       }
       else {
-        self.logger.log("Loaded precompiled extention");
+        self.logger.log("Loaded precompiled extention.");
       }
     }
     catch(err) {

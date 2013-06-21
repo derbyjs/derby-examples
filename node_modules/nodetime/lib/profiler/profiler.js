@@ -29,6 +29,8 @@ function Profiler(agent) {
   this.transactions = {};
   this.stackTraceCalls = 0;
   this.stackTraceFilter = /nodetime/;
+  this.stackTraceLimit = agent.stackTraceLimit;
+  this.stackTraceLimit = undefined;
 
   this.filterKeyExtractor = new FilterKeyExtractor(this.agent);
 }
@@ -39,6 +41,7 @@ Profiler.prototype.init = function() {
   var self = this;
 
   self.enabled = self.agent.features.transactionProfiler;
+  this.stackTraceLimit = self.agent.stackTraceLimit;
 
   self.agent.on('info', function(info) {
     self.info = info;
@@ -181,7 +184,7 @@ Profiler.prototype.time = function(scope, group, isRoot) {
 
 
 Profiler.prototype.stackTrace = function() {
-  if(this.paused || this.stackTraceCalls++ > 1000) {
+  if(this.paused || this.stackTraceCalls++ > this.stackTraceLimit) {
     return undefined;
   }
 

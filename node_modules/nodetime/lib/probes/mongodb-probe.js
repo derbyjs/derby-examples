@@ -70,11 +70,23 @@ MongodbProbe.prototype.attach = function(obj) {
             auth = command.db.auths[0];
           }
 
-          var servers = command.db.serverConfig;
-          if(servers) {
-            if(Array.isArray(servers)) {
+          var serverConfig = command.db.serverConfig;
+          if(serverConfig) {
+            if(serverConfig.host && serverConfig.port) {
+              conn.host = serverConfig.host;
+              conn.port = serverConfig.port;
+
+              mongodbMonitor.monitorCollection(
+                serverConfig.host, 
+                serverConfig.port, 
+                command.db.databaseName, 
+                command.collectionName,
+                auth
+              );
+            }
+            else if(Array.isArray(serverConfig.servers)) {
               conn.servers = [];
-              servers.forEach(function(server) {
+              serverConfig.servers.forEach(function(server) {
                 conn.servers.push({host: server.host, port: server.port});
 
                 mongodbMonitor.monitorCollection(
@@ -85,18 +97,6 @@ MongodbProbe.prototype.attach = function(obj) {
                   auth
                 );
               }); 
-            }
-            else {
-              conn.host = servers.host;
-              conn.port = servers.port;
-
-              mongodbMonitor.monitorCollection(
-                servers.host, 
-                servers.port, 
-                command.db.databaseName, 
-                command.collectionName,
-                auth
-              );
             }
           }
           

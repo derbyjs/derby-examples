@@ -17,7 +17,7 @@ exports.TimePromise = TimePromise;
 
 
 
-TimePromise.prototype.start = function(scope, label, context) {
+TimePromise.prototype.start = function(context) {
   var self = this;
   var profiler = self.agent.profiler;
 

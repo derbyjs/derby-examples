@@ -36,7 +36,7 @@ StdoutWriter.prototype.indent = function(obj, depth) {
     }
     else if(typeof val === 'object') {
       str += tab + '\u001b[1m' + label + '\u001b[0m\n';
-      str += indent(val, depth + 1);
+      str += self.indent(val, depth + 1);
     }
   }
   
