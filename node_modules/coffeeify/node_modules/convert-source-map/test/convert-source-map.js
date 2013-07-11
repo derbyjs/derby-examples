@@ -1,10 +1,9 @@
 'use strict';
 /*jshint asi: true */
 
-var test = require('trap').test
+var test = require('tap').test
   , generator = require('inline-source-map')
   , convert = require('..')
-
 
 var gen = generator()
   .addMappings('foo.js', [{ original: { line: 2, column: 3 } , generated: { line: 5, column: 10 } }], { line: 5 })
@@ -30,14 +29,15 @@ test('different formats', function (t) {
   t.equal(convert.fromJSON(json).toBase64(), base64, 'json -> base64')
   t.equal(convert.fromJSON(json).toComment(), comment, 'json -> comment')
   t.deepEqual(convert.fromJSON(json).toObject(), obj, 'json -> object')
-
+  t.end()
 })
 
 test('to object returns a copy', function (t) {
   var c = convert.fromJSON(json)
   var o = c.toObject()
   o.version = '99';
-  t.equal(c.toObject().version, '3', 'setting property on returned object does not affect original')
+  t.equal(c.toObject().version, 3, 'setting property on returned object does not affect original')
+  t.end()
 })
 
 test('from source', function (t) {
@@ -64,6 +64,7 @@ test('from source', function (t) {
   t.equal(getComment(foo + '   ' + map + '\n\n'), map, 'indented on last non empty line')
   t.equal(getComment(foo + map + '\nconsole.log("more code");\nfoo()\n'), map, 'in the middle of code')
   t.equal(getComment(foo + otherMap + '\n' +  map), map, 'finds last map in source')
+  t.end()
 })
 
 test('remove comments', function (t) {
@@ -83,6 +84,7 @@ test('remove comments', function (t) {
   t.equal(convert.removeComments(foo + map), foo, 'from last line')
   t.equal(convert.removeComments(foo + map + extraCode), foo + extraCode, 'from the middle of code')
   t.equal(convert.removeComments(foo + otherMap + extraCode + map + map), foo + extraCode, 'multiple comments from the middle of code')
+  t.end()
 })
 
 test('pretty json', function (t) {
@@ -91,6 +93,7 @@ test('pretty json', function (t) {
       mod
     , '{\n  "version": 3,\n  "file": "",\n  "sources": [\n    "foo.js",\n    "bar.js"\n  ],\n  "names": [],\n  "mappings": ";;;;;;;;;UACG;;;;;;;;;;;;;;sBCDH;sBACA"\n}'
     , 'pretty prints json whe space is given')
+  t.end()
 })
 
 test('adding properties', function (t) {
@@ -104,6 +107,7 @@ test('adding properties', function (t) {
     , '{"version":3,"file":"","sources":["foo.js","bar.js"],"names":[],"mappings":";;;;;;;;;UACG;;;;;;;;;;;;;;sBCDH;sBACA","foo":"bar"}'
     , 'includes added property'
   )
+  t.end()
 })
 
 test('setting properties', function (t) {
@@ -119,6 +123,7 @@ test('setting properties', function (t) {
     , '{"version":"2","file":"","sources":["foo.js","bar.js"],"names":[],"mappings":";;;UACG","should add":"this"}'
     , 'includes new property and changes existing properties'
   )
+  t.end()
 })
 
 test('getting properties', function (t) {
@@ -126,4 +131,5 @@ test('getting properties', function (t) {
 
   t.equal(sm.getProperty('version'), 3, 'gets version')
   t.deepEqual(sm.getProperty('sources'), ['foo.js', 'bar.js'], 'gets sources')
+  t.end()
 })

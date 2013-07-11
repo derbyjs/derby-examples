@@ -4,6 +4,15 @@ module.exports = {
   transition: transition
 }
 
+/**
+ * @param {Function} add (e.g., app.get, app.post, etc.)
+ * @param {Array} transitionCalls is an array of objects that look 
+ *   like {from, to, forward, back}
+ * @param {String} from
+ * @param {String} to
+ * @param {Function} forward
+ * @param {Function} back
+ */
 function transition(add, calls, from, to, forward, back) {
   if (from === to) return
   for (var i = 0, len = calls.length; i < len; i++) {

@@ -18,6 +18,10 @@ webclient/json0.uncompressed.js: before.js lib/helpers.js lib/text0.js lib/json0
 	mkdir -p webclient
 	cat $^ > $@
 
+webclient/text0.uncompressed.js: before.js lib/helpers.js lib/text0.js after.js
+	mkdir -p webclient
+	cat $^ > $@
+
 # Uglify.
 webclient/%.js: webclient/%.uncompressed.js
 	$(UGLIFY) $< --lint -c unsafe=true -mo $@

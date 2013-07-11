@@ -1,7 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
-var test         =  require('trap').test;
+var test         =  require('tap').test;
 var convert      =  require('convert-source-map');
 var parse        =  require('parse-base64vlq-mappings');
 var commentRegex =  require('convert-source-map').commentRegex;
@@ -76,6 +76,7 @@ test('add one file with inlined source', function (t) {
   t.ok(res.origLinesSame, 'all original lines and columns are unchanged')
   t.equal(sm.sourcesContent[0], foo.sourcesContent[0], 'includes the original source')
   t.equal(sm.sources[0], 'foo.coffee', 'includes original filename')
+  t.end()
 });
 
 
@@ -121,6 +122,7 @@ test('add one file without inlined source', function (t) {
         original: { line: 7, column: 0 } } ]
     , 'generates mappings offset by the given line'
   )
+  t.end()
 })
 
 test('remove comments', function (t) {
@@ -140,4 +142,5 @@ test('remove comments', function (t) {
     var removed = combine.removeComments(x)
     t.equal(sourcemapComments(removed), 0)    
   })
+  t.end()
 })

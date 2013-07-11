@@ -1,4 +1,5 @@
 var qs = require('qs')
+var nodeUrl = require('url');
 
 module.exports = {
   render: render
@@ -42,7 +43,7 @@ function RenderReq(page, options, e) {
   this.options = options
   this.e = e
   this.setUrl(options.url.replace(/#.*/, ''))
-  var queryString = this.url.replace(/^[^?]*\?/, '')
+  var queryString = nodeUrl.parse(this.url).query;
   this.query = queryString ? qs.parse(queryString) : {}
   this.method = options.method
   this.body = options.body || {}

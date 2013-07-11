@@ -1,7 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
-var test = require('trap').test
+var test = require('tap').test
   , parse = require('..')
   , Generator = require('source-map').SourceMapGenerator
 
@@ -38,6 +38,7 @@ test('parsing generated one to one mappings with last line having no original', 
     , parsed = parse(mappings)
 
   t.deepEqual(parsed, addedMappings, 'parses out added mappings')
+  t.end()
 });
 
 test('parsing generated offset mappings with last line having no original', function (t) {
@@ -68,5 +69,6 @@ test('parsing generated offset mappings with last line having no original', func
     , parsed = parse(mappings)
 
   t.deepEqual(parsed, addedMappings, 'parses out added mappings')
+  t.end()
 });
 

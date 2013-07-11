@@ -1,7 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
-var test = require('trap').test
+var test = require('tap').test
   , generator = require('inline-source-map')
   , rx = require('..').commentRegex
 
@@ -22,4 +22,5 @@ test('comment regex', function (t) {
   , '}}//@ '
   , ' @// @'
   ].forEach(function (x) { t.ok(!comment(x), 'does not match ' + x) })
+  t.end()
 })
