@@ -18,17 +18,6 @@ exports.create = function(model, dom) {
 // The init function is called on both the server and browser
 // before rendering
 exports.init = function(model) {
-  this.on('init:child', function(child, type) {
-    if (type !== 'lib:option') return
-    var childModel = child.model
-    model.at('options').push({
-      value: childModel.get('value')
-    , text: childModel.get('content')
-    })
-
-    updateValue(model, model.get('value'))
-  })
-
   updateValue(model, model.get('value'))
 
   model.on('change', 'value', function(value) {
