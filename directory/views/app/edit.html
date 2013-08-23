@@ -31,11 +31,12 @@
       <div class="span3">
 
         <app:field label="Gender">
-          <boot:dropdown value={_page.person.gender}>
-            <boot:option value="">(unknown)</boot:option>
-            <boot:option>Female</boot:option>
-            <boot:option>Male</boot:option>
-            <boot:option>Other</boot:option>
+          <boot:dropdown value={_page.person.gender} options='[
+            {"text": "(unknown)", "value": null},
+            {"text": "Female"},
+            {"text": "Male"},
+            {"text": "Other"}
+          ]'>
           </boot:dropdown>
         </app:field>
 
