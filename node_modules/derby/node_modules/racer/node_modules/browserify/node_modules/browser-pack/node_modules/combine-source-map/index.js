@@ -1,8 +1,8 @@
 'use strict';
 
-var parse           =  require('parse-base64vlq-mappings');
 var convert         =  require('convert-source-map');
 var createGenerator =  require('inline-source-map');
+var mappingsFromMap =  require('./lib/mappings-from-map');
 
 function resolveMap(source) {
   var gen = convert.fromSource(source);
@@ -25,7 +25,8 @@ Combiner.prototype._addGeneratedMap = function (sourceFile, source, offset) {
 };
 
 Combiner.prototype._addExistingMap = function (sourceFile, source, existingMap, offset) {
-  var mappings = parse(existingMap.mappings); 
+  var mappings = mappingsFromMap(existingMap);
+
   var originalSource = existingMap.sourcesContent[0]
     , originalSourceFile = existingMap.sources[0];
 
@@ -39,7 +40,7 @@ Combiner.prototype._addExistingMap = function (sourceFile, source, existingMap, 
  * If source contains a source map comment that has the source of the original file inlined it will offset these
  * mappings and include them.
  * If no source map comment is found or it has no source inlined, mappings for the file will be generated and included
- * 
+ *
  * @name addMap
  * @function
  * @param opts {Object} { sourceFile: {String}, source: {String} }
@@ -88,7 +89,7 @@ exports.create = function (file, sourceRoot) { return new Combiner(file, sourceR
 /**
  * @name removeComments
  * @function
- * @param src 
+ * @param src
  * @return {String} src with all sourceMappingUrl comments removed
  */
 exports.removeComments = function (src) {

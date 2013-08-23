@@ -29,13 +29,11 @@ exports.toggle = function() {
   this.model.set('open', !this.model.get('open'))
 }
 
-exports._clickMenu = function(e) {
+exports._clickOption = function(e) {
   this.model.set('open', false)
-  // Don't do anything unless an option was clicked
-  if (e.target.tagName !== 'A') return
-  var item = this.model.at(e.target)
-    , value = item.get('value')
-  if (value === void 0) value = item.get('text')
+  var item = e.get()
+  if (!item) return
+  var value = (item.value === void 0) ? item.text : item.value
   this.model.set('value', value)
 }
 

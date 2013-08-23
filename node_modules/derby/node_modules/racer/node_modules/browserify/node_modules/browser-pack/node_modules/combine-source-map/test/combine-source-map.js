@@ -1,19 +1,19 @@
 'use strict';
 /*jshint asi: true */
 
-var test         =  require('tap').test;
-var convert      =  require('convert-source-map');
-var parse        =  require('parse-base64vlq-mappings');
-var commentRegex =  require('convert-source-map').commentRegex;
-var combine      =  require('..');
+var test            =  require('tap').test;
+var convert         =  require('convert-source-map');
+var commentRegex    =  require('convert-source-map').commentRegex;
+var combine         =  require('..');
+var mappingsFromMap =  require('../lib/mappings-from-map');
 
 function checkMappings(foo, sm, lineOffset) {
     function inspect(obj, depth) {
         return require('util').inspect(obj, false, depth || 5, true);
     }
 
-    var fooMappings = parse(foo.mappings);
-    var mappings = parse(sm.mappings);
+    var fooMappings = mappingsFromMap(foo);
+    var mappings = mappingsFromMap(sm);
 
     var genLinesOffset = true;
     var origLinesSame = true;
@@ -23,7 +23,7 @@ function checkMappings(foo, sm, lineOffset) {
         var gen = mappings[i].generated
         var orig = mappings[i].original;
 
-        if (gen.column !== fooGen.column || gen.line !== (fooGen.line + lineOffset)) { 
+        if (gen.column !== fooGen.column || gen.line !== (fooGen.line + lineOffset)) {
           console.error(
             'generated mapping at %s not offset properly:\ninput:  [%s]\noutput:[%s]\n\n',
             i ,
@@ -46,7 +46,7 @@ function checkMappings(foo, sm, lineOffset) {
     return { genLinesOffset: genLinesOffset, origLinesSame: origLinesSame };
 }
 
-var foo = { 
+var foo = {
   version        :  3,
   file           :  'foo.js',
   sourceRoot     :  '',
@@ -99,27 +99,34 @@ test('add one file without inlined source', function (t) {
     .base64()
 
   var sm = convert.fromBase64(base64).toObject();
-  var mappings = parse(sm.mappings);
+  var mappings = mappingsFromMap(sm);
 
   t.equal(sm.sourcesContent[0], file.source, 'includes the generated source')
   t.equal(sm.sources[0], 'foo.js', 'includes generated filename')
-  
+
   t.deepEqual(
       mappings
     , [ { generated: { line: 4, column: 0 },
-        original: { line: 1, column: 0 } },
+        original: { line: 1, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 5, column: 0 },
-        original: { line: 2, column: 0 } },
+        original: { line: 2, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 6, column: 0 },
-        original: { line: 3, column: 0 } },
+        original: { line: 3, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 7, column: 0 },
-        original: { line: 4, column: 0 } },
+        original: { line: 4, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 8, column: 0 },
-        original: { line: 5, column: 0 } },
+        original: { line: 5, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 9, column: 0 },
-        original: { line: 6, column: 0 } },
+        original: { line: 6, column: 0 },
+        source: 'foo.js', name: undefined },
       { generated: { line: 10, column: 0 },
-        original: { line: 7, column: 0 } } ]
+        original: { line: 7, column: 0 },
+        source: 'foo.js', name: undefined } ]
     , 'generates mappings offset by the given line'
   )
   t.end()
@@ -140,7 +147,7 @@ test('remove comments', function (t) {
   , 'var a = 1;\n' + mapComment + '\nvar b = 5;\n' + mapComment
   ] .forEach(function (x) {
     var removed = combine.removeComments(x)
-    t.equal(sourcemapComments(removed), 0)    
+    t.equal(sourcemapComments(removed), 0)
   })
   t.end()
 })

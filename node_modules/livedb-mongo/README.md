@@ -1,6 +1,33 @@
 # livedb-mongo
 
-MongoDB database adapter for livedb
+MongoDB database adapter for livedb. This driver can be used both as a snapshot
+store and oplog.
+
+Snapshots are stored where you'd expect (the named collection with
+\_id=docName). Operations are stored in `COLLECTION_ops`. If you have a
+users collection, the operations are stored in `users_ops`. If you have a
+document called `fred`, operations will be stored in documents called `fred
+v0`, `fred v1`, `fred v2` and so on.
+
+JSON document snapshots in livedb-mongo are unwrapped so you can use mongo
+queries directly against JSON documents. (They just have some extra fields in
+    the form of `_v` and `_type`). You should always use livedb to edit
+documents - don't just edit them directly in mongo. You'll get weird behaviour
+if you do.
+
+## Usage
+
+LiveDB-mongo wraps [mongoskin](https://github.com/kissjs/node-mongoskin). It
+passes all the arguments straight to mongoskin's constructor. `npm install
+livedb-mongo` then create your database wrapper using the same arguments you
+would pass to mongoskin:
+
+```javascript
+var livedbmongo = require('livedb-mongo');
+var mongo = livedbmongo('localhost:27017/test?auto_reconnect', {safe:true});
+
+var livedb = require('livedb')(mongo); // Or whatever. See livedb's docs.
+```
 
 
 

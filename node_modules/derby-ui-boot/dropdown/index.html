@@ -5,12 +5,12 @@
     <a x-as="toggle" x-bind="click: toggle" class="btn dropdown-toggle">
       <span>{:self.label}</span> <span class="caret"></span>
     </a>
-    <menu x-as="menu" x-bind="click: _clickMenu" class="dropdown-menu">
+    <menu x-as="menu" class="dropdown-menu">
       {#each @options}
         {{#if divider}}
           <li class="divider"></li>
         {{else}}
-          <li><a>{{text}}</a></li>
+          <li><a x-bind="click: _clickOption">{{text}}</a></li>
         {{/}}
       {/}
       {{@content}}
