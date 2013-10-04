@@ -25,7 +25,9 @@
     "coffeeify": "~0.4.0",
     "coffee-script": "~1.6.3",
     "nodetime": "~0.8.13",
-    "webkit-devtools-agent": "~0.1.2"
+    "webkit-devtools-agent": "~0.1.2",
+    "hiredis": "~0.1.15",
+    "redis": "~0.8.6"
   },
   "engines": {
     "node": "0.10.x"
