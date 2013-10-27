@@ -4,7 +4,7 @@ MongoStore = require('connect-mongo')(express)
 derby = require 'derby'
 racerBrowserChannel = require 'racer-browserchannel'
 liveDbMongo = require 'livedb-mongo'
-serverError = require './serverError'
+# serverError = require './serverError'
 app = require '../chat'
 
 expressApp = module.exports = express()
@@ -40,7 +40,7 @@ expressApp
   # Gzip dynamically rendered content
   .use(express.compress())
   # Respond to requests for application script bundles
-  .use(app.scripts(store))
+  # .use(app.scripts(store))
   .use(express.static __dirname + '/../../public')
 
   # Add browserchannel client-side scripts to model bundles created by store,
@@ -59,7 +59,7 @@ expressApp
   # Creates an express middleware from the app's routes
   .use(app.router())
   .use(expressApp.router)
-  .use(serverError())
+  # .use(serverError())
 
 expressApp.all '*', (req, res, next) ->
   next '404: ' + req.url

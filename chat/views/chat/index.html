@@ -1,41 +1,24 @@
-<!--
-  Derby templates are similar to Handlebars, except that they are first
-  parsed as HTML, and there are a few extensions to make them work directly
-  with models. A single HTML template defines the HTML output, the event
-  handlers that update the model after user interaction, and the event handlers
-  that update the DOM when the model changes.
-
-  As in Handlebars, double curly braces output a value literally. Derby templates
-  add single curly braces, which output a value and set up model <- -> view
-  bindings for that object.
-
-  Elements that end in colon define the names of views. Pre-defined views are
-  capitalized by convention, but view names are case-insensitive. Pre-defined views
-  are automatically included when the page is rendered.
--->
-
 <Title:>
-  Chat ({_page.messages.length}) - {_page.user.name}
+  <title>Chat ({{_page.messages.length}}) - {{_page.user.name}}</title>
 
 <Head:>
-  <meta name=viewport content="width=device-width">
+  <meta name="viewport" content="width=device-width">
 
 <Body:>
-  <div id=page>
-    <div id=messages>
-      <ul id=messageList>
-        {#each _page.messages as :message}
-          <!-- Other templates are referenced like custom HTML elements -->
-          <app:message>
-        {/}
+  <div id="page">
+    <div id="messages">
+      <ul id="messageList">
+        {{each _page.messages as #message}}
+          <view name="message"></view>
+        {{/}}
       </ul>
     </div>
-    <div id=foot>
-      <div class="pic {_page.user.picClass}"></div>
-      <div id=inputs>
-        <input id=inputName value={_page.user.name}>
-        <form id=inputForm x-bind=submit:postMessage>
-          <input id=commentInput value={_page.newComment} autofocus>
+    <div id="foot">
+      <div class="pic {{_page.user.picClass}}"></div>
+      <div id="inputs">
+        <input id="inputName" value="{{_page.user.name}}">
+        <form id="inputForm" x-bind="submit: postMessage">
+          <input id="commentInput" value="{{_page.newComment}}" autofocus>
         </form>
       </div>
     </div>
@@ -43,11 +26,10 @@
 
 <message:>
   <li>
-    <!-- Square brackets support creation of a path based on another path -->
-    <div class="pic {users[:message.userId].picClass}"></div>
-    <div class=message>
-      <p class=time>{{displayTime(:message)}}</p>
-      <p><b>{users[:message.userId].name}</b></p>
-      <p>{{:message.comment}}</p>
+    <div class="pic {{users[#message.userId].picClass}}"></div>
+    <div class="message">
+      <p class="time">{{displayTime(#message)}}</p>
+      <p><b>{{users[#message.userId].name}}</b></p>
+      <p>{{#message.comment}}</p>
     </div>
   </li>
