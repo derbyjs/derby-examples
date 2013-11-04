@@ -24,6 +24,14 @@
     </div>
   </div>
 
+<Scripts:>
+  <script>
+    (window.onresize = function() {
+      var height = document.getElementById('messageList').offsetHeight;
+      document.getElementById('messages').scrollTop = height;
+    })();
+  </script>
+
 <message:>
   <li>
     <div class="pic {{users[#message.userId].picClass}}"></div>

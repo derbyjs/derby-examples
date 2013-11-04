@@ -40,7 +40,7 @@ expressApp
   # Gzip dynamically rendered content
   .use(express.compress())
   # Respond to requests for application script bundles
-  # .use(app.scripts(store))
+  .use(app.scripts(store))
   .use(express.static __dirname + '/../../public')
 
   # Add browserchannel client-side scripts to model bundles created by store,
