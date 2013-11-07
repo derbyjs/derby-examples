@@ -1,29 +1,32 @@
 <Title:>
-  Chat ({{_page.messages.length}}) - {{_page.user.name}}
+  Chat ({{count(messages)}}) - {{_page.user.name}}
 
 <Head:>
   <meta name="viewport" content="width=device-width">
 
 <Body:>
   <div id="page">
-    <div id="messages">
-      <ul id="messageList">
-        {{each _page.messages as #message}}
-          <view name="message"></view>
-        {{/}}
-      </ul>
-    </div>
+    <view name="messages" collection="{{messages}}"></view>
     <div id="foot">
       <div class="pic {{_page.user.picClass}}"></div>
       <div id="inputs">
-        <input id="inputName" value="{{_page.user.name}}">
-        <form id="inputForm" on="submit: postMessage()">
-          <input id="commentInput" value="{{_page.newComment}}" autofocus>
+        <input id="inputs-name" value="{{_page.user.name}}">
+        <form id="inputs-form" on="submit: postMessage()">
+          <input id="inputs-comment" value="{{_page.newComment}}" autofocus>
         </form>
       </div>
     </div>
   </div>
   <view name="scripts"></view>
+
+<messages:>
+  <div id="messages" as="container" on="scroll: scroll()">
+    <ul id="messages-list" as="list">
+      {{each list as #message}}
+        <view name="message"></view>
+      {{/}}
+    </ul>
+  </div>
 
 <message:>
   <li>
@@ -38,7 +41,7 @@
 <scripts:>
   <script>
     (window.onresize = function() {
-      var height = document.getElementById('messageList').offsetHeight;
+      var height = document.getElementById('messages-list').offsetHeight;
       document.getElementById('messages').scrollTop = height;
     })();
   </script>
