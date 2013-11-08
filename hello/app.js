@@ -1,7 +1,7 @@
 var app = require('derby').createApp(module);
 
 // Templates define both HTML and model <- -> view bindings
-app.views.register('Body',
+app.views.register('app:Body',
   'Holler: <input value="{{hello.message}}"><h2>{{hello.message}}</h2>'
 );
 
@@ -11,8 +11,4 @@ app.get('/', function(page, model) {
   model.subscribe('hello.message', function() {
     page.render();
   });
-});
-
-app.ready(function(model) {
-  global.MODEL = model;
 });
