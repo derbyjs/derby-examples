@@ -6,39 +6,43 @@
 
 <Body:>
   <div id="page">
-    <view name="messages" collection="{{messages}}"></view>
-    <div id="foot">
-      <div class="pic {{_page.user.picClass}}"></div>
-      <div id="inputs">
-        <input id="inputs-name" value="{{_page.user.name}}">
-        <form id="inputs-form" on="submit: postMessage()">
-          <input id="inputs-comment" value="{{_page.newComment}}" autofocus>
-        </form>
-      </div>
-    </div>
+    <view name="chat"
+      collection="{{messages}}"
+      users="{{users}}"
+      user="{{_page.user}}"
+      room="{{_page.room}}">
+    </view>
   </div>
   <view name="scripts"></view>
 
-<messages:>
-  <div id="messages" as="container" on="scroll: scroll()">
+<chat:>
+  <div id="messages" as="container" on="scroll: onScroll()">
     <ul id="messages-list" as="list">
       {{each list as #message}}
-        <view name="message"></view>
+        <li><view name="chat-message"></view></li>
       {{/}}
     </ul>
   </div>
-
-<message:>
-  <li>
-    <div class="pic {{users[#message.userId].picClass}}"></div>
-    <div class="message">
-      <p class="time">{{displayTime(#message)}}</p>
-      <p><b>{{users[#message.userId].name}}</b></p>
-      <p>{{#message.comment}}</p>
+  <div id="foot">
+    <div class="pic {{user.picClass}}"></div>
+    <div id="inputs">
+      <input id="inputs-name" value="{{user.name}}">
+      <form id="inputs-form" on="submit: messages.add()">
+        <input id="inputs-comment" value="{{newComment}}" autofocus>
+      </form>
     </div>
-  </li>
+  </div>
+
+<chat-message:>
+  <div class="pic {{users[#message.userId].picClass}}"></div>
+  <div class="message">
+    <p class="time">{{displayTime(#message)}}</p>
+    <p><b>{{users[#message.userId].name}}</b></p>
+    <p>{{#message.comment}}</p>
+  </div>
 
 <scripts:>
+  <!-- Scroll to bottom immediately on page render and on a resize. -->
   <script>
     (window.onresize = function() {
       var height = document.getElementById('messages-list').offsetHeight;
