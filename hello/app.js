@@ -1,4 +1,4 @@
-var app = require('derby').createApp(module);
+var app = module.exports = require('derby').createApp('hello', __filename);
 
 // Templates define both HTML and model <- -> view bindings
 app.views.register('app:Body',
