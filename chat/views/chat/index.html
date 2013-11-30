@@ -1,5 +1,5 @@
 <Title:>
-  Chat ({{count(messages)}}) - {{_page.user.name}}
+  Chat ({{count(messages)}}) - {{users[_session.userId].name}}
 
 <Head:>
   <meta name="viewport" content="width=device-width">
@@ -7,31 +7,37 @@
 <Body:>
   <div id="page">
     <view name="chat"
-      collection="{{messages}}"
+      messages="{{messages}}"
       users="{{users}}"
-      user="{{_page.user}}"
+      userId="{{_session.userId}}"
       room="{{_page.room}}">
     </view>
   </div>
-  <view name="scripts"></view>
 
 <chat:>
   <div id="messages" as="container" on="scroll: onScroll()">
     <ul id="messages-list" as="list">
       {{each list as #message}}
         <li><view name="chat-message"></view></li>
-      {{/}}
+      {{/each}}
     </ul>
   </div>
   <div id="foot">
-    <div class="pic {{user.picClass}}"></div>
+    <div class="pic {{users[userId].picClass}}"></div>
     <div id="inputs">
-      <input id="inputs-name" value="{{user.name}}">
-      <form id="inputs-form" on="submit: messages.add()">
+      <input id="inputs-name" value="{{users[userId].name}}">
+      <form id="inputs-form" on="submit: add()">
         <input id="inputs-comment" value="{{newComment}}" autofocus>
       </form>
     </div>
   </div>
+  <!-- Scroll to bottom immediately on page render and on a resize. -->
+  <script>
+    (window.onresize = function() {
+      var height = document.getElementById('messages-list').offsetHeight;
+      document.getElementById('messages').scrollTop = height;
+    })();
+  </script>
 
 <chat-message:>
   <div class="pic {{users[#message.userId].picClass}}"></div>
@@ -40,12 +46,3 @@
     <p><b>{{users[#message.userId].name}}</b></p>
     <p>{{#message.comment}}</p>
   </div>
-
-<scripts:>
-  <!-- Scroll to bottom immediately on page render and on a resize. -->
-  <script>
-    (window.onresize = function() {
-      var height = document.getElementById('messages-list').offsetHeight;
-      document.getElementById('messages').scrollTop = height;
-    })();
-  </script>
