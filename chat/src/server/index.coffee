@@ -1,3 +1,4 @@
+fs = require 'fs'
 express = require 'express'
 coffeeify = require 'coffeeify'
 MongoStore = require('connect-mongo')(express)
@@ -40,7 +41,7 @@ expressApp
   # Gzip dynamically rendered content
   .use(express.compress())
   # Respond to requests for application script bundles
-  .use(app.scripts(store))
+  .use(app.scripts store)
   .use(express.static __dirname + '/../../public')
 
   # Add browserchannel client-side scripts to model bundles created by store,
@@ -63,3 +64,7 @@ expressApp
 
 expressApp.all '*', (req, res, next) ->
   next '404: ' + req.url
+
+# unless fs.existsSync app.serializedDir
+#   app.serialize store, {minify: true}, (err) ->
+#     throw err if err
