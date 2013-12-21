@@ -1,20 +1,19 @@
-path = require 'path'
-derby = require 'derby'
+app = require('derby').createApp()
+app.loadViews __dirname + '/../../views/error'
+app.loadStyles __dirname + '/../../styles/error'
 
 module.exports = ->
-  staticPages = derby.createStatic path.dirname(path.dirname(__dirname))
-
   return (err, req, res, next) ->
     return next() unless err?
 
-    console.log if err.stack then err.stack else err
-
-    # Customize error handling here
     message = err.message || err.toString()
     status = parseInt message
     status = if 400 <= status < 600 then status else 500
 
-    if status is 403 || status is 404 || status is 500
-      staticPages.render 'error', res, status.toString(), status
+    if status < 500
+      console.log err.message || err
     else
-      res.send status
+      console.log err.stack || err
+
+    page = app.createPage req, res
+    page.renderStatic status, status.toString()

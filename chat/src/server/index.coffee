@@ -5,7 +5,7 @@ MongoStore = require('connect-mongo')(express)
 derby = require 'derby'
 racerBrowserChannel = require 'racer-browserchannel'
 liveDbMongo = require 'livedb-mongo'
-# serverError = require './serverError'
+serverError = require './serverError'
 app = require '../chat'
 
 expressApp = module.exports = express()
@@ -60,7 +60,7 @@ expressApp
   # Creates an express middleware from the app's routes
   .use(app.router())
   .use(expressApp.router)
-  # .use(serverError())
+  .use(serverError())
 
 expressApp.all '*', (req, res, next) ->
   next '404: ' + req.url
