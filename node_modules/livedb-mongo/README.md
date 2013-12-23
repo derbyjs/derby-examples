@@ -1,6 +1,6 @@
 # livedb-mongo
 
-MongoDB database adapter for livedb. This driver can be used both as a snapshot
+MongoDB database adapter for [livedb](https://github.com/share/livedb). This driver can be used both as a snapshot
 store and oplog.
 
 Snapshots are stored where you'd expect (the named collection with
@@ -26,7 +26,7 @@ would pass to mongoskin:
 var livedbmongo = require('livedb-mongo');
 var mongo = livedbmongo('localhost:27017/test?auto_reconnect', {safe:true});
 
-var livedb = require('livedb')(mongo); // Or whatever. See livedb's docs.
+var livedb = require('livedb').client(mongo); // Or whatever. See livedb's docs.
 ```
 
 If you prefer, you can instead create a mongoskin instance yourself and pass it to livedb-mongo:

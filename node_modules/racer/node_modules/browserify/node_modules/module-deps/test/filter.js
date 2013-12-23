@@ -22,6 +22,7 @@ test('can filter core deps', function (t) {
             events: false,
             fs: false,
             net: false,
+            http: false,
             https: false,
             dgram: false,
             dns: false

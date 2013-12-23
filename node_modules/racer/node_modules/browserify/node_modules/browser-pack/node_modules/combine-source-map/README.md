@@ -6,8 +6,8 @@ Add source maps of multiple files, offset them and then combine them into one so
 var convert = require('convert-source-map');
 var combine = require('combine-source-map');
 
-var fooComment = '//@ sourceMappingURL=data:application/json;base64,eyJ2Z [..] pzJylcbiJdfQ==';
-var barComment = '//@ sourceMappingURL=data:application/json;base64,eyJ2Z [..] VjaycpXG4iXX0=';
+var fooComment = '//# sourceMappingURL=data:application/json;base64,eyJ2Z [..] pzJylcbiJdfQ==';
+var barComment = '//# sourceMappingURL=data:application/json;base64,eyJ2Z [..] VjaycpXG4iXX0=';
 
 var fooFile = {
     source: '(function() {\n\n  console.log(require(\'./bar.js\'));\n\n}).call(this);\n' + '\n' + fooComment

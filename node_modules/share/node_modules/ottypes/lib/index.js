@@ -13,5 +13,7 @@ register(require('./simple'));
 register(require('./text'));
 register(require('./text-tp2'));
 
+// This is deprecated, but exported for json0.
+register(require('./text0'));
 register(require('./json0'));
 

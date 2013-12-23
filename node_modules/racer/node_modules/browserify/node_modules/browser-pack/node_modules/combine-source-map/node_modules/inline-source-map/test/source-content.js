@@ -52,7 +52,7 @@ test('generated mappings', function (t) {
     )
     t.equal(
         gen.inlineMappingUrl()
-      , '//@ sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbImZ1bmN0aW9uIGZvbygpIHtcbiAgdmFyIGhlbGxvID0gJ2hlbGxvJztcbiAgdmFyIHdvcmxkID0gJ3dvcmxkJztcbiAgY29uc29sZS5sb2coJyVzICVzJywgaGVsbG8sIHdvcmxkKTtcbn0iXX0='
+      , '//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbImZ1bmN0aW9uIGZvbygpIHtcbiAgdmFyIGhlbGxvID0gJ2hlbGxvJztcbiAgdmFyIHdvcmxkID0gJ3dvcmxkJztcbiAgY29uc29sZS5sb2coJyVzICVzJywgaGVsbG8sIHdvcmxkKTtcbn0iXX0='
       , 'returns correct inline mapping url including source content'
     )
     t.end()
@@ -90,7 +90,7 @@ test('generated mappings', function (t) {
     )
     t.equal(
         gen.inlineMappingUrl()
-      , '//@ sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiLCJiYXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFDQUEsQURBQTtBQ0NBLEFEQUE7QUNDQSxBREFBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbImZ1bmN0aW9uIGZvbygpIHtcbiAgdmFyIGhlbGxvID0gJ2hlbGxvJztcbiAgdmFyIHdvcmxkID0gJ3dvcmxkJztcbiAgY29uc29sZS5sb2coJyVzICVzJywgaGVsbG8sIHdvcmxkKTtcbn0iLCJmdW5jdGlvbiBiYXIoKSB7XG4gIGNvbnNvbGUubG9nKCd5ZXM/Jyk7XG59Il19'
+      , '//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiLCJiYXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFDQUEsQURBQTtBQ0NBLEFEQUE7QUNDQSxBREFBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbImZ1bmN0aW9uIGZvbygpIHtcbiAgdmFyIGhlbGxvID0gJ2hlbGxvJztcbiAgdmFyIHdvcmxkID0gJ3dvcmxkJztcbiAgY29uc29sZS5sb2coJyVzICVzJywgaGVsbG8sIHdvcmxkKTtcbn0iLCJmdW5jdGlvbiBiYXIoKSB7XG4gIGNvbnNvbGUubG9nKCd5ZXM/Jyk7XG59Il19'
       , 'returns correct inline mapping url including source content'
     )
     t.end()
@@ -124,7 +124,7 @@ test('generated mappings', function (t) {
     )
     t.equal(
         gen.inlineMappingUrl()
-      , '//@ sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiLCJiYXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFDQUEsQURBQTtBQ0NBLEFEQUE7QUNDQSxBREFBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbbnVsbCwiZnVuY3Rpb24gYmFyKCkge1xuICBjb25zb2xlLmxvZygneWVzPycpO1xufSJdfQ=='
+      , '//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiIiwic291cmNlcyI6WyJmb28uanMiLCJiYXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFDQUEsQURBQTtBQ0NBLEFEQUE7QUNDQSxBREFBO0FBQ0E7QUFDQSIsInNvdXJjZXNDb250ZW50IjpbbnVsbCwiZnVuY3Rpb24gYmFyKCkge1xuICBjb25zb2xlLmxvZygneWVzPycpO1xufSJdfQ=='
       , 'returns correct inline mapping url including source content'
     )
     t.end()

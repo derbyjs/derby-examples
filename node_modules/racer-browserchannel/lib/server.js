@@ -32,7 +32,8 @@ module.exports = function(store, serverOptions, clientOptions) {
       return;
     }
     var stream = createBrowserChannelStream(client, store.logger);
-    store.shareClient.listen(stream, connectRequest);
+    var agent = store.shareClient.listen(stream, connectRequest);
+    store.emit('share agent', agent, stream);
   });
   return middleware;
 };

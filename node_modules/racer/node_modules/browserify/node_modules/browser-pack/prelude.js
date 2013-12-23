@@ -7,7 +7,7 @@
 // anything defined in a previous bundle is accessed via the
 // orig method which is the requireuire for previous bundles
 
-(function(modules, cache, entry) {
+(function outer (modules, cache, entry) {
     // Save the require from previous bundle to this closure if any
     var previousRequire = typeof require == "function" && require;
 
@@ -31,7 +31,7 @@
             modules[name][0].call(m.exports, function(x){
                 var id = modules[name][1][x];
                 return newRequire(id ? id : x);
-            },m,m.exports);
+            },m,m.exports,outer,modules,cache,entry);
         }
         return cache[name].exports;
     }

@@ -428,8 +428,7 @@ json.invert = function(op) {
 
 json.checkValidOp = function(op) {
   for (var i = 0; i < op.length; i++) {
-  if (!isArray(op[i].p))
-    throw new Error('Missing path');
+    if (!isArray(op[i].p)) throw new Error('Missing path');
   }
 };
 
@@ -554,6 +553,15 @@ json.apply = function(snapshot, op) {
   }
 
   return container.data;
+};
+
+// Helper to break an operation up into a bunch of small ops.
+json.shatter = function(op) {
+  var results = [];
+  for (var i = 0; i < op.length; i++) {
+    results.push([op[i]]);
+  }
+  return results;
 };
 
 // Helper for incrementally applying an operation to a snapshot. Calls yield

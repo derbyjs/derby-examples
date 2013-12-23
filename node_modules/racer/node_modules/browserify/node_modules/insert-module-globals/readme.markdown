@@ -81,6 +81,44 @@ and to get the bin script do:
 npm install -g insert-module-globals
 ```
 
+# insert custom globals.
+
+`insert-module-globals` can also insert arbitary globals into files.
+Pass in an object of functions as the `vars` option.
+
+``` js
+var vars = {
+    process: function (row, basedir) {
+        return {
+            id: "path/to/custom_process.js",
+            source: customProcessContent
+        }
+    },
+    Buffer: function (row, basedir) {
+        return {
+            id: "path/to/custom_buffer.js,
+            source: customProcessContent,
+            //suffix is optional
+            //it's used to extract the value from the module.
+            //it becomes: require(...).Buffer in this case.
+            suffix: '.Buffer'
+        }
+    },
+    Math: function () {
+        //if you return a string,
+        //it's simply set as the value.
+        return '{}'
+        //^ any attempt to use Math[x] will throw!
+    }
+}
+
+mdeps(files)
+    .pipe(insert(files, {vars: vars}))
+    .pipe(bpack({ raw: true }))
+    .pipe(process.stdout)
+```
+
+
 # license
 
 MIT

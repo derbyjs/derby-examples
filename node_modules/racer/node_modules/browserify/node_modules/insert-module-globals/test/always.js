@@ -16,7 +16,7 @@ test('always insert', function (t) {
     s.on('end', function () {
         var c = {
             t: t,
-            window: { xyz: 555 }
+            self: { xyz: 555 }
         };
         vm.runInNewContext(src, c);
     });

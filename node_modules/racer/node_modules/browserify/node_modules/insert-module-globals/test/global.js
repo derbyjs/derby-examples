@@ -22,7 +22,7 @@ test('insert globals', function (t) {
             t : t,
             a : 555,
         };
-        c.window = c;
+        c.self = c;
         vm.runInNewContext(src, c);
     });
 });

@@ -1,7 +1,6 @@
 'use strict';
 
 var convert      =  require('convert-source-map');
-var parse        =  require('parse-base64vlq-mappings');
 var combine      =  require('..');
 
 var foo = { 
@@ -44,4 +43,4 @@ var base64 = combine
 
 var sm = convert.fromBase64(base64).toObject();
 console.log('Combined source maps:\n', sm);
-console.log('\nMappings:\n', parse(sm.mappings));
+console.log('\nMappings:\n', sm.mappings);

@@ -99,7 +99,7 @@ Generator.prototype.base64Encode = function () {
  * @return {String} comment with base64 encoded representation of the added mappings. Can be inlined at the end of the generated file. 
  */
 Generator.prototype.inlineMappingUrl = function () {
-  return '//@ sourceMappingURL=data:application/json;base64,' + this.base64Encode();
+  return '//# sourceMappingURL=data:application/json;base64,' + this.base64Encode();
 };
 
 Generator.prototype.toJSON = function () {

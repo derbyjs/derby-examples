@@ -2,26 +2,22 @@
 var assert = require('assert');
 var resolve = require('../');
 
-test('events', function(done) {
-    resolve('events', {}, function(err, path) {
+var shims = {
+    events: 'foo'
+};
+
+test('shim found', function(done) {
+    resolve('events', { modules: shims }, function(err, path) {
         assert.ifError(err);
-        assert.equal(path, require.resolve('../builtin/events'));
+        assert.equal(path, 'foo');
         done();
     });
 });
 
-test('http', function(done) {
+test('core shim not found', function(done) {
     resolve('http', {}, function(err, path) {
         assert.ifError(err);
-        assert.equal(path, require.resolve('http-browserify'));
-        done();
-    });
-});
-
-test('dgram', function(done) {
-    resolve('dgram', {}, function(err, path) {
-        assert.ifError(err);
-        assert.equal(path, require.resolve('../builtin/dgram'));
+        assert.equal(path, 'http');
         done();
     });
 });

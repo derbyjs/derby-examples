@@ -1,6 +1,6 @@
 var test = require('tape');
 var pack = require('../');
-var convert= require('convert-source-map');
+var convert = require('convert-source-map');
 var parse = require('parse-base64vlq-mappings');
 
 var foo = { 
