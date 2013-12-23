@@ -1,6 +1,6 @@
 app = module.exports = require('derby').createApp 'chat', __filename
-app.loadViews __dirname + '/../../views/chat'
-app.loadStyles __dirname + '/../../styles/chat'
+app.loadViews __dirname + '/../views/chat'
+app.loadStyles __dirname + '/../styles/chat'
 
 ## ROUTES ##
 
