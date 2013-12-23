@@ -1,7 +1,7 @@
 fs = require 'fs'
 express = require 'express'
 coffeeify = require 'coffeeify'
-MongoStore = require('connect-mongo')(express)
+RedisStore = require('connect-redis')(express)
 derby = require 'derby'
 racerBrowserChannel = require 'racer-browserchannel'
 liveDbMongo = require 'livedb-mongo'
@@ -53,7 +53,7 @@ expressApp
   .use(express.cookieParser())
   .use(express.session
     secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
-    store: new MongoStore(url: mongoUrl, safe: true)
+    store: new RedisStore()
   )
   .use(createUserId)
 
