@@ -6,29 +6,21 @@
 
 <Body:>
   <div id="page">
-    <view name="chat"
-      messages="{{messages}}"
-      users="{{users}}"
-      userId="{{_session.userId}}"
-      room="{{_page.room}}">
-    </view>
-  </div>
-
-<chat:>
-  <div id="messages" as="container" on="scroll: onScroll()">
-    <ul id="messages-list" as="list">
-      {{each list as #message}}
-        <li><view name="chat-message"></view></li>
-      {{/each}}
-    </ul>
-  </div>
-  <div id="foot">
-    <div class="pic {{users[userId].picClass}}"></div>
-    <div id="inputs">
-      <input id="inputs-name" value="{{users[userId].name}}">
-      <form id="inputs-form" on="submit: add()">
-        <input id="inputs-comment" value="{{newComment}}" autofocus>
-      </form>
+    <div id="messages" as="container" on="scroll: onScroll()">
+      <ul id="messages-list" as="list">
+        {{each _page.list as #message}}
+          <li><view name="chat-message"></view></li>
+        {{/each}}
+      </ul>
+    </div>
+    <div id="foot">
+      <div class="pic {{users[_session.userId].picClass}}"></div>
+      <div id="inputs">
+        <input id="inputs-name" value="{{users[_session.userId].name}}">
+        <form id="inputs-form" on="submit: add()">
+          <input id="inputs-comment" value="{{_page.newComment}}" autofocus>
+        </form>
+      </div>
     </div>
   </div>
   <!-- Scroll to bottom immediately on page render and on a resize. -->
@@ -42,7 +34,7 @@
 <chat-message:>
   <div class="pic {{users[#message.userId].picClass}}"></div>
   <div class="message">
-    <p class="time">{{displayTime(#message)}}</p>
+    <p class="time">{{_page.showTime && formatTime(#message)}}</p>
     <p><b>{{users[#message.userId].name}}</b></p>
     <p>{{#message.comment}}</p>
   </div>

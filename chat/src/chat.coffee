@@ -2,13 +2,10 @@ app = module.exports = require('derby').createApp 'chat', __filename
 app.loadViews __dirname + '/../views/chat'
 app.loadStyles __dirname + '/../styles/chat'
 
-## ROUTES ##
-
 NUM_USER_IMAGES = 10
 ONE_DAY = 1000 * 60 * 60 * 24
 
 app.on 'model', (model) ->
-  global.MODEL = model
   # Defined by name so that it can be re-initialized on the client
   model.fn 'pluckUserIds', (items = {}, additional) ->
     ids = {}
@@ -51,50 +48,52 @@ app.get '/:room?', (page, model, {room}, next) ->
             picClass: 'pic' + (userCount.get() % NUM_USER_IMAGES)
           page.render()
 
-## CONTROLLER FUNCTIONS ##
+# Called on both the server and the client before rendering
+app.proto.init = (model) ->
+  # Filters and sorts get computed in the client, so messages will appear
+  # immediately even if the client is offline
+  timeSort = (a, b) -> a?.time - b?.time
+  model.sort('messages', timeSort).ref '_page.list'
 
-app.component 'chat', class Chat
-  # Called on both the server and the client before rendering
-  init: (model) ->
-    # Filters and sorts get computed in the client, so messages will appear
-    # immediately even if the client is offline
-    timeSort = (a, b) -> a?.time - b?.time
-    model.sort('messages', timeSort).ref model.at('list')
+# Called only on the browser after rendering
+app.proto.create = (model) ->
+  # Times are suppressed when server rendering, since we don't know the client's
+  # timezone. More ideally, the user's timezone would be stored on the server
+  # and passed to the formatTime function
+  model.set '_page.showTime', true
 
-  # Called only on the browser after the component and its children are created
-  create: (model) ->
-    # Scroll to the bottom by default
-    @atBottom = true
-    # Scoll the page on message insertion or when a new message is loaded by the
-    # subscription, which might happen after insertion
-    model.on 'all', 'list', =>
-      # Don't auto-scroll the page if the user has scrolled up from the bottom
-      return unless @atBottom
-      @container.scrollTop = @list.offsetHeight
+  # Scroll to the bottom by default
+  @atBottom = true
+  # Scoll the page on message insertion or when a new message is loaded by the
+  # subscription, which might happen after insertion
+  model.on 'all', '_page.list', =>
+    # Don't auto-scroll the page if the user has scrolled up from the bottom
+    return unless @atBottom
+    @container.scrollTop = @list.offsetHeight
 
-  onScroll: ->
-    # Update whether the user scrolled up from the bottom or not
-    bottom = @list.offsetHeight
-    containerHeight = @container.offsetHeight
-    scrollBottom = @container.scrollTop + containerHeight
-    @atBottom = bottom < containerHeight || scrollBottom > bottom - 100
+app.proto.onScroll = ->
+  # Update whether the user scrolled up from the bottom or not
+  bottom = @list.offsetHeight
+  containerHeight = @container.offsetHeight
+  scrollBottom = @container.scrollTop + containerHeight
+  @atBottom = bottom < containerHeight || scrollBottom > bottom - 100
 
-  add: ->
-    comment = @model.del 'newComment'
-    return unless comment
-    # Scroll the page regardless when posting
-    @atBottom = true
-    @model.add 'messages',
-      room: @model.get 'room'
-      userId: @model.get 'userId'
-      comment: comment
-      time: +new Date
+app.proto.add = ->
+  comment = @model.del '_page.newComment'
+  return unless comment
+  # Scroll the page regardless when posting
+  @atBottom = true
+  @model.add 'messages',
+    room: @model.get '_page.room'
+    userId: @model.get '_session.userId'
+    comment: comment
+    time: +new Date
 
 app.proto.count = (value) ->
   return Object.keys(value || {}).length
 
-months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-app.proto.displayTime = (message) ->
+MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+app.proto.formatTime = (message) ->
   time = message && message.time
   return unless time
   time = new Date time
@@ -103,5 +102,5 @@ app.proto.displayTime = (message) ->
   hours = (hours % 12) || 12
   minutes = time.getMinutes()
   minutes = '0' + minutes if minutes < 10
-  return hours + ':' + minutes + period + months[time.getMonth()] +
+  return hours + ':' + minutes + period + MONTHS[time.getMonth()] +
     ' ' + time.getDate() + ', ' + time.getFullYear()
