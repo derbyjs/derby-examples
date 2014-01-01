@@ -1,12 +1,6 @@
-app = require('derby').createApp module
-
-## REACTIVE FUNCTIONS ##
-
-app.view.fn 'remaining', (todos) ->
-  remaining = 0
-  for todo in todos || []
-    remaining++ if todo && !todo.completed
-  return remaining
+app = module.exports = require('derby').createApp 'todos', __filename
+app.loadViews __dirname + '/../../views/todos'
+app.loadStyles __dirname + '/../../styles/todos'
 
 
 ## ROUTES ##
@@ -43,43 +37,46 @@ app.get '/:groupName', (page, model, {groupName}, next) ->
 
 ## CONTROLLER FUNCTIONS ##
 
-app.fn
-  add: ->
-    # Don't add a blank todo
-    text = @newTodo.get()
-    return unless text
-    @newTodo.del()
-    # Insert the new todo before the first completed item in the list
-    # or append to the end if none are completed
-    for todo, i in @list.get()
-      break if todo?.completed
-    @list.insert i, {text, completed: false}
-  del: (e) ->
-    e.at().remove()
-
-app.ready (model) ->
+app.proto.create = (model) ->
   @list = model.at '_page.list'
   @newTodo = model.at '_page.newTodo'
 
   # Make the list draggable using jQuery UI
-  from = null
-  ul = $('#todos')
-  ul.sortable
+  container = $('#todos')
+  container.sortable
     handle: '.handle'
     axis: 'y'
     containment: '#dragbox'
-    start: (e, ui) =>
-      item = ui.item[0]
-      from = ul.children().index(item)
     update: (e, ui) =>
-      item = ui.item[0]
-      to = ul.children().index(item)
-      # Use the Derby ignore option to suppress the normal move event
-      # binding, since jQuery UI will move the element in the DOM.
-      # Also, note that refList index arguments can either be an index
-      # or the item's id property
-      @list.pass(ignore: item.id).move from, to
+      # Get the index of the new position
+      to = container.children().index(ui.item)
+      # Move the item back to its original position and get the index, so that
+      # the current order in the DOM is consistent with the model
+      container.sortable('cancel')
+      from = container.children().index(ui.item)
+      # Move the item in the model, which will also update the DOM binding
+      @list.move from, to
 
   @list.on 'change', '*.completed', (i, completed, previous, isLocal) =>
     # Move the item to the bottom if it was checked off
     @list.move i, -1  if completed && isLocal
+
+app.proto.add = ->
+  # Don't add a blank todo
+  text = @newTodo.get()
+  return unless text
+  @newTodo.del()
+  # Insert the new todo before the first completed item in the list
+  # or append to the end if none are completed
+  for todo, i in @list.get()
+    break if todo?.completed
+  @list.insert i, {text, completed: false}
+
+app.proto.remove = (i) ->
+  @list.remove i
+
+app.proto.remaining = (todos) ->
+  remaining = 0
+  for todo in todos || []
+    remaining++ if todo && !todo.completed
+  return remaining
