@@ -3,22 +3,23 @@
 <import: src=tableEditor>
 <import: src=leaderboard>
 <import: src=submit>
-<import: src=bindingsBench> -->
+ -->
 
 <import: src="home">
+<import: src="bench">
 
 <Title:>
   Derby demo: {{pageTitle($render.ns)}}
 
-<nav:>
+<header:>
   <nav>
-    {{each navItems($render.ns)}}
-      {{if isCurrent}}
-        <b>{{title}}</b>
+    {{each navItems($render.ns) as #item}}
+      {{if #item.isCurrent}}
+        <b>{{#item.title}}</b>
       {{else}}
-        <a href={{href}}>{{title}}</a>
+        <a href={{#item.href}}>{{#item.title}}</a>
       {{/if}}
-      {{unless isLast}} | {{/unless}}
+      {{unless #item.isLast}} | {{/unless}}
     {{/each}}
     <hr>
   </nav>

@@ -6,11 +6,11 @@ app.component require('d-before-unload')
 
 require './pages'
 
+require './bench'
 require './home'
+# require './leaderboard'
 # require './live-css'
 # require './table'
-# require './leaderboard'
-# require './bindings-bench'
 
 # ['get', 'post', 'put', 'del'].forEach (method) ->
 #   app[method] app.pages.submit.href, (page, model, {body, query}) ->

@@ -13,9 +13,9 @@ app.pages =
   leaderboard:
     title: 'Leaderboard'
     href: '/leaderboard'
-  bindingsBench:
+  bench:
     title: 'Bindings benchmark'
-    href: '/bindings-bench'
+    href: '/bench'
   submit:
     title: 'Submit form'
     href: '/submit'
@@ -26,21 +26,9 @@ app.pages =
     title: 'Error test'
     href: '/error'
 
-navOrder = [
-  'home'
-  'liveCss'
-  'tableEditor'
-  'leaderboard'
-  'bindingsBench'
-  'submit'
-  'back'
-  'error'
-]
-
 app.proto.navItems = (current) ->
   items = []
-  for ns in navOrder
-    page = app.pages[ns]
+  for ns, page of app.pages
     items.push
       title: page.title
       href: page.href
