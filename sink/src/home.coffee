@@ -1,11 +1,11 @@
-app = require './index.coffee'
+app = require './index'
 
 # Define a view helper functions for use in templates
-app.view.fn 'unspace', (s) ->
+app.proto.unspace = (s) ->
   return s if typeof s isnt 'string'
   return s.replace /\s/g, ''
 
-app.view.fn 'capitalize', (s) ->
+app.proto.capitalize = (s) ->
   return s if typeof s isnt 'string'
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
 
@@ -25,9 +25,8 @@ app.get app.pages.home.href, (page, model, params, next) ->
     ]
     page.render 'home'
 
-app.fn 'home',
-  select: (e) ->
-    @model.set 'home.titleColor', e.get('.name')
+app.proto.home_select = (e) ->
+  @model.set 'home.titleColor', e.get('.name')
 
 app.enter app.pages.home.href, (model) ->
   colors = model.at 'home.colors'

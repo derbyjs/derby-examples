@@ -1,5 +1,5 @@
-app = require './index.coffee'
-sortableTable = require './sortableTable.coffee'
+app = require './index'
+sortableTable = require './sortableTable'
 
 app.get app.pages.tableEditor.href, (page, model, params, next) ->
   table = model.at 'sink.table'

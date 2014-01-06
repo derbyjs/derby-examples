@@ -1,0 +1,33 @@
+<Body:>
+  <h1 style="color: {{unspace(home.titleColor)}}">Welcome in {{home.titleColor}}!</h1>
+  <p>This is a collection of random demos. Check 'em out!</p><br>
+  <p>
+    <label>Title color:&sp;
+      <select id="title-select">
+        {{each home.colors}}
+          <option selected="{{home.titleColor === this.name}}">
+            {{capitalize(this.name)}}
+          </option>
+        {{/each}}
+      </select>
+    </label>&sp;
+    <input id="title-input" value="{{home.titleColor}}">
+    <h3>Colors:</h3>
+    <div>
+      {{each home.colors}}
+        <p>
+          <input type="radio" name="title-radio" checked="{{home.titleColor === this.name}}">&sp;
+          <input class="color-input" value="{{this.name}}">&sp;
+          <button on-click="home.select()">Select</button>
+        </p>
+      {{/each}}
+    </div>
+  </p>
+  <br><br>
+  <p><a href="#jump">Test jump link</a></p><br>
+  <p><a href="/live-css/popout">Test Live CSS popped out</a></p>
+  <p style="margin: 400px 0 1000px">
+    <span id="jump">Jumped!</span> -&sp;
+    <a href="#">Back to top</a> -&sp;
+    <a href="/live-css">Go to Live CSS</a>
+  </p>

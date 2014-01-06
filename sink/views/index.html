@@ -1,0 +1,24 @@
+<!-- 
+<import: src=liveCss>
+<import: src=tableEditor>
+<import: src=leaderboard>
+<import: src=submit>
+<import: src=bindingsBench> -->
+
+<import: src="home">
+
+<Title:>
+  Derby demo: {{pageTitle($render.ns)}}
+
+<nav:>
+  <nav>
+    {{each navItems($render.ns)}}
+      {{if isCurrent}}
+        <b>{{title}}</b>
+      {{else}}
+        <a href={{href}}>{{title}}</a>
+      {{/if}}
+      {{unless isLast}} | {{/unless}}
+    {{/each}}
+    <hr>
+  </nav>

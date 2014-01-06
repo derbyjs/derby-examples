@@ -1,4 +1,4 @@
-app = require './index.coffee'
+app = require './index'
 
 # Change N to change the number of drawn circles.
 N = 100

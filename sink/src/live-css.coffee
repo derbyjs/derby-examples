@@ -1,4 +1,4 @@
-app = require './index.coffee'
+app = require './index'
 
 app.view.fn 'cssProperty', (style) ->
   if style.active then "#{style.prop || ''}: #{style.value || ''};" else ''

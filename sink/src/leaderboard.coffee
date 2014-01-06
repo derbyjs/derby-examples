@@ -1,4 +1,4 @@
-app = require './index.coffee'
+app = require './index'
 
 randomScore = -> Math.floor(Math.random() * 20) * 5
 

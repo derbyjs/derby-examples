@@ -1,4 +1,4 @@
-app = require './index.coffee'
+app = require './index'
 
 app.pages =
   home:
@@ -37,7 +37,7 @@ navOrder = [
   'error'
 ]
 
-app.view.fn 'navItems', (current) ->
+app.proto.navItems = (current) ->
   items = []
   for ns in navOrder
     page = app.pages[ns]
@@ -48,5 +48,5 @@ app.view.fn 'navItems', (current) ->
   items[items.length - 1].isLast = true
   return items
 
-app.view.fn 'pageTitle', (current) ->
+app.proto.pageTitle = (current) ->
   return app.pages[current]?.title
