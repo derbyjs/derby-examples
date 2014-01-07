@@ -1,12 +1,12 @@
 <!-- 
 <import: src=liveCss>
 <import: src=tableEditor>
-<import: src=leaderboard>
 <import: src=submit>
  -->
 
 <import: src="home">
 <import: src="bench">
+<import: src="leaderboard">
 
 <Title:>
   Derby demo: {{pageTitle($render.ns)}}
@@ -23,3 +23,7 @@
     {{/each}}
     <hr>
   </nav>
+
+<Body:>
+  <view name="header"></view>
+  <view name="{{$render.prefix}}content"></view>
