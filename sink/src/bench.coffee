@@ -23,7 +23,7 @@ app.component 'bench:circles', class BenchCircles
     @model.set '_page.mode', mode
     @fn = this[mode]
     @frames = 0
-    @start = +new Date
+    @startTime = +new Date
     @run()
 
   stop: ->
@@ -32,10 +32,10 @@ app.component 'bench:circles', class BenchCircles
   run: ->
     @fn()
     if @frames++ == 20
-      fps = @frames * 1000 / (new Date - @start)
+      fps = @frames * 1000 / (new Date - @startTime)
       @model.set '_page.fps', fps.toFixed(1)
       @frames = 0
-      @start = +new Date
+      @startTime = +new Date
     @timeout = setTimeout =>
       @run()
     , 0
