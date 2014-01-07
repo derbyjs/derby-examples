@@ -14,7 +14,7 @@ app.component 'leaderboard:content', class Leaderboard
     filter.ref model.at('list')
 
   create: ->
-    @dom.on document, 'click', (e) =>
+    @dom.on 'click', (e) =>
       @deselect() unless @board.contains e.target
 
   add: ->
