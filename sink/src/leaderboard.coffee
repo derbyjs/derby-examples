@@ -3,15 +3,14 @@ app = require './index'
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
 app.get app.pages.leaderboard.href, (page, model, params, next) ->
-  model.query('players', {$orderby: {score: -1}, $limit: 5}).subscribe (err) ->
+  model.query('players', {$orderby: {score: -1}, $limit: 10}).subscribe (err) ->
     return next err if err
     page.render 'leaderboard'
 
 app.component 'leaderboard:content', class Leaderboard
   init: (model) ->
     @players = model.root.at 'players'
-    filter = model.sort @players, (a, b) -> b?.score - a?.score
-    filter.ref model.at('list')
+    model.ref 'list', @players.sort {limit: 5}, (a, b) -> b?.score - a?.score
 
   create: ->
     @dom.on 'click', (e) =>
