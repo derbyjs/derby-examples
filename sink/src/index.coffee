@@ -8,7 +8,7 @@ require './pages'
 
 require './bench'
 require './home'
-# require './leaderboard'
+require './leaderboard'
 # require './live-css'
 # require './table'
 
