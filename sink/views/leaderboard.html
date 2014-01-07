@@ -20,7 +20,7 @@
     </div>
     <ol>
       {{each list as #player}}
-        <li class="{{if #player.id === selected.id}}selected{{/}}" on-click="select(#player)">
+        <li class="{{if #player === selected}}selected{{/}}" on-click="select(#player)">
           <p class="score">{{#player.score}}</p>{{#player.name}}
         </li>
       {{/}}
