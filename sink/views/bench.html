@@ -4,8 +4,8 @@
 <circles:>
   <div>
     <p>
-      {{if _page.mode}}
-        Mode: <b>{{_page.mode}}</b> &nbsp; FPS: <b>{{_page.fps}}</b>
+      {{if mode}}
+        Mode: <b>{{mode}}</b> &nbsp; FPS: <b>{{fps}}</b>
       {{else}}
         Select a mode to run:
       {{/}}
@@ -15,7 +15,7 @@
       <button on-click="stop()">Stop</button>
     </p>
   </div>
-  {{each _page.boxes}}
+  {{each boxes}}
     <div class="box-view">
       <div class="box" style="
         top: {{this.top}}px;

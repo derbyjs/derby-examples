@@ -14,13 +14,13 @@ app.component 'bench:circles', class BenchCircles
         left: 0
         color: 0
         content: 0
-    @boxes = model.at '_page.boxes'
+    @boxes = model.at 'boxes'
     @boxes.set boxes
     model.set 'modes', ['setAll', 'setBox', 'setProperty']
 
   start: (mode) ->
     clearTimeout @timeout
-    @model.set '_page.mode', mode
+    @model.set 'mode', mode
     @fn = this[mode]
     @frames = 0
     @startTime = +new Date
@@ -33,7 +33,7 @@ app.component 'bench:circles', class BenchCircles
     @fn()
     if @frames++ == 20
       fps = @frames * 1000 / (new Date - @startTime)
-      @model.set '_page.fps', fps.toFixed(1)
+      @model.set 'fps', fps.toFixed(1)
       @frames = 0
       @startTime = +new Date
     @timeout = setTimeout =>
