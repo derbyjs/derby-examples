@@ -1,0 +1,37 @@
+<content:>
+  <button on-click="addRow()">Add row</button>&sp;
+  <button on-click="addCol()">Add column</button>
+  <hr>
+  <view
+    name="sortable-table"
+    as="sortable"
+    on-row-move="onRowMove()"
+    on-col-move="onColMove()">
+  </view>
+  <table>
+    <tbody>
+      <tr>
+        <td></td>
+        {{each table[0].cells as #cell, #i}}
+          <th on-mousedown="sortable.onColDown()" class="col">{{colName(#i)}}</th>
+        {{/each}}
+        <td></td>
+      </tr>
+      {{each table as #row, #i}}
+        <tr class="row">
+          <th on-mousedown="sortable.onRowDown()">{{#i + 1}}</th>
+          {{each #row.cells}}
+            <td><input value="{{this.text}}"></td>
+          {{/each}}
+          <td><button on-click="deleteRow(#i)">Delete</button></td>
+        </tr>
+      {{/each}}
+      <tr class="foot">
+        <td></td>
+        {{each table[0].cells as #cell, #i}}
+          <td><button on-click="deleteCol(#i)">Delete</button></td>
+        {{/each}}
+        <td></td>
+      </tr>
+    </tbody>
+  </table>

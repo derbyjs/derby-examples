@@ -1,70 +1,51 @@
 app = require './index'
-sortableTable = require './sortableTable'
+app.component require '../components/sortable-table'
 
 app.get app.pages.tableEditor.href, (page, model, params, next) ->
-  table = model.at 'sink.table'
-  table.subscribe (err) ->
+  model.subscribe 'sink.table', (err) ->
     return next err if err
-    table.setNull
-      rows: [
-        {name: 1, cells: [{}, {}, {}]}
-        {name: 2, cells: [{}, {}, {}]}
-      ]
-      lastRow: 1
-      cols: [
-        {name: 'A'}
-        {name: 'B'}
-        {name: 'C'}
-      ]
-      lastCol: 2
-    page.render 'tableEditor'
+    page.render 'table-editor'
 
-app.enter app.pages.tableEditor.href, (model) ->
-  table = model.at 'sink.table'
-  rows = table.at 'rows'
-  cols = table.at 'cols'
+app.component 'table-editor:content', class TableEditor
+  init: (model) ->
+    @table = model.scope 'sink.table'
+    model.ref 'table', @table
 
-  app.tableEditor =
-    deleteRow: (e, el) ->
-      model.at(el).remove()
+  onRowMove: (from, to) ->
+    @table.move from, to
 
-    deleteCol: (e, el) ->
-      # TODO: Make these move operations atomic when Racer has atomic support
-      i = model.at(el).leaf()
-      row = rows.get 'length'
-      while row--
-        rows.at(row + '.cells').remove i
-      cols.remove i
+  onColMove: (from, to) ->
+    row = @table.get 'length'
+    while row--
+      @table.move row + '.cells', from, to
+    return
 
-    addRow: ->
-      name = table.increment('lastRow') + 1
-      cells = []
-      col = cols.get 'length'
-      while col--
-        cells.push {}
-      rows.push {name, cells}
+  addRow: ->
+    cells = []
+    col = @table.get '0.cells.length'
+    while col--
+      cells.push {}
+    @table.push {cells}
 
-    addCol: ->
-      row = rows.get 'length'
-      while row--
-        rows.at(row + '.cells').push {}
-      name = alpha table.increment('lastCol')
-      cols.push {name}
+  addCol: ->
+    row = @table.get 'length'
+    while row--
+      @table.push row + '.cells', {}
+    return
 
-  alpha = (num, out = '') ->
+  deleteRow: (i) ->
+    @table.remove i
+
+  deleteCol: (i) ->
+    row = @table.get 'length'
+    while row--
+      @table.remove row + '.cells', i
+    return
+
+  colName: (num, out = '') ->
     mod = num % 26
     out = String.fromCharCode(65 + mod) + out
-    if num = Math.floor num / 26
-      return alpha num - 1, out
+    return if num = Math.floor num / 26
+      @colName num - 1, out
     else
-      return out
-
-  sortableTable.init app, app.tableEditor,
-    onRowMove: (from, to) ->
-      rows.move from, to
-    onColMove: (from, to) ->
-      # TODO: Make these move operations atomic when Racer has atomic support
-      cols.move from, to
-      row = rows.get 'length'
-      while row--
-        rows.at(row + '.cells').move from, to
+      out

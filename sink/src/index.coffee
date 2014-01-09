@@ -10,7 +10,7 @@ require './bench'
 require './home'
 require './leaderboard'
 # require './live-css'
-# require './table'
+require './table'
 
 # ['get', 'post', 'put', 'del'].forEach (method) ->
 #   app[method] app.pages.submit.href, (page, model, {body, query}) ->
