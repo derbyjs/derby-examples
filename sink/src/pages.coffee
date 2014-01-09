@@ -4,10 +4,10 @@ app.pages =
   home:
     title: 'Home'
     href: '/'
-  liveCss:
+  css:
     title: 'Live CSS'
-    href: '/live-css'
-  tableEditor:
+    href: '/css'
+  table:
     title: 'Table editor'
     href: '/table'
   leaderboard:

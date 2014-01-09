@@ -1,12 +1,12 @@
 app = require './index'
 app.component require '../components/sortable-table'
 
-app.get app.pages.tableEditor.href, (page, model, params, next) ->
+app.get app.pages.table.href, (page, model, params, next) ->
   model.subscribe 'sink.table', (err) ->
     return next err if err
-    page.render 'table-editor'
+    page.render 'table'
 
-app.component 'table-editor:content', class TableEditor
+app.component 'table:content', class TableEditor
   init: (model) ->
     @table = model.scope 'sink.table'
     model.ref 'table', @table
