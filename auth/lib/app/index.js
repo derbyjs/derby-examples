@@ -12,7 +12,8 @@ app.get('/', function(page) {
 
 app.get('/list', function(page, model, params, next) {
   // This value is set on the server in the `createUserId` middleware
-  var userId = model.get('_session.userId');
+  var userId = model.at('_session.user').get('id');
+  console.log(__filename,'app.get list', userId)
 
   if (! userId) {
     return page.redirect('/');
@@ -43,7 +44,7 @@ app.get('/list', function(page, model, params, next) {
 app.fn('list.add', function(e, el) {
   var newItem = this.model.del('_page.newItem');
   if (!newItem) return;
-  newItem.userId = this.model.get('_session.userId');
+  newItem.userId = this.model.at('_session.user').get('id');
   this.model.add('items', newItem);
 });
 
