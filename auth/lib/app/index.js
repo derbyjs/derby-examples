@@ -12,7 +12,7 @@ app.get('/', function(page) {
 
 app.get('/list', function(page, model, params, next) {
   // This value is set on the server in the `createUserId` middleware
-  var userId = model.get('_session.userId');
+  var userId = model.get('_session.user').get('id');
 
   if (! userId) {
     return page.redirect('/');
