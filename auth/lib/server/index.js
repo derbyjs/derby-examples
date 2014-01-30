@@ -70,7 +70,7 @@ everyauth.linkedin
     var linkedinUserKey = 'linkedin';
     var userCondition = {'linkedin.id': linkedinUser.id}
     findOrCreateUser(userPromise, store, params.req, session, linkedinUser, addToLinkedinUser, linkedinUserKey, userCondition);
-    return userCondition;
+    return userPromise;
   });
 
 everyauth.github
