@@ -4,9 +4,9 @@ app.pages =
   home:
     title: 'Home'
     href: '/'
-  css:
+  liveCss:
     title: 'Live CSS'
-    href: '/css'
+    href: '/live-css'
   table:
     title: 'Table editor'
     href: '/table'
@@ -28,13 +28,17 @@ app.pages =
 
 app.proto.navItems = (current) ->
   items = []
-  for ns, page of app.pages
+  for name, page of app.pages
     items.push
       title: page.title
       href: page.href
-      isCurrent: current == ns
+      isCurrent: current == dash(name)
   items[items.length - 1].isLast = true
   return items
 
 app.proto.pageTitle = (current) ->
   return app.pages[current]?.title
+
+dash = (camelName) ->
+  return camelName.replace /[a-z][A-Z]/g, (match) ->
+    match.charAt(0) + '-' + match.charAt(1).toLowerCase()

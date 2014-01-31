@@ -2,7 +2,7 @@
   <select multiple>
     <optgroup label="CSS properties">
       {{each styles}}
-        <option selected={{this.active}}>{{this.prop}}</option>
+        <option selected="{{this.active}}">{{this.prop}}</option>
       {{/each}}
     </optgroup>
   </select>
@@ -21,7 +21,7 @@
   <div>
     {{if hasActiveStyles(styles)}}
       <p>{</p>
-      <ul class=css>
+      <ul class="css">
         {{each styles}}
           <li>{{cssProperty(this)}}</li>
         {{/each}}
@@ -45,3 +45,10 @@
       </textarea>
     </div>
   </div>
+
+contains(stuff, thing)
+
+
+left / right = value
+
+left = value * right

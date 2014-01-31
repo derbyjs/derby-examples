@@ -7,7 +7,7 @@ app.component require('d-before-unload')
 require './pages'
 
 require './bench'
-require './css'
+require './live-css'
 require './home'
 require './leaderboard'
 require './table'

@@ -1,21 +1,21 @@
 app = require './index'
 
-app.get app.pages.css.href, (page, model, params, next) ->
+app.get app.pages.liveCss.href, (page, model, params, next) ->
   model.subscribe 'liveCss.styles', 'liveCss.outputText', (err) ->
     return next err if err
-    page.render 'css'
+    page.render 'live-css'
 
 # This is a transition route, which defines how to apply an update
 # without re-rendering the entire page. Note that going directly to
 # '/live-css/popout' will first call the route above and then call
 # the forward route below before rendering
-app.get from: app.pages.css.href, to: app.pages.css.href + '/popout',
+app.get from: app.pages.liveCss.href, to: app.pages.liveCss.href + '/popout',
   forward: (model) ->
     model.set '_page.poppedOut', true
   back: (model) ->
     model.del '_page.poppedOut'
 
-app.component 'css:content', class LiveCss
+app.component 'live-css:content', class LiveCss
   init: (model) ->
     model.ref 'poppedOut', model.scope('_page.poppedOut')
     styles = model.ref 'styles', model.scope('liveCss.styles')
