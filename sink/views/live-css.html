@@ -12,7 +12,7 @@
         <input type="checkbox" checked="{{#style.active}}">&sp;
         <input value="{{#style.prop}}" disabled="{{!#style.active}}">&sp;
         <input value="{{#style.value}}" disabled="{{!#style.active}}">&sp;
-        <button on-click="deleteStyle(#i)">Delete</button>
+        <a on-click="deleteStyle(#i)">Delete</a>
       </p>
     {{/each}}
   </div>
