@@ -13,13 +13,13 @@
       <tr>
         <td></td>
         {{each table[0].cells as #cell, #i}}
-          <th on-mousedown="sortable.onColDown()" class="col">{{colName(#i)}}</th>
+          <th on-mousedown="sortable.onColDown($event)" class="col">{{colName(#i)}}</th>
         {{/each}}
         <td></td>
       </tr>
       {{each table as #row, #i}}
         <tr class="row">
-          <th on-mousedown="sortable.onRowDown()">{{#i + 1}}</th>
+          <th on-mousedown="sortable.onRowDown($event)">{{#i + 1}}</th>
           {{each #row.cells}}
             <td><input value="{{this.text}}"></td>
           {{/each}}
