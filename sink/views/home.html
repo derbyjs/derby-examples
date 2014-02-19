@@ -11,14 +11,14 @@
         {{/each}}
       </select>
     </label>&sp;
-    <input id="title-input" value="{{home.titleColor}}">
+    <input id="title-input" value="{{titleInputValue(home.titleColor)}}">
   </p>
   <h3>Colors:</h3>
   <div>
     {{each home.colors}}
       <p>
         <input type="radio" name="title-radio" checked="{{home.titleColor === this.name}}">&sp;
-        <input class="color-input" value="{{this.name}}">&sp;
+        <input class="color-input" value="{{colorInputValue(this.name, home.titleColor)}}">&sp;
         <button on-click="model.set('home.titleColor', this.name)">Select</button>
       </p>
     {{/each}}

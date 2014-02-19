@@ -24,3 +24,16 @@ app.get app.pages.home.href, (page, model, params, next) ->
       {name: 'dark orchid'}
     ]
     page.render 'home'
+
+app.proto.colorInputValue =
+  get: (name, titleColor) -> name
+  set: (value, name, titleColor) ->
+    return if name == titleColor then [value, value] else [value]
+
+app.proto.titleInputValue =
+  get: (titleColor) -> titleColor
+  set: (value, titleColor) ->
+    for color, i in @model.get('home.colors') || []
+      if color.name == titleColor
+        @model.setDiff 'home.colors.' + i + '.name', value
+    return [value]
