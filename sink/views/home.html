@@ -19,7 +19,7 @@
       <p>
         <input type="radio" name="title-radio" checked="{{home.titleColor === this.name}}">&sp;
         <input class="color-input" value="{{this.name}}">&sp;
-        <button on-click="home.select()">Select</button>
+        <button on-click="model.set('home.titleColor', this.name)">Select</button>
       </p>
     {{/each}}
   </div>
