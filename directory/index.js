@@ -41,7 +41,7 @@ app.proto.done = function() {
       model.removeListener('change', checkName);
     });
     model.set('_page.nameError', true);
-    document.getElementById('name').focus();
+    this.nameInput.focus();
     return;
   }
 
