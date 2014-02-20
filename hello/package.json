@@ -1,7 +1,0 @@
-{
-  "name": "derby-hello-example",
-  "description": "Hello world demo for Derby",
-  "version": "0.0.0",
-  "main": "./index.js",
-  "private": true
-}
