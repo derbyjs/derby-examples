@@ -1,5 +1,5 @@
 var app = module.exports = require('derby').createApp('widgets', __filename);
-app.use(require('derby-ui-boot'));
+app.use(require('d-bootstrap'));
 app.loadViews(__dirname);
 app.loadStyles(__dirname);
 app.component(require('d-connection-alert'));
