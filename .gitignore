@@ -1,6 +1,5 @@
 .DS_Store
 *.swp
 serialized/
-/node_modules/derby/bin
-/node_modules/derby/node_modules/racer/examples
+/node_modules
 reqlog.txt
