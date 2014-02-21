@@ -1,7 +1,0 @@
-{
-  "name": "derby-chat-example",
-  "description": "Demo chat application for Derby",
-  "version": "0.0.0",
-  "main": "./src/server/index.coffee",
-  "private": true
-}

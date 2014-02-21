@@ -1,0 +1,28 @@
+<import: src="bench">
+<import: src="home">
+<import: src="leaderboard">
+<import: src="live-css">
+<import: src="submit">
+<import: src="table">
+
+<Title:>
+  Derby demo: {{pageTitle($render.ns)}}
+
+<header:>
+  <nav>
+    {{each navItems($render.ns) as #item}}
+      {{if #item.isCurrent}}
+        <b>{{#item.title}}</b>
+      {{else}}
+        <a href={{#item.href}}>{{#item.title}}</a>
+      {{/if}}
+      {{unless #item.isLast}} | {{/unless}}
+    {{/each}}
+    <hr>
+  </nav>
+
+<Body:>
+  <view name="d-connection-alert"></view>
+  <view name="d-before-unload"></view>
+  <view name="header"></view>
+  <view name="{{$render.prefix}}content"></view>

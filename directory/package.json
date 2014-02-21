@@ -1,7 +1,0 @@
-{
-  "name": "derby-directory-example",
-  "description": "A simple multi-page app that uses Derby Boot",
-  "version": "0.0.0",
-  "main": "./lib/server/index.js",
-  "private": true
-}

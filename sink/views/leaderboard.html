@@ -1,0 +1,28 @@
+<content:>
+  <form on-submit="add()">
+    <input value="{{newPlayer}}">&sp;
+    <button type="submit">Add player</button>&sp;
+    <button on-click="remove()" disabled="{{!selected}}">
+      Remove {{selected.name || 'selected'}}
+    </button>
+  </form>
+  <div class="board" as="board">
+    <div class="selected-player">
+      {{if selected}}
+        <p class="vote">
+          <button on-click="increment(5)">+ 5</button>
+          <button on-click="increment(-5)">- 5</button>
+        </p>
+        {{this.name}}
+      {{else}}
+        Click a player to select
+      {{/}}
+    </div>
+    <ol>
+      {{each list as #player}}
+        <li class="{{if #player === selected}}selected{{/}}" on-click="select(#player)">
+          <p class="score">{{#player.score}}</p>{{#player.name}}
+        </li>
+      {{/}}
+    </ol>
+  </div>

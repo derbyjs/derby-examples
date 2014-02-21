@@ -1,0 +1,31 @@
+<Title:>
+  Widgets
+
+<Body:>
+  <view name="d-connection-alert"></view>
+  <view name="d-before-unload"></view>
+  <modal as="testModal" on-hide="hideModal()">
+    <title>Modal <i>town</i></title>
+    How nice to see you!
+    <action>Meh</action>
+    <action class="btn-primary">You too!</action>
+  </modal>
+
+  <div class="container">
+    <h1 style="color: {{widgets.data.color}}">Bootstrap widgets</h1>
+    <div class="btn-toolbar" role="toolbar">
+      <div class="btn-group">
+        <dropdown class="btn-group" options="{{_page.numbers}}"></dropdown>
+        <dropdown class="btn-group" value="{{widgets.data.color}}" options="{{_page.colors}}"></dropdown>
+      </div>
+      <button on-click="testModal.show()" class="btn btn-default">Show modal</button>
+    </div>
+    <tabs selected-index="{{widgets.data.currentTab}}">
+      <pane title="One">
+        Stuff'n
+      </pane>
+      <pane title="Two">
+        More stuff
+      </pane>
+    </tabs>
+  </div>

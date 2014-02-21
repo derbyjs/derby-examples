@@ -1,7 +1,0 @@
-{
-  "name": "derby-widgets-example",
-  "description": "Random tests of Derby components",
-  "version": "0.0.0",
-  "main": "./lib/server/index.js",
-  "private": true
-}

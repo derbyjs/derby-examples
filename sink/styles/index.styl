@@ -1,0 +1,133 @@
+@import "./../../node_modules/derby-starter/styles/reset"
+
+*
+  box-sizing: border-box
+table
+  border-collapse: collapse
+  border-spacing: 0
+
+body
+  margin: 10px
+body,
+select
+  font: 13px/normal arial,sans-serif
+h1
+  font-size: 2em
+  margin-bottom: .5em
+
+.connection
+  position: absolute
+  text-align: center
+  top: 0
+  left: 0
+  width: 100%
+  height: 0
+  z-index: 99
+.connection > .alert
+  background: #fff1a8
+  border: 1px solid #999
+  border-top: 0
+  border-radius: 0 0 3px 3px
+  display: inline-block
+  line-height: 21px
+  padding: 0 12px
+
+.css
+  list-style: none
+  padding-left: 1em
+  margin: 0
+#css-output
+  border: 1px solid rgba(black, 0)
+  background: rgba(white, 0)
+.popup-title
+  display: none
+#css-output.popped-out
+  position: fixed
+  border: 1px solid rgba(black, .2)
+  box-shadow: 0 1px 8px rgba(black, .2), 0 16px 32px rgba(black, .2)
+  top: 45px
+  bottom: 1em
+  left: 50%
+  right: 1em
+  background: rgba(white, .8)
+  transition-property: border, box-shadow
+  transition-duration: .5s
+  transition-timing-function: ease-out
+
+  .popup-title
+    display: block
+    padding: .5em 1em
+    text-align: right
+    background: #f3f3f3
+    border-bottom: 1px solid #e7e7e7
+  textarea
+    position: absolute
+    top: 2.5em
+    right: 1em
+    bottom: 1em
+    left: 1em
+
+.table
+  table
+    user-select: none
+  th
+    cursor: move
+    padding: 0 4px
+  .foot
+    text-align: center
+
+.leaderboard
+  green = #9acd05
+  pink = #fe5cba
+
+  button
+    font-size: 13px
+  .selected-player
+    font-weight: 500
+    margin: 1em 0
+    padding-bottom: 5px
+    border-bottom: 5px solid green
+    button
+      vertical-align: 5px
+  .vote
+    float: right
+  .board
+    font-size: 2em
+    font-family: "Helvetica Neue"
+    font-weight: 300
+    display: inline-block
+  ol
+    list-style: none
+    padding: 0
+    margin-top: 5px
+    cursor: pointer
+    li
+      padding: 5px
+      width: 400px
+    li:hover
+      background: lighten(pink, 80%)
+    .score
+      font-weight: 500
+      float: right
+    .selected,
+    .selected:hover
+      background: pink
+      box-shadow: inset 0 -2px darken(pink, 50%)
+
+.bindings-bench p
+  margin-bottom: 1em
+.box
+  border-radius: 100px
+  width: 20px
+  height: 20px
+  padding: 5px 0
+  color: #ccc
+  font: 10px/10px Arial
+  text-align: center
+  position: absolute
+.box-view
+  width: 20px
+  height: 20px
+  float: left
+  position: relative
+  margin: 8px

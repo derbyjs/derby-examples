@@ -1,1 +1,1 @@
-require('derby').run(__dirname + '/lib/server');
+require('derby-starter').run(__dirname);

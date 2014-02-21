@@ -16,6 +16,11 @@ var utils = require('./../utils')
 /**
  * Cookie parser:
  *
+ * Status: Deprecated. This middleware will be removed in
+ * Connect 3.0 and will be replaced by a `cookies` middleware,
+ * which will use [cookies](http://github.com/jed/cookies)
+ * and [keygrip](https://github.com/jed/keygrip).
+ *
  * Parse _Cookie_ header and populate `req.cookies`
  * with an object keyed by the cookie names. Optionally
  * you may enabled signed cookie support by passing
@@ -35,7 +40,7 @@ var utils = require('./../utils')
  * @api public
  */
 
-module.exports = function cookieParser(secret){
+module.exports = function cookieParser(secret, opt){
   return function cookieParser(req, res, next) {
     if (req.cookies) return next();
     var cookies = req.headers.cookie;
@@ -46,7 +51,7 @@ module.exports = function cookieParser(secret){
 
     if (cookies) {
       try {
-        req.cookies = cookie.parse(cookies);
+        req.cookies = cookie.parse(cookies, opt);
         if (secret) {
           req.signedCookies = utils.parseSignedCookies(req.cookies, secret);
           req.signedCookies = utils.parseJSONCookies(req.signedCookies);

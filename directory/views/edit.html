@@ -1,0 +1,54 @@
+<Body:>
+  <view name="wrapper">
+    <div class="container">
+      <h2>
+        {{if _page.person.id}}
+          Edit {{_page.person.name}}
+          <a on-click="deletePerson()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
+        {{else}}
+          Add a new person
+        {{/}}
+      </h2>
+      <form role="form" class="well" on-submit="done()">
+        <div class="row">
+          <div class="col-xs-6">
+            <field label="Name" has-error="{{_page.nameError}}">
+              <input type="text" class="form-control" as="nameInput" value="{{_page.person.name}}" autofocus="{{!_page.person.id}}">
+            </field>
+            <field label="Email">
+              <input type="email" class="form-control" value="{{_page.person.email}}">
+            </field>
+            <field label="Twitter">
+              <input type="text" class="form-control" value="{{_page.person.twitter}}">
+            </field>
+          </div>
+
+          <div class="col-xs-6">
+            <field label="Gender">
+              <dropdown value="{{_page.person.gender}}">
+                <option>Female</option>
+                <option>Male</option>
+                <option>Other</option>
+              </dropdown>
+            </field>
+            <field label="Phone">
+              <input type="phone" class="form-control" value="{{_page.person.phone}}">
+            </field>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          {{if _page.person.id}}Done{{else}}Add person{{/}}
+        </button>
+        {{unless _page.person.id}}
+          &sp;<button type="button" class="btn btn-link" on-click="cancel()">Cancel</button>
+        {{/}}
+      </form>
+    </div>
+  </view>
+
+<field: element="field">
+  <div class="form-group{{if @hasError}} has-error{{/if}}">
+    <label class="control-label">{{@label}}</label>
+    {{@content}}
+  </div>

@@ -1,0 +1,35 @@
+<Title:>
+  Todos
+
+<Body:>
+  <view name="d-connection-alert"></view>
+  <view name="d-before-unload"></view>
+  <form id="head" on-submit="add()">
+    <h1>Todos <span>{{remaining(_page.list)}} remaining</span></h1>
+    <div id="add">
+      <div id="add-input"><input id="new-todo" value="{{_page.newTodo}}"></div>
+      <input id="add-button" type="submit" value="Add">
+    </div>
+  </form>
+  <div id="dragbox"></div>
+  <div id="todos" as="container">
+    {{each _page.list as #todo, #index}}
+      <view name="todo"></view>
+    {{/}}
+  </div>
+
+<todo:>
+  <table class="{{if #todo.completed}}completed{{/}}">
+    <tbody>
+      <tr>
+        <td class="handle" width="0"></td>
+        <td width="100%">
+          <div class="todo">
+            <label><input type="checkbox" checked="{{#todo.completed}}"><i></i></label>
+            <input class="text" value="{{#todo.text}}"><i></i>
+          </div>
+        </td>
+        <td width="0"><button class="delete" on-click="remove(#index)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>

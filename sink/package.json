@@ -1,7 +1,0 @@
-{
-  "name": "derby-kitchen-sink-example",
-  "description": "Demo of Derby features",
-  "version": "0.0.0",
-  "main": "./src/server/index.coffee",
-  "private": true
-}
