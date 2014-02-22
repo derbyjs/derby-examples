@@ -33,6 +33,10 @@ Hello world example.
 
 ## Installing
 
+**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is stil incomplete and has bugs. It is not documented yet. The currently published version of Derby is 0.5.16.
+
+**Install these examples from the [0.5 branch](https://github.com/codeparty/derby-examples/tree/0.5) for use with Derby 0.5.**
+
 To install Derby and create your own project please see [Getting started](http://derbyjs.com/#getting_started) in the Derby docs.
 
 To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/). You'll also need [MongoDB](http://www.mongodb.org/downloads) and [Redis 2.6](http://redis.io/download) installed and running.
@@ -42,7 +46,7 @@ Then, clone this repo from GitHub.
 You can run each of the examples from their own directories:
 
 ```
-$ cd ~/derby-examples/sink
+$ cd ~/derby-examples/directory
 $ node server.js
 ```
 
@@ -50,7 +54,7 @@ The examples written in CoffeeScript are meant to be run via the coffee command:
 
 ```
 $ npm install -g coffee-script
-$ cd ~/derby-examples/chat
+$ cd ~/derby-examples/sink
 $ coffee server.coffee
 ```
 
