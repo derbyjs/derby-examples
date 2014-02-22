@@ -1,7 +1,7 @@
 var http = require('http');
 var express = require('express');
 var fs = require('fs');
-require('coffee-script');
+require('coffee-script/register');
 
 require('webkit-devtools-agent');
 if (process.env.NODETIME_ACCOUNT_KEY) {
