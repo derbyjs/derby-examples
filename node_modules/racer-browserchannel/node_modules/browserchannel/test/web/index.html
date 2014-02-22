@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>BrowserChannel Test Suite</title>
+    <link rel="stylesheet" href="mocha.css" />
+    <script src="/echo/bcsocket.js"></script>
+    <script src="assert.js"></script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="mocha.js"></script>
+    <script>mocha.setup('tdd');</script>
+    <script src="tests.js"></script>
+    <script>
+      mocha.checkLeaks();
+      mocha.run();
+    </script>
+  </body>
+</html>
