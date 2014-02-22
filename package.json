@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "derby": "~0.6",
-    "derby-starter": "~0.0.1",
+    "derby-starter": "~0.1.0",
     "express": "~3.4.8",
     "d-connection-alert": "~0.1.0",
     "d-before-unload": "~0.1.0",
