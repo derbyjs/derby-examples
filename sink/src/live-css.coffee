@@ -15,7 +15,7 @@ app.get from: app.pages.liveCss.href, to: app.pages.liveCss.href + '/popout',
   back: (model) ->
     model.del '_page.poppedOut'
 
-app.component 'live-css:content', class LiveCss
+app.component 'live-css', class LiveCss
   init: (model) ->
     model.ref 'poppedOut', model.scope('_page.poppedOut')
     styles = model.ref 'styles', model.scope('liveCss.styles')

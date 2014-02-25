@@ -7,7 +7,7 @@ app.get app.pages.leaderboard.href, (page, model, params, next) ->
     return next err if err
     page.render 'leaderboard'
 
-app.component 'leaderboard:content', class Leaderboard
+app.component 'leaderboard', class Leaderboard
   init: (model) ->
     @players = model.root.at 'players'
     model.ref 'list', @players.sort {limit: 5}, (a, b) -> b?.score - a?.score

@@ -6,7 +6,7 @@ app.get app.pages.table.href, (page, model, params, next) ->
     return next err if err
     page.render 'table'
 
-app.component 'table:content', class TableEditor
+app.component 'table', class TableEditor
   init: (model) ->
     @table = model.scope 'sink.table'
     model.ref 'table', @table
