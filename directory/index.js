@@ -1,6 +1,10 @@
 var app = module.exports = require('derby').createApp('directory', __filename);
 app.use(require('d-bootstrap'));
+
 app.loadViews(__dirname + '/views');
+// You can also write views on Jade:
+// app.loadViews(__dirname + '/jade');
+
 app.loadStyles(__dirname);
 app.component(require('d-connection-alert'));
 app.component(require('d-before-unload'));

@@ -1,0 +1,43 @@
+index:
+  .container
+    view(name='form', person='{{_page.person}}')
+
+form:
+  h2
+    if person.id
+      | Edit {{person.name}}
+      a.btn.btn-danger(on-click='deletePerson()',
+          style='float:right;margin-top:3px') Delete
+    else
+      | Add a new person
+  form.well(role='form', on-submit='done()')
+    .row
+      .col-xs-6
+        field(label='Name', has-error='{{nameError}}')
+          input.form-control(type='text', as='nameInput',
+              value='{{person.name}}', autofocus='{{!person.id}}')
+        field(label='Email')
+          input.form-control(type='email', value='{{person.email}}')
+        field(label='Twitter')
+          input.form-control(type='text', value='{{person.twitter}}')
+      .col-xs-6
+        field(label='Gender')
+          dropdown(value='{{person.gender}}')
+            option Female
+            option Male
+            option Other
+        field(label='Phone')
+          input(type='phone', class='form-control', value='{{person.phone}}')
+    button.btn.btn-primary(type='submit')
+      if person.id
+        | Done
+      else
+        | Add person
+    unless person.id
+      | &sp;
+      button.btn.btn-link(type='button', on-click='cancel()') Cancel
+
+field:(element='field')
+  .form-group(class='{{if @hasError}} has-error{{/if}}')
+    label.control-label {{@label}}
+    | {{@content}}
