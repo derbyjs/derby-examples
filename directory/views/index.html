@@ -5,7 +5,7 @@
 <Title:>
   Company directory
 
-<wrapper:>
+<Body:>
   <view name="d-connection-alert"></view>
   <view name="d-before-unload"></view>
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  {{@content}}
+  <view name="{{$render.ns}}"></view>
   <div class="container">
     <hr>
     <footer>

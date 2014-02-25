@@ -12,8 +12,7 @@ app.get('/', function(page, model) {
 app.get('/people', function(page, model, params, next) {
   var peopleQuery = model.query('people', {});
   peopleQuery.subscribe(function(err) {
-    if (err) return next(err)
-    peopleQuery.ref('_page.people');
+    if (err) return next(err);
     page.render('people');
   });
 });
@@ -23,7 +22,7 @@ app.get('/people/:id', function(page, model, params, next) {
     return page.render('edit');
   }
   var person = model.at('people.' + params.id);
-  model.subscribe(person, function(err) {
+  person.subscribe(function(err) {
     if (err) return next(err);
     if (!person.get()) return next();
     model.ref('_page.person', person);
@@ -31,32 +30,48 @@ app.get('/people/:id', function(page, model, params, next) {
   });
 });
 
-app.proto.done = function() {
+app.component('people:list', PeopleList);
+function PeopleList() {}
+PeopleList.prototype.init = function(model) {
+  model.ref('people', model.root.sort('people', nameAscending));
+};
+
+function nameAscending(a, b) {
+  var aName = (a && a.name || '').toLowerCase();
+  var bName = (b && b.name || '').toLowerCase();
+  if (aName < bName) return -1;
+  if (aName > bName) return 1;
+  return 0;
+}
+
+app.component('edit:form', EditForm);
+function EditForm() {}
+
+EditForm.prototype.done = function() {
   var model = this.model;
-  var person = model.at('_page.person');
-  if (!person.get('name')) {
-    var checkName = person.on('change', 'name', function(value) {
+  if (!model.get('person.name')) {
+    var checkName = model.on('change', 'person.name', function(value) {
       if (!value) return;
-      model.del('_page.nameError');
+      model.del('nameError');
       model.removeListener('change', checkName);
     });
-    model.set('_page.nameError', true);
+    model.set('nameError', true);
     this.nameInput.focus();
     return;
   }
 
-  if (!person.get('id')) {
-    model.add('people', person.get());
+  if (!model.get('person.id')) {
+    model.root.add('people', model.get('person'));
   }
   app.history.push('/people');
 };
 
-app.proto.cancel = function() {
+EditForm.prototype.cancel = function() {
   app.history.back();
 };
 
-app.proto.deletePerson = function() {
+EditForm.prototype.deletePerson = function() {
   // Update model without emitting events so that the page doesn't update
-  this.model.silent().del('_page.person');
+  this.model.silent().del('person');
   app.history.back();
 };
