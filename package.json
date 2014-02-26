@@ -12,6 +12,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "coffee-script": "~1.7.1",
     "derby": "~0.6",
     "derby-starter": "~0.1.0",
     "express": "~3.4.8",
