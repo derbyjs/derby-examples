@@ -30,7 +30,7 @@ app.get '/:room?', (page, model, {room}, next) ->
 
     # Subscribe to all displayed userIds, including the userIds associated
     # with each message and the current session's userId
-    model.start 'pluckUserIds', '_page.userIds', 'messages', '_session.userId'
+    model.start '_page.userIds', 'messages', '_session.userId', 'pluckUserIds'
     usersQuery = model.query 'users', '_page.userIds'
     usersQuery.subscribe (err) ->
       return next err if err
