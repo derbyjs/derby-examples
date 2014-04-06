@@ -18,7 +18,10 @@
     "express": "~3.4.8",
     "d-connection-alert": "~0.1.0",
     "d-before-unload": "~0.1.0",
-    "d-bootstrap": "~0.1.0"
+    "d-bootstrap": "~0.1.0",
+    "d-barchart": "~0.1.0",
+    "d-barchart-vanilla": "~0.1.0",
+    "d-d3-barchart": "~0.1.0"
   },
   "optionalDependencies": {},
   "devDependencies": {},

@@ -1,0 +1,42 @@
+<Title:>
+  Charts
+
+<Body:>
+  <view name="d-connection-alert"></view>
+  <div class="container">
+    <h1>Derby Charts</h1>
+    <div class="charts">
+      <tabs selected-index="{{widgets.data.currentTab}}">
+        <pane title="Bar">
+        <div class=barchart>
+          <view name="d-barchart-vanilla" data={{widgets.data.foo}} width=300 height=200></view>
+          <span>Bar chart component in <a href="https://github.com/codeparty/d-barchart-vanilla">vanilla JS</a></span>
+        </div>
+        <div class=barchart>
+          <view name="d-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <span>Bar chart component using <a target=_blank href="https://github.com/codeparty/d-barchart">some d3</a> (for layout)</span>
+        </div>
+        <div class=barchart>
+          <view name="d-d3-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <span>Bar chart component using <a href="https://github.com/codeparty/d-d3-barchart">full d3</a></span>
+        </div>
+
+        </pane>
+      </tabs>
+    </div>
+
+    <div class="inputs">
+      {{each widgets.data.foo as #d,#i}}
+      <div class=datum>
+        <div class="d-label">{{#i}}:</div>
+        <div class="d-input">
+          <input type=range value={{#d.value}}>
+          <button on-click="page.remove(#d,#i,$element)" class="x button">x</button>
+        </div>
+      </div>
+      {{/each}}
+      <div class=add>
+        <button on-click="page.add()" class="x plus button">+</button> Add a new Bar
+      </div>
+    </div>
+  </div>
