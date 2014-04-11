@@ -3,7 +3,8 @@ app = require './index'
 app.get app.pages.home.href, (page, model, params, next) ->
   titleColor = model.at 'home.titleColor'
   colors = model.at 'home.colors'
-  model.subscribe titleColor, colors, (err) ->
+  ellipse = model.at 'home.ellipse'
+  model.subscribe titleColor, colors, ellipse, (err) ->
     return next err if err
     titleColor.setNull 'black'
     colors.setNull [
@@ -14,6 +15,7 @@ app.get app.pages.home.href, (page, model, params, next) ->
       {name: 'dark turquoise'}
       {name: 'dark orchid'}
     ]
+    ellipse.setNull {cx: 100, cy: 100, rx: 50, ry: 50, fill: 'red'}
     page.render 'home'
 
 app.component 'home:colored-title', class ColoredTitle
