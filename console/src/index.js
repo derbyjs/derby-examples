@@ -7,7 +7,7 @@ app.component(require('d-console'));
 
 
 app.get('/', function (page, model, params, next) {
-  page.render('cmd');
+  page.render();
 });
 
 app.proto.newCommand = function (command, callback) {
