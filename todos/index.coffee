@@ -58,6 +58,12 @@ app.proto.create = (model) ->
       # Move the item back to its original position and get the index, so that
       # the current order in the DOM is consistent with the model
       container.sortable('cancel')
+      # jQuery sortable messes up the order of the comment that marks the each
+      # block on canceling. Hack to move the comment back into place if needed
+      node = container[0].childNodes[1]
+      if node.nodeType == 8
+        node.parentNode.insertBefore node, node.previousSibling
+
       from = container.children().index(ui.item)
       # Move the item in the model, which will also update the DOM binding
       @list.move from, to
