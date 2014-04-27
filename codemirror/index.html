@@ -1,8 +1,16 @@
 <Head:>
-  <view name="d-codemirror:includes"></view>
+  <view name="d-codemirror:includes" static='/cm'></view>
+  <view name="d-showdown:includes" static='/showdown'></view>
+  <script src="/md/markdown.js"></script>
 <Body:>
   <!--Templates define both HTML and model-view bindings-->
   <h2>CodeMirror Example</h2>
   <div>
-    <view name="d-codemirror" text="{{codemirror.text}}" options="{{ { tabSize: 2 } }}"></view>
+    <view name="d-codemirror" text="{{codemirror.text}}" options="{{ { tabSize: 2, mode: 'html/markdown' } }}"></view>
   </div>
+  <div>
+    <view name="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}" options="{{ {} }}"></view>
+    <div as="md"></div>
+    {{markdown(_page.markdown)}}
+  </div>
+
