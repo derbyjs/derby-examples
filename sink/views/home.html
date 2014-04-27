@@ -3,6 +3,8 @@
     <p>This is a collection of random demos. Check 'em out!</p><br>
   </view>
   <br><br>
+  <view name="svg-ellipse" data={{home.ellipse}}></view>
+  <br><br>
   <p><a href="#jump">Test jump link</a></p><br>
   <p><a href="/live-css/popout">Test Live CSS popped out</a></p>
   <p style="margin: 400px 0 1000px">
@@ -36,3 +38,13 @@
       </p>
     {{/each}}
   </div>
+
+<svg-ellipse:>
+  <svg width="200" height="200">
+    <ellipse cx="{{@data.cx}}" cy="{{@data.cy}}" rx="{{@data.rx}}" ry="{{@data.ry}}" fill="{{@data.fill}}" />
+  </svg>
+  <p>CX: <input type="number" value="{{@data.cx}}"></p>
+  <p>CY: <input type="number" value="{{@data.cy}}"></p>
+  <p>RX: <input type="range" value="{{@data.rx}}"></p>
+  <p>RY: <input type="range" value="{{@data.ry}}"></p>
+  <p>Fill: <input value="{{@data.fill}}"></p>
