@@ -22,8 +22,8 @@
     "d-barchart": "~0.1.0",
     "d-barchart-vanilla": "~0.1.0",
     "d-d3-barchart": "~0.1.0",
-    "d-codemirror": "~0.1.0",
-    "d-showdown": "~0.1.0"
+    "d-codemirror": "git+https://github.com/codeparty/d-codemirror.git",
+    "d-showdown": "git+https://github.com/codeparty/d-showdown.git"
   },
   "optionalDependencies": {},
   "devDependencies": {},
