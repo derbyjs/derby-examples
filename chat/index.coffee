@@ -1,4 +1,5 @@
 app = module.exports = require('derby').createApp 'chat', __filename
+app.serverUse module, 'derby-stylus'
 app.loadViews __dirname
 app.loadStyles __dirname
 app.component require('d-connection-alert')
