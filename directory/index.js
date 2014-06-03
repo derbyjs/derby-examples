@@ -1,4 +1,5 @@
 var app = module.exports = require('derby').createApp('directory', __filename);
+app.serverUse(module, 'derby-stylus');
 app.use(require('d-bootstrap'));
 app.loadViews(__dirname + '/views');
 app.loadStyles(__dirname);

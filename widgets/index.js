@@ -1,4 +1,5 @@
 var app = module.exports = require('derby').createApp('widgets', __filename);
+app.serverUse(module, 'derby-stylus');
 app.use(require('d-bootstrap'));
 app.loadViews(__dirname);
 app.loadStyles(__dirname);
