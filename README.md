@@ -33,11 +33,9 @@ Hello world example.
 
 ## Installing
 
-**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is stil incomplete and has bugs. It is not documented yet. The currently published version of Derby is 0.5.16.
+**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but the documentation has not been updated from 0.5.16. Expect updated docs soon.
 
 **Install these examples from the [0.5 branch](https://github.com/codeparty/derby-examples/tree/0.5) for use with Derby 0.5.**
-
-To install Derby and create your own project please see [Getting started](http://derbyjs.com/#getting_started) in the Derby docs.
 
 To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/). You'll also need [MongoDB](http://www.mongodb.org/downloads) and [Redis 2.6](http://redis.io/download) installed and running.
 
@@ -59,7 +57,7 @@ $ coffee server.coffee
 ```
 
 ## MIT License
-Copyright (c) 2011 by Brian Noguchi and Nate Smith
+Copyright (c) 2011 by Nate Smith
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
