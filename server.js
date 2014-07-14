@@ -12,6 +12,7 @@ express.logger.token('port', function(req, res) { return port; });
 
 var isReady = true;
 
+
 expressApp
   .use('/_check', function(req, res) {
     res.send(isReady ? 'OK' : 503);
@@ -20,12 +21,31 @@ expressApp
     format: ':port :remote-addr - - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":user-agent" - :response-time ms',
     stream: fs.createWriteStream('reqlog.txt', {flags:'a', encoding:'utf8', mode:0666})
   }))
-  .use(express.vhost('chat.derbyjs.com', derbyStarter.setup(require('./chat'), {static: __dirname + '/chat/public'}) ))
-  .use(express.vhost('directory.derbyjs.com', derbyStarter.setup(require('./directory')) ))
-  .use(express.vhost('hello.derbyjs.com', derbyStarter.setup(require('./hello')) ))
-  .use(express.vhost('sink.derbyjs.com', derbyStarter.setup(require('./sink/src')) ))
-  .use(express.vhost('todos.derbyjs.com', derbyStarter.setup(require('./todos')) ))
-  .use(express.vhost('widgets.derbyjs.com', derbyStarter.setup(require('./widgets')) ))
+
+derbyStarter.setup(require('./chat'), {static: __dirname + '/chat/public'}, function(err, app) {
+  console.log("chat")
+  expressApp.use(express.vhost('chat.derbyjs.com', app))
+})
+derbyStarter.setup(require('./directory'), {}, function(err, app) {
+  console.log("directory")
+  expressApp.use(express.vhost('directory.derbyjs.com', app ))
+})
+derbyStarter.setup(require('./hello'), {}, function(err, app) {
+  console.log("hello")
+  expressApp.use(express.vhost('hello.derbyjs.com', app ))
+})
+derbyStarter.setup(require('./sink/src'), {}, function(err, app) {
+  console.log("sink")
+  expressApp.use(express.vhost('sink.derbyjs.com', app ))
+})
+derbyStarter.setup(require('./todos'), {}, function(err, app) {
+  console.log("todos")
+  expressApp.use(express.vhost('todos.derbyjs.com', app ))
+})
+derbyStarter.setup(require('./widgets'), {}, function(err, app) {
+  console.log("widgets")
+  expressApp.use(express.vhost('widgets.derbyjs.com', app ))
+})
 
 server.listen(port, function() {
   console.log('%d listening. Go to: http://localhost:%d/', process.pid, port);
