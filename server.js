@@ -4,14 +4,17 @@ var fs = require('fs');
 require('coffee-script/register');
 
 //Docker related configuration, can disregard if not using Docker
-/*if(process.env.MONGO_PORT_27017_TCP_ADDR != void 0 && process.env.MONGO_PORT_27017_TCP_PORT != void 0) {
-  // TODO would need to specify a db here...
-  process.env.MONGO_URL = 'mongodb://'+process.env.MONGO_PORT_27017_TCP_ADDR+':'+process.env.MONGO_PORT_27017_TCP_PORT+'/';
-}*/
+if(process.env.MONGO_PORT_27017_TCP_ADDR) {
+  process.env.MONGO_HOST = process.env.MONGO_PORT_27017_TCP_ADDR;
+}
+if(process.env.MONGO_PORT_27017_TCP_PORT) {
+  process.env.MONGO_PORT = process.env.MONGO_PORT_27017_TCP_PORT;
+}
 if(process.env.REDIS_PORT_6379_TCP_ADDR != void 0 && process.env.REDIS_PORT_6379_TCP_PORT != void 0) {
   process.env.REDIS_HOST = process.env.REDIS_PORT_6379_TCP_ADDR;
   process.env.REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT;
 }
+process.env.MONGO_DB = "derby-examples"
 
 var derbyStarter = require('derby-starter/lib/server');
 
@@ -22,7 +25,6 @@ var port = process.env.PORT || 3000;
 express.logger.token('port', function(req, res) { return port; });
 
 var isReady = true;
-
 
 expressApp
   .use('/_check', function(req, res) {
