@@ -4,12 +4,13 @@ var fs = require('fs');
 require('coffee-script/register');
 
 //Docker related configuration, can disregard if not using Docker
-if(process.env.MONGO_PORT_27017_TCP_ADDR != void 0 && process.env.MONGO_PORT_27017_TCP_PORT != void 0) {
+/*if(process.env.MONGO_PORT_27017_TCP_ADDR != void 0 && process.env.MONGO_PORT_27017_TCP_PORT != void 0) {
+  // TODO would need to specify a db here...
   process.env.MONGO_URL = 'mongodb://'+process.env.MONGO_PORT_27017_TCP_ADDR+':'+process.env.MONGO_PORT_27017_TCP_PORT+'/';
-}
+}*/
 if(process.env.REDIS_PORT_6379_TCP_ADDR != void 0 && process.env.REDIS_PORT_6379_TCP_PORT != void 0) {
   process.env.REDIS_HOST = process.env.REDIS_PORT_6379_TCP_ADDR;
-  process.env.REDIS_PORT = process.env.MONGO_PORT_6379_TCP_PORT;
+  process.env.REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT;
 }
 
 var derbyStarter = require('derby-starter/lib/server');
@@ -36,9 +37,17 @@ derbyStarter.setup(require('./chat'), {static: __dirname + '/chat/public'}, func
   console.log("chat")
   expressApp.use(express.vhost('chat.derbyjs.com', app))
 })
+derbyStarter.setup(require('./charts'), {}, function(err, app) {
+  console.log("charts")
+  expressApp.use(express.vhost('charts.derbyjs.com', app))
+})
 derbyStarter.setup(require('./directory'), {}, function(err, app) {
   console.log("directory")
   expressApp.use(express.vhost('directory.derbyjs.com', app ))
+})
+derbyStarter.setup(require('./codemirror'), {}, function(err, app) {
+  console.log("codemirror")
+  expressApp.use(express.vhost('codemirror.derbyjs.com', app ))
 })
 derbyStarter.setup(require('./hello'), {}, function(err, app) {
   console.log("hello")
