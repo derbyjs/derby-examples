@@ -1,1 +1,1 @@
-require('derby-starter').run(__dirname);
+require('derby-starter').run(__dirname, {port: 8001});
