@@ -6,15 +6,8 @@ app.get app.pages.bench.href, (page) ->
 app.component 'bench:circles', class BenchCircles
   init: (model) ->
     @n = model.get('n') || 100
-    boxes = []
-    for i in [0...@n]
-      boxes.push
-        count: 0
-        top: 0
-        left: 0
-        color: 0
-        content: 0
     @boxes = model.at 'boxes'
+    boxes = (new Box(0) for i in [0...@n])
     @boxes.set boxes
     model.set 'modes', ['setAll', 'setBox', 'setProperty']
 
@@ -64,18 +57,15 @@ app.component 'bench:circles', class BenchCircles
       @tickBox @boxes.at(i)
     return
 
-  boxValue: (box, i) ->
-    count = box.count + 1
-    return {
-      count: count
-      top: Math.sin(count / 10) * 10
-      left: Math.cos(count / 10) * 10
-      color: count % 255
-      content: count % 100
-    }
   setAll: ->
     previous = @boxes.get()
-    value = []
-    for box, i in previous
-      value.push @boxValue(box, i)
-    @boxes.set value
+    boxes = (new Box(box.count + 1) for box in previous)
+    @boxes.set boxes
+
+class Box
+  constructor: (count) ->
+    this.count = count
+    this.top = Math.sin(count / 10) * 10
+    this.left = Math.cos(count / 10) * 10
+    this.color = count % 255
+    this.content = count % 100
