@@ -3,13 +3,16 @@
   <view name="d-showdown:includes" static='/showdown'></view>
 <Body:>
   <!--Templates define both HTML and model-view bindings-->
-  <h2>CodeMirror Example</h2>
-  <div>
+  <header>
+    <h1>CodeMirror Example</h1>
+  </header>
+
+  <section id="mirror-wrapper">
     <view name="d-codemirror" text="{{codemirror.text}}" options="{{ { tabSize: 2, mode: 'markdown' } }}"></view>
-  </div>
-  <div>
+  </section>
+  <section>
     <view name="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}" options="{{ {} }}"></view>
     <div as="md"></div>
     {{markdown(_page.markdown)}}
-  </div>
+  </section>
 
