@@ -15,4 +15,4 @@ app.get('/', function(page, model) {
 app.proto.markdown = function(html) {
   if(!this.md) return;
   this.md.innerHTML = html;
-}
+};
