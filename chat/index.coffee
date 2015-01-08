@@ -1,4 +1,5 @@
 app = module.exports = require('derby').createApp 'chat', __filename
+app.use require('derby-debug')
 app.serverUse module, 'derby-stylus'
 app.loadViews __dirname
 app.loadStyles __dirname

@@ -1,4 +1,5 @@
 app = module.exports = require('derby').createApp 'sink', __filename
+app.use require('derby-debug')
 app.serverUse module, 'derby-stylus'
 app.loadViews __dirname + '/../views'
 app.loadStyles __dirname + '/../styles'

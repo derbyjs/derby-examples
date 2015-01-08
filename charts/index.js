@@ -1,4 +1,5 @@
 var app = module.exports = require('derby').createApp('charts', __filename);
+app.use(require('derby-debug'));
 app.serverUse(module, 'derby-stylus');
 app.use(require('d-bootstrap'));
 app.loadViews(__dirname);

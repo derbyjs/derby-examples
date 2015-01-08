@@ -1,4 +1,5 @@
 var app = module.exports = require('derby').createApp('codemirror', __filename);
+app.use(require('derby-debug'));
 app.loadViews(__dirname);
 app.component(require('d-codemirror'));
 app.component(require('d-showdown'));
