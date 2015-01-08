@@ -9,12 +9,6 @@ app.component(require('d-barchart'));
 app.component(require('d-barchart-vanilla'));
 app.component(require('d-d3-barchart'));
 
-// This lets us play with the model in the console:
-//   MODEL.get("widgets");
-app.proto.create = function(model) {
-  global.MODEL = model
-}
-
 app.get('/', function(page, model, params, next) {
   var data = model.at('widgets.data');
   data.subscribe(function(err) {
