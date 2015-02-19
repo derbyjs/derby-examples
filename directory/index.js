@@ -59,13 +59,18 @@ EditForm.prototype.done = function() {
     });
     model.set('nameError', true);
     this.nameInput.focus();
-    return;
+    return false;
   }
 
   if (!model.get('person.id')) {
     model.root.add('people', model.get('person'));
+    model.whenNothingPending(function(){
+      app.history.push('/people');
+    });
+  } else {
+    app.history.push('/people');
   }
-  app.history.push('/people');
+  return false;
 };
 
 EditForm.prototype.cancel = function() {
@@ -75,5 +80,7 @@ EditForm.prototype.cancel = function() {
 EditForm.prototype.deletePerson = function() {
   // Update model without emitting events so that the page doesn't update
   this.model.silent().del('person');
-  app.history.back();
+  this.model.whenNothingPending(function(){
+    app.history.back();
+  });
 };
