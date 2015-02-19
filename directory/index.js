@@ -64,6 +64,8 @@ EditForm.prototype.done = function() {
 
   if (!model.get('person.id')) {
     model.root.add('people', model.get('person'));
+    // Wait for all model changes to go through before going to the next page, mainly because
+    // in non-single-page-app mode (basically IE < 10) we want changes to save to the server before leaving the page
     model.whenNothingPending(function(){
       app.history.push('/people');
     });
@@ -80,6 +82,8 @@ EditForm.prototype.cancel = function() {
 EditForm.prototype.deletePerson = function() {
   // Update model without emitting events so that the page doesn't update
   this.model.silent().del('person');
+  // Wait for all model changes to go through before going back, mainly because
+  // in non-single-page-app mode (basically IE < 10) we want changes to save to the server before leaving the page
   this.model.whenNothingPending(function(){
     app.history.back();
   });
