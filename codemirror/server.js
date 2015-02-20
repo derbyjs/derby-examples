@@ -6,8 +6,7 @@ var showdown = node_modules + "d-showdown/node_modules/showdown/compressed";
 var options = {
   port: 8003,
   static: [
-    {route: '/cm', dir: cm + 'lib'},
-    {route: '/md', dir: cm + 'mode/markdown'},
+    {route: '/cm', dir: cm },
     {route: '/showdown', dir: showdown}
   ]
 };
