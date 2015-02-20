@@ -12,7 +12,8 @@
   </section>
   <section>
     <view name="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}" options="{{ {} }}"></view>
-    <div as="md"></div>
-    {{markdown(_page.markdown)}}
+    <div as="md">
+      {{markdown(_page.markdown)}}
+    </div>
   </section>
 

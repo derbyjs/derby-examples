@@ -10,6 +10,8 @@ app.component(require('d-showdown'));
 app.get('/', function(page, model) {
   // Subscribe specifies the data to sync
   model.subscribe('codemirror.text', function() {
+    // we set default content if none has been set
+    model.setNull('codemirror.text', '<style>.example{ border: 1px solid orange; }</style>\n<div class="example">hello world</div>')
     page.render();
   });
 });
