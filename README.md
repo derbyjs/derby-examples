@@ -33,7 +33,7 @@ Hello world example.
 
 ## Installing
 
-**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but the documentation has not been updated from 0.5.16. Expect updated docs soon.
+**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but [the documentation](http://derbyjs.com/docs/derby-0.6) is not as extensive as it was for 0.5.16. Expect updated docs soon.
 
 **Install these examples from the [0.5 branch](https://github.com/codeparty/derby-examples/tree/0.5) for use with Derby 0.5.**
 
