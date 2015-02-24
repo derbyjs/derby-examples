@@ -56,6 +56,13 @@ $ cd ~/derby-examples/sink
 $ coffee server.coffee
 ```
 
+If you would like to run all of the examples at once you can do
+```
+cd ~/derby-examples
+node server.js
+```
+If you run into an EMFILE error on Mac or Linux you can up your file limit with `ulimit -n 2560`
+
 ## MIT License
 Copyright (c) 2011 by Nate Smith
 
