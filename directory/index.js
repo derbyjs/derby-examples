@@ -59,7 +59,7 @@ EditForm.prototype.done = function() {
     });
     model.set('nameError', true);
     this.nameInput.focus();
-    return false;
+    return;
   }
 
   if (!model.get('person.id')) {
@@ -72,7 +72,6 @@ EditForm.prototype.done = function() {
   } else {
     app.history.push('/people');
   }
-  return false;
 };
 
 EditForm.prototype.cancel = function() {
