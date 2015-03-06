@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.7.1",
-    "derby": "0.6.0-alpha40",
+    "derby": "0.6.0-alpha41",
     "derby-starter": "^0.2.6",
     "derby-stylus": "~0.1.0",
     "express": "~3.18.0",
