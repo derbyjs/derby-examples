@@ -11,7 +11,8 @@
 
     <div class="inputs">
       <div class=add>
-        <button on-click="page.add()" class="x plus button {{if widgets.data.foo.length >= 12}}inactive{{/if}}">+</button> Add a new Bar
+        <button on-click="page.add()" class="x plus button {{if widgets.data.foo.length >= 12}}inactive{{/if}}">+</button> 
+        {{if widgets.data.foo.length < 12}}Add a new Bar{{/if}}
       </div>
       {{each widgets.data.foo as #d,#i}}
       <div class=datum>
