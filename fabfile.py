@@ -19,11 +19,9 @@ lever['repo_name'] = 'derby-examples'
 # Setup tasks
 @task
 def bootstrap():
-    '''Places upstart and varnish configs, reload varnish'''
-    put('varnish/*', remote_path='/etc/varnish/', use_sudo=True)
+    '''Places upstart configs'''
     sudo('mkdir -p /etc/init/derbyjs')
     put('init/*', remote_path='/etc/init/derbyjs/', use_sudo=True)
-    sudo('service varnish reload')
 
 
 # Build/deploy tasks
