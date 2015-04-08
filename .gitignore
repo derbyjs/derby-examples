@@ -3,3 +3,4 @@
 serialized/
 /node_modules
 reqlog.txt
+fabfile.pyc

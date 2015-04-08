@@ -65,8 +65,6 @@ Editor.prototype.create = function(model) {
 
 app.get('/', function(page, model, params, next) {
   model.setNull("_page.html", HTML) //'<div style="color: {{data.color}}">hi</div>')
-  
-  model.shareConnection.debug = true
 
   var data = model.at('widgets.data');
   data.subscribe(function(err) {
