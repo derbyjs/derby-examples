@@ -7,7 +7,36 @@
 
 
 <Body:>
-  <view is="editor" html="{{_page.html}}" data="{{widgets.data}}"></view>
+  {{if #root.$render.query.view === "editor"}}
+    <view is="editor" html="{{_page.html}}" data="{{widgets.data}}"></view>
+  {{else if #root.$render.query.view === "bars"}}
+    <view is="bars"></view>
+  {{else}}
+    <view is="editor" html="{{_page.html}}" data="{{widgets.data}}"></view>
+    <view is="bars"></view>
+  {{/if}}
+
+<bars:>
+  <div class="charts">
+    <div class=barchart>
+      <view name="d-barchart" data={{widgets.data.foo}} width=350 height=200></view>
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class=add>
+      <button on-click="page.add()" class="x plus button {{if widgets.data.foo.length >= 12}}inactive{{/if}}">+</button> 
+      {{if widgets.data.foo.length < 12}}Add a new Bar{{/if}}
+    </div>
+    {{each widgets.data.foo as #d,#i}}
+    <div class=datum>
+      <div class="d-input">
+        <input type=range value={{#d.value}}>
+        <button on-click="page.remove(#d,#i,$element)" class="x button">x</button>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 
 <editor:>
   <div class="editor">

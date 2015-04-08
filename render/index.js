@@ -7,6 +7,7 @@ app.serverUse(module, 'derby-stylus');
 app.loadViews(__dirname);
 app.loadStyles(__dirname);
 app.component(require('d-codemirror'));
+app.component(require('d-barchart'));
 
 var HTML = ' \
 render anywhere! \n \
@@ -70,9 +71,18 @@ app.get('/', function(page, model, params, next) {
   var data = model.at('widgets.data');
   data.subscribe(function(err) {
     if (err) return next(err);
-    //data.setNull('foo', [{value: 1}, {value: 10}, {value: 20 }]);
+    data.setNull('foo', [{value: 1}, {value: 10}, {value: 20 }]);
     data.setNull('color', "#12B9B3")
     page.render();
   });
 });
 
+// adding a prototype method to page of app
+app.proto.remove = function(d,i,el) {
+  if(this.model.get("widgets.data.foo").length <= 2) return
+  this.model.remove("widgets.data.foo", i, 1);
+}
+app.proto.add = function() {
+  if(this.model.get("widgets.data.foo").length >= 12) return;
+  this.model.push("widgets.data.foo", {value: Math.random() * 100 });
+}

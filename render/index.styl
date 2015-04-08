@@ -76,7 +76,7 @@ body
     margin-top: -10px
     height: 230px
   .mobile .inside
-    top: 69px
+    top: 64px
     margin-left: 39px
     height: 148px
     width: 129px
@@ -100,3 +100,53 @@ body
 .cm-s-default span.cm-number { color: #FF92EE;}
 .cm-s-default span.cm-keyword { color: #FFFF18; }
 .cm-s-default .CodeMirror-cursor { border-left: 1px solid white !important; }
+
+*
+  box-sizing: border-box
+
+.charts
+  width: 350px
+  float:left
+  height: 200px
+  .bar
+    fill: derbyTeal
+
+.inputs
+  margin: 10px
+  min-width: 350px
+  max-width: 350px
+  width: calc(100% - 320px)
+  float: right
+  height: 200px
+
+  .datum
+    display:inline-block
+    //float:left
+    //clear:left
+  .d-input
+    float:left
+    margin-left: 10px
+    input
+      margin: 0
+  .button
+    margin: 1px 5px
+    padding 1px 8px
+    background: derbyBrick
+    color: derbySeaweed
+    border: none
+    border-radius: 10px
+    cursor: pointer
+    font-family: inherit
+    font-size: inherit
+    line-height: inherit
+  .plus
+    color: derbySand
+    background: derbyTeal
+  .inactive
+    background: lightgray
+  .add
+    margin 5px 10px
+    margin-top: 5px
+    margin-left: 10px
+    //float:left
+    //clear:left
