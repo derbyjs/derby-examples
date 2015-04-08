@@ -1,0 +1,42 @@
+<Title:>
+  Charts
+
+<Head:>
+  <view is="d-codemirror:includes" static="/cm"></view>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto:400,600' rel='stylesheet' type='text/css'>
+
+
+<Body:>
+  <view is="editor" html="{{_page.html}}" data="{{widgets.data}}"></view>
+
+<editor:>
+  <div class="editor">
+    <view name="d-codemirror" text="{{html}}" options="{{ { tabSize: 2, smartIndent: false, lineNumbers: true, mode: 'htmlmixed' } }}"></view> 
+  </div>
+  <div class="renderers">
+    <div class="browser render">
+      <img src="/images/browser.png" alt="Browser" title="Browser">
+      <div class="inside">
+        {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
+      </div>
+    
+    </div>
+    <div class="mobile render">
+      <img src="/images/iphone.png" alt="Mobile" title="Mobile">
+      <div class="inside">
+        {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
+      </div>
+      
+    </div>
+    <div class="email render">
+      <img src="/images/email.png" al="Email" title="Email">
+      <div class="inside">
+        {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
+      </div>
+      
+    </div>
+  </div>
+  <div as="tester" style="display:none"></div>
+
+<custom:>
+  test

@@ -32,5 +32,7 @@ EXPOSE 8005
 EXPOSE 8006
 EXPOSE 8007
 EXPOSE 8008
+EXPOSE 8009
+EXPOSE 8010
 # the command that gets run inside the docker container
 CMD ["/usr/local/bin/node", "/var/derby-examples/server.js"]
