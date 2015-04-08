@@ -18,7 +18,7 @@ ADD hello /var/derby-examples/hello
 ADD sink /var/derby-examples/sink
 ADD todos /var/derby-examples/todos
 ADD widgets /var/derby-examples/widgets
-ADD widgets /var/derby-examples/render
+ADD render /var/derby-examples/render
 
 # npm install all the things
 WORKDIR /var/derby-examples
