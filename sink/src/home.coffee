@@ -1,27 +1,29 @@
 app = require './index'
 
 app.get app.pages.home.href, (page, model, params, next) ->
-  titleColor = model.at 'home.titleColor'
-  colors = model.at 'home.colors'
-  ellipse = model.at 'home.ellipse'
-  model.subscribe titleColor, colors, ellipse, (err) ->
+  home = model.at 'sink.home'
+  home.subscribe (err) ->
     return next err if err
-    titleColor.setNull 'black'
-    colors.setNull [
-      {name: 'black'}
-      {name: 'deep pink'}
-      {name: 'lime green'}
-      {name: 'coral'}
-      {name: 'dark turquoise'}
-      {name: 'dark orchid'}
-    ]
-    ellipse.setNull {cx: 100, cy: 100, rx: 50, ry: 50, fill: 'red'}
+    # Create initial data
+    unless home.get()
+      model.add 'sink',
+        id: 'home'
+        titleColor: 'black'
+        colors: [
+          {name: 'black'}
+          {name: 'deep pink'}
+          {name: 'lime green'}
+          {name: 'coral'}
+          {name: 'dark turquoise'}
+          {name: 'dark orchid'}
+        ]
+        ellipse: {cx: 100, cy: 100, rx: 50, ry: 50, fill: 'red'}
     page.render 'home'
 
 app.component 'home:colored-title', class ColoredTitle
   init: (model) ->
-    model.ref 'titleColor', model.scope('home.titleColor')
-    @colors = model.scope 'home.colors'
+    model.ref 'titleColor', model.scope('sink.home.titleColor')
+    @colors = model.scope 'sink.home.colors'
     model.ref 'colors', @colors
 
   unspace: (s) ->

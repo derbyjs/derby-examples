@@ -4,42 +4,43 @@ app.component require '../components/sortable-table'
 app.get app.pages.table.href, (page, model, params, next) ->
   model.subscribe 'sink.table', (err) ->
     return next err if err
+    model.add('sink', {id: 'table', rows: []}) unless model.get('sink.table')
     page.render 'table'
 
 app.component 'table', class TableEditor
   init: (model) ->
-    @table = model.scope 'sink.table'
-    model.ref 'table', @table
+    @rows = model.scope 'sink.table.rows'
+    model.ref 'table', @rows
 
   onRowMove: (from, to) ->
-    @table.move from, to
+    @rows.move from, to
 
   onColMove: (from, to) ->
-    row = @table.get 'length'
+    row = @rows.get 'length'
     while row--
-      @table.move row + '.cells', from, to
+      @rows.move row + '.cells', from, to
     return
 
   addRow: ->
     cells = []
-    col = @table.get '0.cells.length'
+    col = @rows.get '0.cells.length'
     while col--
       cells.push {}
-    @table.push {cells}
+    @rows.push {cells}
 
   addCol: ->
-    row = @table.get 'length'
+    row = @rows.get 'length'
     while row--
-      @table.push row + '.cells', {}
+      @rows.push row + '.cells', {}
     return
 
   deleteRow: (i) ->
-    @table.remove i
+    @rows.remove i
 
   deleteCol: (i) ->
-    row = @table.get 'length'
+    row = @rows.get 'length'
     while row--
-      @table.remove row + '.cells', i
+      @rows.remove row + '.cells', i
     return
 
   colName: (num, out = '') ->
