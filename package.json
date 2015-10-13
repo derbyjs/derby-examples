@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "coffee-script": "~1.7.1",
-    "derby": "0.6.0-alpha41",
-    "derby-starter": "^0.2.6",
+    "derby": "^0.6.0",
+    "derby-starter": "^0.3.0",
     "derby-stylus": "~0.1.0",
     "express": "~3.18.0",
     "d-connection-alert": "~0.1.0",
@@ -28,8 +28,5 @@
     "derby-debug": "^0.1.0"
   },
   "optionalDependencies": {},
-  "devDependencies": {},
-  "engines": {
-    "node": "0.10.x"
-  }
+  "devDependencies": {}
 }
