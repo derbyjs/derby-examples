@@ -14,7 +14,7 @@
   "dependencies": {
     "coffee-script": "~1.7.1",
     "derby": "0.6.0-alpha62",
-    "derby-starter": "^0.3.0",
+    "derby-starter": "^0.2.11",
     "derby-stylus": "~0.1.0",
     "express": "~3.18.0",
     "d-connection-alert": "~0.1.0",
