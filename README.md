@@ -35,7 +35,7 @@ Hello world example.
 
 **Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but [the documentation](http://derbyjs.com/docs/derby-0.6) is not as extensive as it was for 0.5.16. Expect updated docs soon.
 
-**Install these examples from the [0.5 branch](https://github.com/codeparty/derby-examples/tree/0.5) for use with Derby 0.5.**
+**Install these examples from the [0.5 branch](https://github.com/derbyjs/derby-examples/tree/0.5) for use with Derby 0.5.**
 
 To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/). You'll also need [MongoDB](http://www.mongodb.org/downloads) and [Redis 2.6](http://redis.io/download) installed and running.
 

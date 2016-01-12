@@ -6,7 +6,7 @@
   "homepage": "http://derbyjs.com/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/codeparty/derby-examples.git"
+    "url": "git://github.com/derbyjs/derby-examples.git"
   },
   "scripts": {
     "start": "node server.js"
@@ -28,5 +28,11 @@
     "derby-debug": "^0.1.0"
   },
   "optionalDependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/derbyjs/derby-examples/issues"
+  },
+  "main": "server.js",
+  "author": "Nate Smith",
+  "license": "MIT"
 }

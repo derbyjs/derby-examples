@@ -1,7 +1,7 @@
 d-codemirror
 ------------
 
-Example usage of the derby [CodeMirror component](http://github.com/codeparty/d-codemirror).
+Example usage of the derby [CodeMirror component](http://github.com/derbyjs/d-codemirror).
 
 This component depends on the CodeMirror library, and needs to serve up some of it's static content.
 See __server.js__ where we let derby (and hence express) know about the static folder we want.
