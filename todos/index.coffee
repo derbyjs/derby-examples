@@ -20,21 +20,20 @@ app.get '/:groupName', (page, model, {groupName}, next) ->
   group.subscribe (err) ->
     return next err if err
 
-    # Create some todos if this is a new group
-    todoIds = group.at 'todoIds'
-    unless todoIds.get()
-      id0 = model.add 'todos', {completed: true, text: 'Done already'}
-      id1 = model.add 'todos', {completed: false, text: 'Example todo'}
-      id2 = model.add 'todos', {completed: false, text: 'Another example'}
-      todoIds.set [id1, id2, id0]
+    unless group.get()
+      # Create some todos if this is a new group
+      id0 = model.add 'todos', {group: groupName, completed: true, text: 'Done already'}
+      id1 = model.add 'todos', {group: groupName, completed: false, text: 'Example todo'}
+      id2 = model.add 'todos', {group: groupName, completed: false, text: 'Another example'}
+      group.create {
+        todoIds: [id1, id2, id0]
+      }
 
-    # Queries may be specified in terms of a Mongo query or a model path that
-    # contains an id or list of ids
-    model.query('todos', todoIds).subscribe (err) ->
+    model.query('todos', {group: groupName}).subscribe (err) ->
       return next err if err
 
       # Create a two-way updated list with todos as items
-      list = model.refList '_page.list', 'todos', todoIds
+      list = model.refList '_page.list', 'todos', group.at('todoIds')
 
       page.render()
 
@@ -83,7 +82,10 @@ app.proto.add = ->
   # or append to the end if none are completed
   for todo, i in @list.get()
     break if todo?.completed
-  @list.insert i, {text, completed: false}
+  groupName = @model.get '$render.params.groupName'
+  todo = {group: groupName, completed: false, text: text}
+  @model.add 'todos', todo
+  @list.insert i, todo
 
 app.proto.remove = (i) ->
   @list.remove i
