@@ -2,16 +2,16 @@
   Chat ({{count(messages)}}) - {{users[_session.userId].name}}
 
 <Head:>
-  <meta name="viewport" content="width=device-width">
+  <meta is="viewport" content="width=device-width">
 
 <Body:>
-  <view name="d-connection-alert"></view>
-  <view name="d-before-unload"></view>
+  <view is="d-connection-alert"></view>
+  <view is="d-before-unload"></view>
   <div id="page">
     <div id="messages" as="container" on-scroll="onScroll()">
       <ul id="messages-list" as="list">
         {{each _page.list as #message}}
-          <li><view name="chat-message"></view></li>
+          <li><view is="chat-message"></view></li>
         {{/each}}
       </ul>
     </div>

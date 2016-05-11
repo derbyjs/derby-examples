@@ -9,8 +9,8 @@
   Derby demo: {{pageTitle($render.ns)}}
 
 <Body:>
-  <view name="d-connection-alert"></view>
-  <view name="d-before-unload"></view>
+  <view is="d-connection-alert"></view>
+  <view is="d-before-unload"></view>
   <nav>
     {{each navItems($render.ns) as #item}}
       {{if #item.isCurrent}}
@@ -22,4 +22,4 @@
     {{/each}}
     <hr>
   </nav>
-  <view name="{{$render.ns}}"></view>
+  <view is="{{$render.ns}}"></view>

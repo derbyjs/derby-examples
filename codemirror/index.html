@@ -1,6 +1,6 @@
 <Head:>
-  <view name="d-codemirror:includes" static='/cm'></view>
-  <view name="d-showdown:includes" static='/showdown'></view>
+  <view is="d-codemirror:includes" static='/cm'></view>
+  <view is="d-showdown:includes" static='/showdown'></view>
 <Body:>
   <!--Templates define both HTML and model-view bindings-->
   <header>
@@ -8,10 +8,10 @@
   </header>
 
   <section id="mirror-wrapper">
-    <view name="d-codemirror" text="{{codemirror.text}}" options="{{ { tabSize: 2, mode: 'markdown' } }}"></view>
+    <view is="d-codemirror" text="{{codemirror.text}}" options="{{ { tabSize: 2, mode: 'markdown' } }}"></view>
   </section>
   <section>
-    <view name="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}" options="{{ {} }}"></view>
+    <view is="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}" options="{{ {} }}"></view>
     <div as="md">
       {{markdown(_page.markdown)}}
     </div>

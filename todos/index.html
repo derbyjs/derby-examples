@@ -2,8 +2,8 @@
   Todos
 
 <Body:>
-  <view name="d-connection-alert"></view>
-  <view name="d-before-unload"></view>
+  <view is="d-connection-alert"></view>
+  <view is="d-before-unload"></view>
   <form id="head" on-submit="add()">
     <h1>Todos <span>{{remaining(_page.list)}} remaining</span></h1>
     <div id="add">
@@ -14,7 +14,7 @@
   <div id="dragbox"></div>
   <div id="todos" as="container">
     {{each _page.list as #todo, #index}}
-      <view name="todo"></view>
+      <view is="todo"></view>
     {{/}}
   </div>
 

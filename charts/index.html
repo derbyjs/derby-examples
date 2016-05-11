@@ -2,22 +2,22 @@
   Charts
 
 <Body:>
-  <view name="d-connection-alert"></view>
+  <view is="d-connection-alert"></view>
   <div class="container">
     <h1>Derby Charts</h1>
     <div class="charts">
       <tabs selected-index="{{widgets.data.currentTab}}">
         <pane title="Bar">
         <div class=barchart>
-          <view name="d-barchart-vanilla" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-barchart-vanilla" data={{widgets.data.foo}} width=300 height=200></view>
           <span>Bar chart component in <a href="https://github.com/derbyjs/d-barchart-vanilla">vanilla JS</a></span>
         </div>
         <div class=barchart>
-          <view name="d-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-barchart" data={{widgets.data.foo}} width=300 height=200></view>
           <span>Bar chart component using <a target=_blank href="https://github.com/derbyjs/d-barchart">some d3</a> (for layout)</span>
         </div>
         <div class=barchart>
-          <view name="d-d3-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-d3-barchart" data={{widgets.data.foo}} width=300 height=200></view>
           <span>Bar chart component using <a href="https://github.com/derbyjs/d-d3-barchart">full d3</a></span>
         </div>
 

@@ -1,9 +1,9 @@
 <index:>
-  <view name="colored-title">
+  <view is="colored-title">
     <p>This is a collection of random demos. Check 'em out!</p><br>
   </view>
   <br><br>
-  <view name="svg-ellipse" data={{sink.home.ellipse}}></view>
+  <view is="svg-ellipse" data={{sink.home.ellipse}}></view>
   <br><br>
   <p><a href="#jump">Test jump link</a></p><br>
   <p><a href="/live-css/popout">Test Live CSS popped out</a></p>
@@ -32,7 +32,7 @@
   <div>
     {{each colors}}
       <p>
-        <input type="radio" name="title-radio" checked="{{titleColor === this.name}}">&sp;
+        <input type="radio" is="title-radio" checked="{{titleColor === this.name}}">&sp;
         <input class="color-input" value="{{colorInputValue(this.name, titleColor)}}">&sp;
         <button on-click="model.set('titleColor', this.name)">Select</button>
       </p>

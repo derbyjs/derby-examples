@@ -19,13 +19,13 @@
 <bars:>
   <div class="charts">
     <div class=barchart>
-      <view name="d-barchart" data={{widgets.data.foo}} width=350 height=200></view>
+      <view is="d-barchart" data={{widgets.data.foo}} width=350 height=200></view>
     </div>
   </div>
 
   <div class="inputs">
     <div class=add>
-      <button on-click="page.add()" class="x plus button {{if widgets.data.foo.length >= 12}}inactive{{/if}}">+</button> 
+      <button on-click="page.add()" class="x plus button {{if widgets.data.foo.length >= 12}}inactive{{/if}}">+</button>
       {{if widgets.data.foo.length < 12}}Add a new Bar{{/if}}
     </div>
     {{each widgets.data.foo as #d,#i}}
@@ -40,7 +40,7 @@
 
 <editor:>
   <div class="editor">
-    <view name="d-codemirror" text="{{html}}" options="{{ { tabSize: 2, smartIndent: false, lineNumbers: true, mode: 'htmlmixed' } }}"></view> 
+    <view is="d-codemirror" text="{{html}}" options="{{ { tabSize: 2, smartIndent: false, lineNumbers: true, mode: 'htmlmixed' } }}"></view>
   </div>
   <div class="renderers">
     <div class="browser render">
@@ -48,21 +48,21 @@
       <div class="inside">
         {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
       </div>
-    
+
     </div>
     <div class="mobile render">
       <img src="/images/iphone.png" alt="Mobile" title="Mobile">
       <div class="inside">
         {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
       </div>
-      
+
     </div>
     <div class="email render">
       <img src="/images/email.png" al="Email" title="Email">
       <div class="inside">
         {{on rerender}}<view is="custom" as="customView" data="{{data}}"></view>{{/on}}
       </div>
-      
+
     </div>
   </div>
   <div as="tester" style="display:none"></div>
