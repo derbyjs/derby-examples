@@ -4,7 +4,7 @@ app.component require '../components/sortable-table'
 app.get app.pages.table.href, (page, model, params, next) ->
   model.subscribe 'sink.table', (err) ->
     return next err if err
-    model.add('sink', {id: 'table', rows: []}) unless model.get('sink.table')
+    model.createNull 'sink.table', {rows: []}
     page.render 'table'
 
 app.component 'table', class TableEditor

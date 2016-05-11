@@ -20,7 +20,7 @@ app.get '/:groupName', (page, model, {groupName}, next) ->
   group.subscribe (err) ->
     return next err if err
 
-    unless group.get()
+    unless group.get()?
       # Create some todos if this is a new group
       id0 = model.add 'todos', {group: groupName, completed: true, text: 'Done already'}
       id1 = model.add 'todos', {group: groupName, completed: false, text: 'Example todo'}

@@ -11,10 +11,8 @@ app.get('/', function(page, model) {
   // Subscribe specifies the data to sync
   var text = model.at('codemirror.text');
   text.subscribe(function() {
-    // we set default content if none has been set
-    if (text.get() == null) {
-      text.create('# Hello world');
-    }
+    // Set default content if none has been set
+    text.createNull('# Hello world');
     page.render();
   });
 });

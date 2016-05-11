@@ -5,19 +5,17 @@ app.get app.pages.home.href, (page, model, params, next) ->
   home.subscribe (err) ->
     return next err if err
     # Create initial data
-    unless home.get()
-      model.add 'sink',
-        id: 'home'
-        titleColor: 'black'
-        colors: [
-          {name: 'black'}
-          {name: 'deep pink'}
-          {name: 'lime green'}
-          {name: 'coral'}
-          {name: 'dark turquoise'}
-          {name: 'dark orchid'}
-        ]
-        ellipse: {cx: 100, cy: 100, rx: 50, ry: 50, fill: 'red'}
+    home.createNull
+      titleColor: 'black'
+      colors: [
+        {name: 'black'}
+        {name: 'deep pink'}
+        {name: 'lime green'}
+        {name: 'coral'}
+        {name: 'dark turquoise'}
+        {name: 'dark orchid'}
+      ]
+      ellipse: {cx: 100, cy: 100, rx: 50, ry: 50, fill: 'red'}
     page.render 'home'
 
 app.component 'home:colored-title', class ColoredTitle

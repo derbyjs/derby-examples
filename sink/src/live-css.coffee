@@ -6,16 +6,13 @@ app.get route, (page, model, params, next) ->
   data = model.at 'sink.liveCss'
   data.subscribe (err) ->
     return next err if err
-    unless data.get()
-      model.add('sink', {
-        id: 'liveCss'
-        styles: [
-          {prop: 'color', value: '#c00', active: true}
-          {prop: 'font-weight', value: 'bold', active: true}
-          {prop: 'font-size', value: '18px', active: false}
-        ]
-        outputText: 'Edit this text...'
-      })
+    data.createNull
+      styles: [
+        {prop: 'color', value: '#c00', active: true}
+        {prop: 'font-weight', value: 'bold', active: true}
+        {prop: 'font-size', value: '18px', active: false}
+      ]
+      outputText: 'Edit this text...'
     page.render 'live-css'
 
 app.get from: route, to: route, ->
