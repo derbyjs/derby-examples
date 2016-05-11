@@ -11,16 +11,16 @@ app.get('/', function(page, model, params, next) {
   var data = model.at('widgets.data');
   data.subscribe(function(err) {
     if (err) return next(err);
-    data.setNull('color', 'Purple');
+    data.createNull({color: 'Purple'});
     model.set('_page.numbers', [
-      {content: 'First'}
-    , {content: 'Second'}
-    , {content: 'Third'}
+      {content: 'First'},
+      {content: 'Second'},
+      {content: 'Third'}
     ]);
     model.set('_page.colors', [
-      {content: 'Red'}
-    , {content: 'Orange'}
-    , {content: 'Purple'}
+      {content: 'Red'},
+      {content: 'Orange'},
+      {content: 'Purple'}
     ]);
     page.render();
   });
