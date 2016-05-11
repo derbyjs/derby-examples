@@ -9,14 +9,11 @@ app.component require('d-before-unload')
 NUM_USER_IMAGES = 10
 ONE_DAY = 1000 * 60 * 60 * 24
 
-app.on 'model', (model) ->
-  # Defined by name so that it can be re-initialized on the client
-  model.fn 'pluckUserIds', (items = {}, additional) ->
-    ids = {}
-    ids[additional] = true if additional
-    for key, item of items
-      ids[item.userId] = true if item?.userId
-    return Object.keys ids
+getUserPaths = (messages = {}, userId) ->
+  paths = ["users.#{userId}"]
+  for id, message of messages
+    paths.push "users.#{message.userId}"
+  return paths
 
 app.get '/:room?', (page, model, {room}, next) ->
   # Only handle URLs that use alphanumberic characters, underscores, and dashes
@@ -30,14 +27,13 @@ app.get '/:room?', (page, model, {room}, next) ->
   messagesQuery.subscribe (err) ->
     return next err if err
 
-    # Subscribe to all displayed userIds, including the userIds associated
-    # with each message and the current session's userId
-    model.start '_page.userIds', 'messages', '_session.userId', 'pluckUserIds'
-    usersQuery = model.query 'users', '_page.userIds'
-    usersQuery.subscribe (err) ->
+    messages = model.get 'messages'
+    userId = model.get '_session.userId'
+    paths = getUserPaths messages, userId
+    model.subscribe paths, (err) ->
       return next err if err
 
-      user = model.at 'users.' + model.get('_session.userId')
+      user = model.at "users.#{userId}"
       # Render page if the user already exists
       return page.render() if user.get()
 
@@ -45,9 +41,10 @@ app.get '/:room?', (page, model, {room}, next) ->
       userCount = model.at 'chat.userCount'
       userCount.fetch (err) ->
         return next err if err
+        userCount.create(0) unless userCount.get()?
         userCount.increment (err) ->
           return next err if err
-          user.set
+          user.create
             name: 'User ' + userCount.get()
             picClass: 'pic' + (userCount.get() % NUM_USER_IMAGES)
           page.render()
@@ -74,6 +71,13 @@ app.proto.create = (model) ->
     # Don't auto-scroll the page if the user has scrolled up from the bottom
     return unless @atBottom
     @container.scrollTop = @list.offsetHeight
+
+  # Subscribe to new users as messages are loaded
+  model.on 'load', 'messages.*', =>
+    messages = model.get 'messages'
+    userId = model.get '_session.userId'
+    paths = getUserPaths messages, userId
+    model.subscribe paths
 
 app.proto.onScroll = ->
   # Update whether the user scrolled up from the bottom or not
