@@ -18,7 +18,6 @@ ADD hello /var/derby-examples/hello
 ADD sink /var/derby-examples/sink
 ADD todos /var/derby-examples/todos
 ADD widgets /var/derby-examples/widgets
-ADD render /var/derby-examples/render
 
 # npm install all the things
 WORKDIR /var/derby-examples
@@ -33,6 +32,5 @@ EXPOSE 8005
 EXPOSE 8006
 EXPOSE 8007
 EXPOSE 8008
-EXPOSE 8009
 # the command that gets run inside the docker container
 CMD ["/usr/local/bin/node", "/var/derby-examples/server.js"]

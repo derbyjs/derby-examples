@@ -22,4 +22,3 @@ require('./hello/server');
 require('./sink/server');
 require('./todos/server');
 require('./widgets/server');
-require('./render/server');
