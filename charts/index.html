@@ -9,15 +9,15 @@
       <tabs selected-index="{{widgets.data.currentTab}}">
         <pane title="Bar">
         <div class=barchart>
-          <view is="d-barchart-vanilla" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-barchart-vanilla" data={{widgets.data.bars}} width=300 height=200></view>
           <span>Bar chart component in <a href="https://github.com/derbyjs/d-barchart-vanilla">vanilla JS</a></span>
         </div>
         <div class=barchart>
-          <view is="d-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-barchart" data={{widgets.data.bars}} width=300 height=200></view>
           <span>Bar chart component using <a target=_blank href="https://github.com/derbyjs/d-barchart">some d3</a> (for layout)</span>
         </div>
         <div class=barchart>
-          <view is="d-d3-barchart" data={{widgets.data.foo}} width=300 height=200></view>
+          <view is="d-d3-barchart" data={{widgets.data.bars}} width=300 height=200></view>
           <span>Bar chart component using <a href="https://github.com/derbyjs/d-d3-barchart">full d3</a></span>
         </div>
 
@@ -26,12 +26,12 @@
     </div>
 
     <div class="inputs">
-      {{each widgets.data.foo as #d,#i}}
+      {{each widgets.data.bars as #d,#i}}
       <div class=datum>
         <div class="d-label">{{#i}}:</div>
         <div class="d-input">
           <input type=range value={{#d.value}}>
-          <button on-click="page.remove(#d,#i,$element)" class="x button">x</button>
+          <button on-click="page.remove(#i)" class="x button">x</button>
         </div>
       </div>
       {{/each}}

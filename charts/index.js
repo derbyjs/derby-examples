@@ -13,15 +13,15 @@ app.get('/', function(page, model, params, next) {
   var data = model.at('widgets.data');
   data.subscribe(function(err) {
     if (err) return next(err);
-    data.setNull('foo', [{value: 1}, {value: 10}, {value: 20 }]);
+    data.createNull({bars: [{value: 1}, {value: 10}, {value: 20 }]});
     page.render();
   });
 });
 
 // adding a prototype method to page of app
-app.proto.remove = function(d,i,el) {
-  this.model.remove("widgets.data.foo", i, 1);
+app.proto.remove = function(index) {
+  this.model.remove('widgets.data.bars', index);
 }
 app.proto.add = function() {
-  this.model.push("widgets.data.foo", {value: Math.random() * 100 });
+  this.model.push('widgets.data.bars', {value: Math.random() * 100});
 }
