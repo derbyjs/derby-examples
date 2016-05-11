@@ -7,9 +7,7 @@ app.get('/', function(page, model) {
   var message = model.at('hello.message');
   message.subscribe(function(err) {
     if (err) return next(err);
-    if (message.get() == null) {
-      message.create('');
-    }
+    message.createNull('');
     page.render();
   });
 });
