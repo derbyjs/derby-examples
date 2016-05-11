@@ -9,14 +9,12 @@ app.component(require('d-showdown'));
 // Routes render on client as well as server
 app.get('/', function(page, model) {
   // Subscribe specifies the data to sync
-  model.subscribe('codemirror.text', function() {
+  var text = model.at('codemirror.text');
+  text.subscribe(function() {
     // we set default content if none has been set
-    model.setNull('codemirror.text', '<style>.example{ border: 1px solid orange; }</style>\n<div class="example">hello world</div>')
+    if (text.get() == null) {
+      text.create('# Hello world');
+    }
     page.render();
   });
 });
-
-app.proto.markdown = function(html) {
-  if(!this.md) return;
-  this.md.innerHTML = html;
-};
