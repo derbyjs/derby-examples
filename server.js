@@ -11,7 +11,6 @@ if (process.env.REDIS_PORT_6379_TCP_ADDR != void 0 && process.env.REDIS_PORT_637
   process.env.REDIS_HOST = process.env.REDIS_PORT_6379_TCP_ADDR;
   process.env.REDIS_PORT = process.env.REDIS_PORT_6379_TCP_PORT;
 }
-process.env.MONGO_DB = "derby-examples";
 process.env.NODE_ENV = "production";
 
 require('./charts/server');
