@@ -19,7 +19,7 @@ app.get('/people', function(page, model, params, next) {
   });
 });
 
-app.get('/people/:id', function(page, model, params, next) {
+app.get('/people/:id([\\w-]+)', function(page, model, params, next) {
   if (params.id === 'new') {
     return page.render('edit');
   }
