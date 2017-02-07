@@ -1,0 +1,32 @@
+index:
+  .container
+    view(name='list')
+
+list:
+  if people
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th Phone
+          th Email
+          th Twitter
+          th Gender
+      tbody
+        each people
+          tr
+            td
+              a(href='/people/{{this.id}}') {{this.name}}
+            td
+              | {{this.phone}}
+            td
+              a(href='/mailto:{{this.email}}') {{this.email}}
+            td
+              a(href='http://twitter.com/{{this.twitter}}') {{this.twitter}}
+            td
+              | {{this.gender}}
+  else
+    h3 No people added yet.
+    p How about &sp;
+      a(href='/people/new') adding someone
+      | ?

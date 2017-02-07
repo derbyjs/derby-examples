@@ -1,0 +1,28 @@
+import:(src='./home')
+import:(src='./edit')
+import:(src='./people')
+
+Title:
+  | Company directory
+
+Body:
+  view(name='d-connection-alert')
+  view(name='d-before-unload')
+  .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+    .container
+      .navbar-header
+        a.navbar-brand(href='/') Directory
+      .collapse.navbar-collapse
+        ul.nav.navbar-nav
+          view(name='nav-link', href='/') Home
+          view(name='nav-link', href='/people') People
+          view(name='nav-link', href='/people/new') Add somebody
+  view(name='{{$render.ns}}')
+  .container
+    hr
+    footer
+      p &copy; Company 2013
+
+nav-link:
+  li(class='{{if $render.url === @href}}active{{/}}')
+    a(href='{{@href}}') {{@content}}
