@@ -2,7 +2,7 @@
 # RUN-USING: docker run --name derby-examples --rm derbyjs/derby-examples
 
 # specify base docker image
-FROM dockerfile/nodejs
+FROM node:6.10.3
 
 # copy over dependencies
 WORKDIR /var
@@ -21,7 +21,7 @@ ADD widgets /var/derby-examples/widgets
 
 # npm install all the things
 WORKDIR /var/derby-examples
-RUN npm install
+RUN npm_config_spin=false npm_config_loglevel=warn npm install --production
 
 # expose any ports we need
 EXPOSE 8001
