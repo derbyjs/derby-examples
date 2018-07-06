@@ -11,7 +11,6 @@ app.component 'leaderboard', class Leaderboard
   init: (model) ->
     @players = model.root.at 'players'
     model.ref 'list', @players.sort {limit: 5}, (a, b) ->
-      console.log(a, b)
       # Guard against null values
       return 0 unless a && b
       # Sort first by score, descending
