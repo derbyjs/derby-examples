@@ -2,7 +2,7 @@
 # RUN-USING: docker run --name derby-examples --rm derbyjs/derby-examples
 
 # specify base docker image
-FROM node:6.10.3
+FROM node:10
 
 # copy over dependencies
 WORKDIR /var
