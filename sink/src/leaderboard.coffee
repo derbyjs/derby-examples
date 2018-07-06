@@ -3,7 +3,7 @@ app = require './index'
 randomScore = -> Math.floor(Math.random() * 20) * 5
 
 app.get app.pages.leaderboard.href, (page, model, params, next) ->
-  model.query('players', {$orderby: {score: -1}, $limit: 10}).subscribe (err) ->
+  model.query('players', {$sort: {score: -1}, $limit: 10}).subscribe (err) ->
     return next err if err
     page.render 'leaderboard'
 
