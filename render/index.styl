@@ -1,0 +1,134 @@
+derbyKhakiLight = #f6f0e1
+derbyKhaki = #b6ae99
+derbyKhakiDark = #dfdbce
+derbyKhakiDarker = #716e64
+
+derbyBlackBrown = #2b2d2d
+
+derbyOrange = #e59e4b
+
+derbyPink = #e58a8e
+derbyRed = #e84c52
+
+derbyTealLighter = #e8f2f1
+
+//derbyTealLight = #d2e3e1
+derbyTealLight = #B3E5E1
+
+
+derbyTeal = #12B9B3
+derbyTealDark = #169795
+//derbyTealDark = #2d6961
+
+// J.Lo's palette
+derbySand = #FFFBF9 //background
+derbyGranite = #FDF7F4 //sidebar background
+derbyBrick = #F9E8E7 //`code`
+
+derbySeaweed = #1C5654 //navbar text
+derbyAlgae = #1D8482 // navbar selected bg
+
+derbyBlack = #2F3439
+derbyGray = #696969
+
+body
+  background-color: derbySand
+  font-family: "Source sans pro"
+
+
+.editor
+  width: 100%
+  max-width: 820px
+
+  .CodeMirror
+    width: 100%
+    height: 210px
+    font-size: 15px
+    line-height: 20px
+
+.renderers
+  .render
+    display: inline-block
+    vertical-align: top
+    position:relative
+    img
+      margin-top: 10px
+      height: 230px
+  .inside
+    position: absolute
+    padding-left: 5px
+    padding-top: 5px
+    font-size: 13px
+
+  .browser .inside
+    top: 55px
+    left: 25px
+    height: 160px
+    overflow:hidden
+
+  .email .inside
+    top: 105px
+    left: 75px
+    height: 100px
+    overflow:hidden
+
+  .mobile img
+    margin-top: -10px
+    height: 230px
+  .mobile .inside
+    top: 59px
+    margin-left: 39px
+    height: 161px
+    width: 134px
+    overflow: hidden
+    background-color: white
+
+@media (max-width: 740px)
+  .inputs
+    margin-top: 30px
+    float:left
+    clear: left
+
+.CodeMirror.cm-s-default { background: derbyBlackBrown; color: derbyKhakiLight;  }
+.cm-s-default div.CodeMirror-selected {background: #064968 !important;} /* 33322B*/
+.cm-s-default span.cm-attribute { color:derbyPink; }
+.cm-s-default span.cm-tag { color:derbyRed; }
+.cm-s-default span.cm-string { color: derbyTeal; }
+.cm-s-default span.cm-string-2 {color: derbyTeal;}
+.cm-s-default span.cm-comment { color: #AFB4B4;}
+.cm-s-default span.cm-property {color: #FDA676;}
+.cm-s-default span.cm-number { color: #FF92EE;}
+.cm-s-default span.cm-keyword { color: #FFFF18; }
+.cm-s-default .CodeMirror-cursor { border-left: 1px solid white !important; }
+
+*
+  box-sizing: border-box
+
+.charts
+  height: 240px
+  .bar
+    fill: derbyTeal
+.inputs
+  width: 350px
+  float: right
+  .bar-control
+    display:inline-block
+  button
+    margin: 5px
+    padding 1px 8px
+    background: derbyBrick
+    color: derbySeaweed
+    border: none
+    border-radius: 10px
+    cursor: pointer
+    font-family: inherit
+    font-size: inherit
+    line-height: inherit
+  button:disabled
+    cursor: default
+    background: lightgray
+  .add
+    margin: 5px 0
+  .plus
+    color: derbySand
+    background: derbyTeal

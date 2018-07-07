@@ -1,0 +1,62 @@
+<Title:>
+  Charts
+
+<Head:>
+  <view is="d-codemirror:includes"></view>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto:400,600' rel='stylesheet' type='text/css'>
+
+
+<Body:>
+  {{if #root.$render.query.view === "editor"}}
+    <view is="editor" html="{{_page.html}}" data="{{home.data}}"></view>
+  {{else if #root.$render.query.view === "bars"}}
+    <view is="bars"></view>
+  {{else}}
+    <view is="bars"></view>
+    <view is="editor" html="{{_page.html}}" data="{{home.data}}"></view>
+  {{/if}}
+
+<bars:>
+  <div class="inputs">
+    <div class="add">
+      <label>
+        <button on-click="page.add()" disabled="{{home.data.bars.length >= 12}}" class="plus">+ Add a new bar</button>
+      </label>
+    </div>
+    {{each home.data.bars as #bar, #i}}
+      <div class="bar-control">
+        <input type="range" value="{{#bar.value}}">
+        <button on-click="page.remove(#i)" disabled="{{home.data.bars.length <= 2}}">&times;</button>
+      </div>
+    {{/each}}
+  </div>
+  <div class="charts">
+    <div class="barchart">
+      <view is="d-barchart" data="{{home.data.bars}}" width="350" height="200"></view>
+    </div>
+  </div>
+
+<editor:>
+  <div class="renderers">
+    <div class="browser render">
+      <img src="/images/browser.png" alt="Browser" title="Browser">
+      <div class="inside">
+        {{parse(source)}}
+      </div>
+    </div>
+    <div class="mobile render">
+      <img src="/images/iphone.png" alt="Mobile" title="Mobile">
+      <div class="inside">
+        {{parse(source)}}
+      </div>
+    </div>
+    <div class="email render">
+      <img src="/images/email.png" alt="Email" title="Email">
+      <div class="inside">
+        {{parse(source)}}
+      </div>
+    </div>
+  </div>
+  <div class="editor">
+    <view is="d-codemirror" text="{{source}}" options="{{ {tabSize: 2, smartIndent: false, lineNumbers: true, mode: 'htmlmixed'} }}"></view>
+  </div>

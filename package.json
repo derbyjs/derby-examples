@@ -14,6 +14,7 @@
   "dependencies": {
     "coffee-script": "^1.7.1",
     "derby": "^0.10.0",
+    "derby-parsing": "^0.7.0",
     "derby-starter": "^0.4.5",
     "derby-stylus": "^0.1.0",
     "express": "^4.13.4",
@@ -23,7 +24,7 @@
     "d-barchart": "^0.1.0",
     "d-barchart-vanilla": "^0.1.0",
     "d-d3-barchart": "^0.1.0",
-    "d-codemirror": "git://github.com/derbyjs/d-codemirror#v0.2.7",
+    "d-codemirror": "git://github.com/derbyjs/d-codemirror#v0.2.9",
     "d-showdown": "^0.1.0",
     "derby-debug": "^0.1.0"
   },
