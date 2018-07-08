@@ -1,9 +1,12 @@
 <Head:>
-  <view is="d-codemirror:includes" static='/cm'></view>
+  <view is="d-codemirror:includes"></view>
 
 <Body:>
   <div class="editor">
-    <view is="d-codemirror" text="{{codemirror.text}}" options="{{ {tabSize: 2, mode: 'markdown'} }}"></view>
+    <view is="d-codemirror"
+      text="{{codemirror.text}}"
+      options="{{ {tabSize: 2, mode: 'markdown'} }}">
+    </view>
   </div>
   <div class="preview">
     {{unescaped markdownHtml(codemirror.text)}}
