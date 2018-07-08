@@ -32,9 +32,6 @@ app.component 'live-css', class LiveCss
   deleteStyle: (i) ->
     @model.remove 'styles', i
 
-  cssProperty: (style) ->
-    if style.active then "#{style.prop || ''}: #{style.value || ''};" else ''
-
   hasActiveStyles: (styles) ->
     for style in styles || []
       return true if style.active
