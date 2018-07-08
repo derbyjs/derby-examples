@@ -1,10 +1,10 @@
+var showdown = require('showdown');
 var app = module.exports = require('derby').createApp('codemirror', __filename);
 app.use(require('derby-debug'));
 app.serverUse(module, 'derby-stylus');
 app.loadViews(__dirname);
 app.loadStyles(__dirname);
 app.component(require('d-codemirror'));
-app.component(require('d-showdown'));
 
 // Routes render on client as well as server
 app.get('/', function(page, model) {
@@ -16,3 +16,8 @@ app.get('/', function(page, model) {
     page.render();
   });
 });
+
+var converter = new showdown.Converter();
+app.proto.markdownHtml = function(text) {
+  return converter.makeHtml(text);
+};

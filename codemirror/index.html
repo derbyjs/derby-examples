@@ -1,12 +1,10 @@
 <Head:>
   <view is="d-codemirror:includes" static='/cm'></view>
-  <view is="d-showdown:includes" static='/showdown'></view>
 
 <Body:>
   <div class="editor">
     <view is="d-codemirror" text="{{codemirror.text}}" options="{{ {tabSize: 2, mode: 'markdown'} }}"></view>
   </div>
   <div class="preview">
-    <view is="d-showdown" text="{{codemirror.text}}" html="{{_page.markdown}}"></view>
-    {{unescaped _page.markdown}}
+    {{unescaped markdownHtml(codemirror.text)}}
   </div>
