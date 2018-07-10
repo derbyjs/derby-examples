@@ -2,42 +2,42 @@
 
 The Derby MVC framework makes it easy to write realtime, collaborative applications that run in both Node.js and browsers.
 
-See **http://derbyjs.com/**
+See **https://derbyjs.com/**
 
 ## Examples
 
 ### Chat
 
-http://chat.derbyjs.com/lobby
+https://chat.derbyjs.com/lobby
 
 A simple chat demo. Note that as you edit your name, it updates in realtime. Name changes also show up in the page title and other rooms. Check out the source in the examples directory to see how these bindings are created automatically.
 
 ### Todos
 
-http://todos.derbyjs.com/derby
+https://todos.derbyjs.com/derby
 
 The requisite MVC demo, but collaborative and realtime! Todo items are
 contenteditable fields with support for bold and italics.
 
 ### Sink
 
-http://sink.derbyjs.com/
+https://sink.derbyjs.com/
 
 A kitchen-sink style example with a bunch of random features. Largely used for testing.
 
 ### Hello
 
-http://hello.derbyjs.com/
+https://hello.derbyjs.com/
 
 Hello world example.
 
 ## Installing
 
-**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but [the documentation](http://derbyjs.com/docs/derby-0.6) is not as extensive as it was for 0.5.16. Expect updated docs soon.
+**Warning:** Master of this repo is now based on Derby 0.6. 0.6 is sufficiently complete and being used in production, but [the documentation](https://derbyjs.com/docs/derby-0.6) is not as extensive as it was for 0.5.16. Expect updated docs soon.
 
 **Install these examples from the [0.5 branch](https://github.com/derbyjs/derby-examples/tree/0.5) for use with Derby 0.5.**
 
-To run these examples on your own machine, first install [Node.js](http://nodejs.org/#download). The Node installer will also install [npm](http://npmjs.org/). You'll also need [MongoDB](http://www.mongodb.org/downloads) and [Redis 2.6](http://redis.io/download) installed and running.
+To run these examples on your own machine, first install [Node.js](https://nodejs.org/#download). The Node installer will also install [npm](https://npmjs.org/). You'll also need [MongoDB](https://www.mongodb.org/downloads) and [Redis 2.6](https://redis.io/download) installed and running.
 
 Then, clone this repo from GitHub.
 

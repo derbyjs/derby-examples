@@ -3,7 +3,7 @@
   "subdomain": "derby-examples",
   "description": "Example applications for the Derby framework",
   "version": "0.6.0",
-  "homepage": "http://derbyjs.com/",
+  "homepage": "https://derbyjs.com/",
   "repository": {
     "type": "git",
     "url": "git://github.com/derbyjs/derby-examples.git"
