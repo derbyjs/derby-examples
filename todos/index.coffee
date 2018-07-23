@@ -16,8 +16,10 @@ app.get '/:groupName', (page, model, {groupName}, next) ->
   # Only handle URLs that use alphanumberic characters, underscores, and dashes
   return next() unless /^[a-zA-Z0-9_-]+$/.test groupName
 
+  # Subscribe to the data for the todo list
   group = model.at "groups.#{groupName}"
-  group.subscribe (err) ->
+  todosQuery = model.query 'todos', {group: groupName}
+  model.subscribe group, todosQuery, (err) ->
     return next err if err
 
     unless group.get()?
@@ -29,69 +31,98 @@ app.get '/:groupName', (page, model, {groupName}, next) ->
         todoIds: [id1, id2, id0]
       }
 
-    model.query('todos', {group: groupName}).subscribe (err) ->
-      return next err if err
-
-      # Create a two-way updated list with todos as items
-      list = model.refList '_page.list', 'todos', group.at('todoIds')
-
-      page.render()
+    # Once we have the data loaded, render the page
+    page.render()
 
 
 ## CONTROLLER FUNCTIONS ##
 
-app.proto.create = (model) ->
-  require './vendor/jquery-1.9.1.min'
-  require './vendor/jquery-ui-1.10.3.custom.min'
+app.component 'todo-list', class TodoList
 
-  @list = model.at '_page.list'
-  @newTodo = model.at '_page.newTodo'
+  init: ->
+    # getAttribute() should be used to get inputs passed into components via
+    # attributes. It is also possible to get values from the component's
+    # model. Using getAttribute is preferred for getting attribute inputs.
+    # This is because if a template is passsed in, getAttribute() will render
+    # it into a string, whereas the model will return a Template object
+    @groupName = @getAttribute 'groupName'
+    # It is recommended practice to create scoped models for any paths that
+    # will be used within a component in its init method. This makes it clear
+    # on reading the code what the component's controller may read or modify
+    @newTodo = @model.at 'newTodo'
+    # model.at() and model.scope() both return a scoped model. The difference
+    # is that model.at() is relative to the current model scope and
+    # model.scope() is absolute from the root scope
+    @todoIds = @model.scope "groups.#{@groupName}.todoIds"
+    @todos = @model.scope 'todos'
 
-  # Make the list draggable using jQuery UI
-  container = $('#todos')
-  container.sortable
-    handle: '.handle'
-    axis: 'y'
-    containment: '#dragbox'
-    update: (e, ui) =>
-      # Get the index of the new position
-      to = container.children().index(ui.item)
-      # Move the item back to its original position and get the index, so that
-      # the current order in the DOM is consistent with the model
-      container.sortable('cancel')
-      # jQuery sortable messes up the order of the comment that marks the each
-      # block on canceling. Hack to move the comment back into place if needed
-      node = container[0].childNodes[1]
-      if node.nodeType == 8
-        node.parentNode.insertBefore node, node.previousSibling
+    # Create a reference to the todoIds path for use in the view
+    @model.ref 'todoIds', @todoIds
 
-      from = container.children().index(ui.item)
-      # Move the item in the model, which will also update the DOM binding
-      @list.move from, to
+    # Reactive model functions are commonly used to calcuate computed values
+    # for use in views
+    @model.start 'remainingTodos', @todoIds, @todos, (ids, todos) ->
+      remaining = 0
+      return remaining unless ids && todos
+      for id in ids
+        todo = todos[id]
+        remaining++ if todo && !todo.completed
+      return remaining
 
-  @list.on 'change', '*.completed', (i, completed, previous, isLocal) =>
-    # Move the item to the bottom if it was checked off
-    @list.move i, -1  if completed && isLocal
+  create: ->
+    # create() is called on the client only. This will load jQuery in the
+    # browser and not on the server
+    require './vendor/jquery-1.9.1.min'
+    require './vendor/jquery-ui-1.10.3.custom.min'
 
-app.proto.add = ->
-  # Don't add a blank todo
-  text = @newTodo.get()
-  return unless text
-  @newTodo.del()
-  # Insert the new todo before the first completed item in the list
-  # or append to the end if none are completed
-  for todo, i in @list.get()
-    break if todo?.completed
-  groupName = @model.get '$render.params.groupName'
-  todo = {group: groupName, completed: false, text: text}
-  @model.add 'todos', todo
-  @list.insert i, todo
+    # Make the list draggable using jQuery UI
+    container = $(@todosContainer)
+    container.sortable
+      handle: '.handle'
+      axis: 'y'
+      containment: '#dragbox'
+      update: (e, ui) =>
+        # Get the index of the new position
+        to = container.children().index(ui.item)
+        # Move the item back to its original position and get the index, so that
+        # the current order in the DOM is consistent with the model
+        container.sortable('cancel')
+        # jQuery sortable messes up the order of the comment that marks the each
+        # block on canceling. Hack to move the comment back into place if needed
+        node = @todosContainer.childNodes[1]
+        if node.nodeType == 8
+          node.parentNode.insertBefore node, @todosContainer.firstChild
 
-app.proto.remove = (i) ->
-  @list.remove i
+        from = container.children().index(ui.item)
+        # Move the item in the model, which will also update the DOM binding
+        @todoIds.move from, to
 
-app.proto.remaining = (todos) ->
-  remaining = 0
-  for todo in todos || []
-    remaining++ if todo && !todo.completed
-  return remaining
+    # Move a todo to the bottom if it was checked off
+    @todos.on 'change', '*.completed', (id, completed, previous, isLocal) =>
+      return unless completed && isLocal
+      i = @todoIds.get()?.indexOf id
+      return unless i >= 0
+      # Move id from the current position to the end of the list
+      @todoIds.move i, -1
+
+  add: ->
+    # Clear input
+    text = @newTodo.del()
+    # Don't add a blank todo
+    return unless text
+
+    # Create a new document in the todos collection
+    addedId = @todos.add
+      group: @groupName
+      completed: false
+      text: text
+
+    # Insert the new todo before the first completed item in the list or
+    # append to the end if none are completed
+    for id, i in @todoIds.get()
+      break if @todos.at("#{id}.completed").get()
+    @todoIds.insert i, addedId
+
+  remove: (i) ->
+    [id] = @todoIds.remove i
+    @todos.del id

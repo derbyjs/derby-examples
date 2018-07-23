@@ -4,29 +4,32 @@
 <Body:>
   <view is="d-connection-alert"></view>
   <view is="d-before-unload"></view>
+  <view is="todo-list" group-name="{{$render.params.groupName}}"></view>
+
+<todo-list:>
   <form id="head" on-submit="add()">
-    <h1>Todos <span>{{remaining(_page.list)}} remaining</span></h1>
+    <h1>Todos <span>{{remainingTodos}} remaining</span></h1>
     <div id="add">
-      <div id="add-input"><input id="new-todo" value="{{_page.newTodo}}"></div>
+      <div id="add-input"><input id="new-todo" value="{{newTodo}}"></div>
       <input id="add-button" type="submit" value="Add">
     </div>
   </form>
   <div id="dragbox"></div>
-  <div id="todos" as="container">
-    {{each _page.list as #todo, #index}}
-      <view is="todo"></view>
-    {{/}}
+  <div id="todos" as="todosContainer">
+    {{each todoIds as #todoId, #index}}
+      <view is="todo" todo="{{#root.todos[#todoId]}}"></view>
+    {{/each}}
   </div>
 
 <todo:>
-  <table class="{{if #todo.completed}}completed{{/}}">
+  <table class="{{if @todo.completed}}completed{{/}}">
     <tbody>
       <tr>
         <td class="handle" width="0"></td>
         <td width="100%">
           <div class="todo">
-            <label><input type="checkbox" checked="{{#todo.completed}}"><i></i></label>
-            <input class="text" value="{{#todo.text}}"><i></i>
+            <label><input type="checkbox" checked="{{@todo.completed}}"><i></i></label>
+            <input class="text" value="{{@todo.text}}"><i></i>
           </div>
         </td>
         <td width="0"><button class="delete" on-click="remove(#index)">Delete</button></td>
