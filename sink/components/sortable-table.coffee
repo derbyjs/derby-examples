@@ -1,5 +1,5 @@
 module.exports = class SortableTable
-  name: 'sortable-table'
+  @is: 'sortable-table'
 
   create: ->
     @dragging = null
