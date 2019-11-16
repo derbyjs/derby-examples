@@ -1,5 +1,5 @@
 var derby = require('derby');
-var parsing = require('derby-parsing');
+var parsing = require('derby/parsing');
 
 var app = module.exports = derby.createApp('render', __filename);
 app.use(require('derby-debug'));
