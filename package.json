@@ -20,7 +20,7 @@
     "d-codemirror": "git://github.com/derbyjs/d-codemirror#v0.2.9",
     "d-connection-alert": "^0.1.0",
     "d-d3-barchart": "^0.1.0",
-    "derby": "^0.10.21",
+    "derby": "^0.10.22",
     "derby-debug": "^0.1.0",
     "derby-starter": "^0.4.8",
     "derby-stylus": "^0.3.0",
