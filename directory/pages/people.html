@@ -1,0 +1,35 @@
+<index:>
+  <view is="chrome">
+    <div class="container">
+      {{if people}}
+        <view is="list"></view>
+      {{else}}
+        <h3>No people added yet.</h3>
+        <p>How about <a href="/people/new">adding someone</a>?</p>
+      {{/}}
+    </div>
+  </view>
+
+<list:>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Twitter</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{each people}}
+        <tr>
+          <td><a href="/people/{{this.id}}">{{this.name}}</a></td>
+          <td>{{this.phone}}</td>
+          <td><a href="mailto:{{this.email}}">{{this.email}}</a></td>
+          <td><a href="//twitter.com/{{this.twitter}}">{{this.twitter}}</a></td>
+          <td>{{this.gender}}</td>
+        </tr>
+      {{/}}
+    </tbody>
+  </table>

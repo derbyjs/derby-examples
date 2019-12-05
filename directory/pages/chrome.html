@@ -1,11 +1,4 @@
-<import: src="./home">
-<import: src="./edit">
-<import: src="./people">
-
-<Title:>
-  Company directory
-
-<Body:>
+<index:>
   <view is="d-connection-alert"></view>
   <view is="d-before-unload"></view>
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -22,11 +15,11 @@
       </div>
     </div>
   </div>
-  <view is="{{$render.ns}}"></view>
+  {{@content}}
   <div class="container">
     <hr>
     <footer>
-      <p>&copy; Company 2013</p>
+      <p>&copy; Company {{getYear(#root._page.now)}}</p>
     </footer>
   </div>
 

@@ -1,17 +1,19 @@
 <index:>
-  <div class="container">
-    <view is="form" person="{{_page.person}}"></view>
-  </div>
+  <view is="chrome">
+    <div class="container">
+      <h2>
+        {{if person.id}}
+          Edit {{person.name}}
+          <a on-click="deletePerson()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
+        {{else}}
+          Add a new person
+        {{/}}
+      </h2>
+      <view is="form"></view>
+    </div>
+  </view>
 
 <form:>
-  <h2>
-    {{if person.id}}
-      Edit {{person.name}}
-      <a on-click="deletePerson()" style="float:right;margin-top:3px" class="btn btn-danger">Delete</a>
-    {{else}}
-      Add a new person
-    {{/}}
-  </h2>
   <form role="form" class="well" on-submit="done()">
     <div class="row">
       <div class="col-xs-6">
@@ -48,7 +50,7 @@
     {{/}}
   </form>
 
-<field: element="field">
+<field: tag="field">
   <div class="form-group{{if @hasError}} has-error{{/if}}">
     <label class="control-label">{{@label}}</label>
     {{@content}}
